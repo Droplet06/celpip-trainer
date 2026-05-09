@@ -30,8 +30,14 @@ git push -u origin main
 - Day streak tracking
 - 7-day activity strip + 28-day calendar
 - 150-word vocab bank with status tracking (new / reviewing / mastered)
+- Batch vocabulary study followed by a mixed quiz instead of one-word immediate checks
+- Browser text-to-speech buttons for vocabulary words, example sentences, and quiz prompts
 - All data stored in browser localStorage (no account needed)
 - Works offline after first load
+
+## Change Log
+
+See `CHANGELOG.md` for reviewer-facing notes on recent behavior changes.
 
 ## Data Files
 

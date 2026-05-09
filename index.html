@@ -151,6 +151,8 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fon
 .wex{font-size:12px;color:var(--t3);line-height:1.6;font-style:italic}
 
 .qtext{font-size:14px;color:var(--t1);line-height:1.6;margin-bottom:11px}
+.qhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:11px}
+.qhead .qtext{margin-bottom:0;flex:1}
 
 .opts{display:flex;flex-direction:column;gap:8px}
 .opt{padding:12px 14px;background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--t1);font-size:14px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;transition:border-color .15s,background .15s}
@@ -167,6 +169,17 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fon
 .fb.no{background:var(--red)18;color:var(--red);border:1px solid var(--red)33;display:block}
 
 .nxt{width:100%;margin-top:11px;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:700;cursor:pointer;display:none}
+
+.study-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.study-card{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:left}
+.study-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.study-word{font-size:22px;font-weight:800;line-height:1.1}
+.study-meta{font-size:11px;color:var(--accent);font-style:italic;margin-top:3px}
+.study-zh{font-size:13px;color:var(--t2);margin-bottom:7px}
+.study-ex{font-size:12px;color:var(--t3);line-height:1.6;font-style:italic}
+.audio-row{display:flex;gap:6px;flex-shrink:0}
+.speak-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--s3);color:var(--t1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;line-height:1;transition:border-color .15s,background .15s}
+.speak-btn:hover{border-color:var(--accent);background:var(--accent)22}
 
 /* reading */
 .passage{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:13px}
@@ -466,7 +479,7 @@ function getLvPct(xp) {
 
 // ── Session config ────────────────────────────────────────────────────────
 const SCFG = [
-  {id:1,icon:'📚',title:'Session 1 — Vocabulary',desc:'5 new words + a quick quiz for each.',time:'~5 min',xp:40,type:'vocab'},
+  {id:1,icon:'📚',title:'Session 1 — Vocabulary',desc:'Study 5 words first, then take a mixed quiz.',time:'~6 min',xp:40,type:'vocab'},
   {id:2,icon:'📖',title:'Session 2 — Reading & Quiz',desc:'Short passage + 3 CELPIP-style questions.',time:'~5 min',xp:50,type:'reading'},
   {id:3,icon:'✏️',title:'Session 3 — Writing Task',desc:'One writing prompt + self-assessment.',time:'~8 min',xp:60,type:'writing'},
 ]
@@ -564,79 +577,185 @@ window.startSession = function() {
 }
 
 // ── VOCAB ─────────────────────────────────────────────────────────────────
+function sayArg(text) { return encodeURIComponent(text || '') }
+
+window.speakText = function(encodedText) {
+  const text = decodeURIComponent(encodedText || '').trim()
+  if (!text || !('speechSynthesis' in window)) return
+  window.speechSynthesis.cancel()
+  const u = new SpeechSynthesisUtterance(text)
+  u.lang = 'en-CA'
+  u.rate = 0.9
+  window.speechSynthesis.speak(u)
+}
+
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+function posKey(pos) {
+  return (pos || '').split(/[/.]/)[0].trim()
+}
+
+function wordById(id) {
+  return VOCAB.find(v => v.id === Number(id))
+}
+
+function getVocabPool(status) {
+  return Object.entries(S.vocabProgress)
+    .filter(([, st]) => st === status)
+    .map(([id]) => wordById(id))
+    .filter(Boolean)
+}
+
+function buildOptions(v) {
+  const samePos = VOCAB.filter(w =>
+    w.id !== v.id &&
+    posKey(w.pos) === posKey(v.pos) &&
+    (w.category === v.category || Math.abs((w.difficulty || 1) - (v.difficulty || 1)) <= 1)
+  )
+  const sameCategory = VOCAB.filter(w => w.id !== v.id && w.category === v.category)
+  const fallback = VOCAB.filter(w => w.id !== v.id)
+  const picks = []
+  ;[samePos, sameCategory, fallback].forEach(pool => {
+    shuffle(pool).forEach(w => {
+      if (picks.length < 3 && !picks.includes(w.word)) picks.push(w.word)
+    })
+  })
+  ;(v.options || []).forEach(o => {
+    if (picks.length < 3 && o !== v.word && !picks.includes(o)) picks.push(o)
+  })
+  return shuffle([v.word, ...picks.slice(0, 3)]).map(text => ({ text, correct: text === v.word }))
+}
+
+function buildVocabQuiz() {
+  const today = QS.words.map(w => ({ word: w, source: 'today' }))
+  const reviewing = shuffle(getVocabPool('reviewing'))
+    .filter(w => !QS.words.some(nw => nw.id === w.id))
+    .slice(0, 2)
+    .map(w => ({ word: w, source: 'review' }))
+  const mastered = shuffle(getVocabPool('mastered'))
+    .filter(w => !QS.words.some(nw => nw.id === w.id))
+    .slice(0, 1)
+    .map(w => ({ word: w, source: 'mastered' }))
+  return shuffle([...today, ...reviewing, ...mastered]).slice(0, 8).map((item, i) => {
+    const type = i % 3 === 1 ? 'meaning' : 'blank'
+    const v = item.word
+    return {
+      word: v,
+      source: item.source,
+      type,
+      prompt: type === 'meaning'
+        ? `Which word best matches this meaning: ${v.zh}?`
+        : `Fill in the blank:\n${v.question}`,
+      options: buildOptions(v),
+      audio: type === 'meaning' ? v.word : v.question.replace(/_+/g, v.word),
+    }
+  })
+}
+
+function formatVPrompt(q) {
+  if (q.type === 'blank') {
+    return `Fill in the blank:<br><em>${q.word.question}</em>`
+  }
+  return q.prompt
+}
+
 function startVocab(panel) {
   const start = (S.vocabBatch*5) % Math.max(VOCAB.length,1)
   QS.words = Array.from({length:5},(_,i)=>VOCAB[(start+i)%VOCAB.length])
-  QS.idx=0; QS.correct=0
-  renderVCard(panel,0)
+  QS.correct=0; QS.qIdx=0; QS.answered={}
+  QS.quiz = buildVocabQuiz()
+  renderVStudy(panel)
 }
 
-function renderVCard(panel, idx) {
-  const v = QS.words[idx]
+function renderVStudy(panel) {
+  const cards = QS.words.map((v, i) => `
+    <div class="study-card">
+      <div class="study-top">
+        <div>
+          <div class="study-word">${v.word}</div>
+          <div class="study-meta">${v.pos} · ${v.category}</div>
+        </div>
+        <div class="audio-row">
+          <button class="speak-btn" title="Read word" onclick="speakText('${sayArg(v.word)}')">🔊</button>
+          <button class="speak-btn" title="Read example" onclick="speakText('${sayArg(v.ex)}')">▣</button>
+        </div>
+      </div>
+      <div class="study-zh">${v.zh}</div>
+      <div class="study-ex">"${v.ex}"</div>
+    </div>`).join('')
   panel.innerHTML = `
     <div class="card glow">
       <div class="qtop"><span class="qtag">📚 Vocabulary</span><button class="qclose" onclick="closeQ()">×</button></div>
-      <div class="pbar"><div class="pt"><div class="pf" style="width:${idx/5*100}%"></div></div><span class="plbl">${idx+1}/5</span></div>
-      <div class="wcard">
-        <div class="wen">${v.word}</div>
-        <div class="wpos">${v.pos}</div>
-        <div class="wzh">${v.zh}</div>
-        <div class="wex">"${v.ex}"</div>
-      </div>
-      <div style="font-size:12px;color:var(--t3);text-align:center;margin-bottom:10px">Study this word, then test yourself.</div>
-      <button class="btn btn-p" onclick="showVQuiz(${idx})" style="margin-bottom:0">I've got it — Quiz me ✓</button>
+      <div class="pbar"><div class="pt"><div class="pf" style="width:35%"></div></div><span class="plbl">Study 5 words</span></div>
+      <div class="study-grid">${cards}</div>
+      <div style="font-size:12px;color:var(--t3);text-align:center;margin-bottom:10px">Review the full set first. The quiz will mix today's words with review words when available.</div>
+      <button class="btn btn-p" onclick="showVQuiz(0)" style="margin-bottom:0">Start Mixed Quiz ✓</button>
     </div>`
 }
 
-function showVQuiz(idx) {
-  const v = QS.words[idx]
+function showVQuiz(qi) {
+  QS.qIdx = qi
+  const q = QS.quiz[qi]
   const L = ['A','B','C','D']
-  const opts = v.options.map((o,i) => `
-    <button class="opt" id="vo${i}" onclick="ansV(${i},${v.correct},${idx})">
-      <span class="ol">${L[i]}</span>${o}
+  const correct = q.options.findIndex(o => o.correct)
+  const opts = q.options.map((o,i) => `
+    <button class="opt" id="vo${i}" onclick="ansV(${i},${correct},${qi})">
+      <span class="ol">${L[i]}</span>${o.text}
     </button>`).join('')
   const panel = document.getElementById('qpanel')
   panel.innerHTML = `
     <div class="card glow">
       <div class="qtop"><span class="qtag">📚 Quiz</span><button class="qclose" onclick="closeQ()">×</button></div>
-      <div class="pbar"><div class="pt"><div class="pf" style="width:${(idx+0.5)/5*100}%"></div></div><span class="plbl">${idx+1}/5</span></div>
-      <div class="qtext" style="margin-bottom:13px">Fill in the blank:<br><em>${v.question}</em></div>
+      <div class="pbar"><div class="pt"><div class="pf" style="width:${qi/QS.quiz.length*100}%"></div></div><span class="plbl">${qi+1}/${QS.quiz.length}</span></div>
+      <div class="qhead">
+        <div class="qtext">${formatVPrompt(q)}</div>
+        <button class="speak-btn" title="Read question" onclick="speakText('${sayArg(q.audio)}')">🔊</button>
+      </div>
       <div class="opts">${opts}</div>
       <div id="vfb" class="fb"></div>
-      <button id="vnxt" class="nxt" onclick="nxtV(${idx})">${idx<4?'Next Word →':'Finish ✓'}</button>
+      <button id="vnxt" class="nxt" onclick="nxtV(${qi})">${qi<QS.quiz.length-1?'Next →':'Finish ✓'}</button>
     </div>`
 }
 window.showVQuiz = showVQuiz
 
-window.ansV = function(chosen,correct,idx) {
+window.ansV = function(chosen,correct,qi) {
   document.querySelectorAll('.opt').forEach(b=>b.disabled=true)
   document.getElementById('vo'+correct).classList.add('correct')
   const fb=document.getElementById('vfb')
+  const q = QS.quiz[qi]
+  const wid = q.word.id
   if(chosen===correct){
     document.getElementById('vo'+chosen).classList.add('correct')
     fb.className='fb ok'; fb.textContent='✓ Correct! +5 XP'
     QS.correct++; addXP(5)
-    const wid=QS.words[idx].id
     const cur=S.vocabProgress[wid]||'new'
     S.vocabProgress[wid] = cur==='new'?'reviewing':cur==='reviewing'?'mastered':cur
   } else {
     document.getElementById('vo'+chosen).classList.add('wrong')
     fb.className='fb no'
-    fb.textContent=`✗ Correct: ${'ABCD'[correct]}. Study the example sentence.`
+    fb.textContent=`✗ Correct: ${'ABCD'[correct]} (${q.word.word}). Study the example sentence.`
+    if(!S.vocabProgress[wid]) S.vocabProgress[wid] = 'reviewing'
   }
   document.getElementById('vnxt').style.display='block'
   save()
 }
 
-window.nxtV = function(idx) {
-  if(idx<4){ renderVCard(document.getElementById('qpanel'),idx+1) }
+window.nxtV = function(qi) {
+  if(qi<QS.quiz.length-1){ showVQuiz(qi+1) }
   else {
     S.wordsDone+=5; S.vocabBatch++; save()
     document.getElementById('qpanel').innerHTML=`
       <div class="card teal" style="text-align:center;padding:22px">
         <div style="font-size:38px;margin-bottom:10px">🎯</div>
         <div style="font-size:17px;font-weight:800;margin-bottom:5px">Vocabulary Complete!</div>
-        <div style="font-size:13px;color:var(--t2);margin-bottom:15px">${QS.correct}/5 correct · +${QS.correct*5} XP</div>
+        <div style="font-size:13px;color:var(--t2);margin-bottom:15px">${QS.correct}/${QS.quiz.length} correct · +${QS.correct*5} XP</div>
         <button class="btn btn-p" style="margin:0" onclick="completeSession()">Mark Session 1 Complete →</button>
       </div>`
     renderHome()
