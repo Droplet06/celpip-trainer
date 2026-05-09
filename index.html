@@ -571,14 +571,9 @@ function startVocab(panel) {
   renderVCard(panel,0)
 }
 
-function renderVCard(panel,idx) {
+function renderVCard(panel, idx) {
   const v = QS.words[idx]
-  const L=['A','B','C','D']
-  const opts = v.options.map((o,i)=>`
-    <button class="opt" id="vo${i}" onclick="ansV(${i},${v.correct},${idx})">
-      <span class="ol">${L[i]}</span>${o}
-    </button>`).join('')
-  panel.innerHTML=`
+  panel.innerHTML = `
     <div class="card glow">
       <div class="qtop"><span class="qtag">📚 Vocabulary</span><button class="qclose" onclick="closeQ()">×</button></div>
       <div class="pbar"><div class="pt"><div class="pf" style="width:${idx/5*100}%"></div></div><span class="plbl">${idx+1}/5</span></div>
@@ -588,12 +583,30 @@ function renderVCard(panel,idx) {
         <div class="wzh">${v.zh}</div>
         <div class="wex">"${v.ex}"</div>
       </div>
-      <div class="qtext">Fill in the blank:<br><em>${v.question}</em></div>
+      <div style="font-size:12px;color:var(--t3);text-align:center;margin-bottom:10px">Study this word, then test yourself.</div>
+      <button class="btn btn-p" onclick="showVQuiz(${idx})" style="margin-bottom:0">I've got it — Quiz me ✓</button>
+    </div>`
+}
+
+function showVQuiz(idx) {
+  const v = QS.words[idx]
+  const L = ['A','B','C','D']
+  const opts = v.options.map((o,i) => `
+    <button class="opt" id="vo${i}" onclick="ansV(${i},${v.correct},${idx})">
+      <span class="ol">${L[i]}</span>${o}
+    </button>`).join('')
+  const panel = document.getElementById('qpanel')
+  panel.innerHTML = `
+    <div class="card glow">
+      <div class="qtop"><span class="qtag">📚 Quiz</span><button class="qclose" onclick="closeQ()">×</button></div>
+      <div class="pbar"><div class="pt"><div class="pf" style="width:${(idx+0.5)/5*100}%"></div></div><span class="plbl">${idx+1}/5</span></div>
+      <div class="qtext" style="margin-bottom:13px">Fill in the blank:<br><em>${v.question}</em></div>
       <div class="opts">${opts}</div>
       <div id="vfb" class="fb"></div>
       <button id="vnxt" class="nxt" onclick="nxtV(${idx})">${idx<4?'Next Word →':'Finish ✓'}</button>
     </div>`
 }
+window.showVQuiz = showVQuiz
 
 window.ansV = function(chosen,correct,idx) {
   document.querySelectorAll('.opt').forEach(b=>b.disabled=true)
