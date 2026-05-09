@@ -1,0 +1,232 @@
+[
+  {
+    "id": "R001",
+    "title": "Community Composting Program",
+    "category": "civic",
+    "text": "The City of Riverside recently launched a mandatory composting program for all residential properties. Starting next month, households will be required to separate organic waste — such as food scraps and yard trimmings — into a designated green bin provided by the city.\n\nThe program is part of a broader strategy to divert organic waste from landfills, which currently account for nearly 40% of the city's total waste output. City officials estimate that the initiative could reduce greenhouse gas emissions by 25% over the next decade.\n\nResidents who fail to comply with the new rules may receive a warning for the first offence, followed by a fine of up to $150 for repeated violations. The city will offer free educational workshops throughout the month of June to help residents understand what materials can and cannot be composted.",
+    "questions": [
+      {
+        "q": "What is the main purpose of the composting program?",
+        "opts": ["To increase property taxes", "To reduce organic waste sent to landfills", "To encourage residents to grow their own food", "To replace the current recycling program"],
+        "ans": 1
+      },
+      {
+        "q": "According to the passage, what happens to residents who repeatedly break the rules?",
+        "opts": ["They are asked to leave the city", "Their bins are removed", "They receive a fine of up to $150", "They must attend a mandatory workshop"],
+        "ans": 2
+      },
+      {
+        "q": "The word 'divert' in the second paragraph is closest in meaning to:",
+        "opts": ["increase", "redirect", "destroy", "monitor"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R002",
+    "title": "Remote Work Policy Update",
+    "category": "workplace",
+    "text": "Following a two-year pilot program, Greenfield Solutions has announced a permanent hybrid work policy for all full-time employees. Under the new policy, staff are required to work from the office a minimum of two days per week, while retaining the flexibility to work remotely for the remaining days.\n\nThe decision was based on an internal survey in which 78% of employees reported higher job satisfaction under hybrid arrangements compared to fully in-office work. However, managers expressed concern that fully remote teams showed lower levels of collaboration and mentorship.\n\nThe company will provide a monthly stipend of $75 to help employees cover home office expenses such as internet and ergonomic equipment. Employees wishing to work remotely more than three days per week must submit a formal request to their department head for approval.",
+    "questions": [
+      {
+        "q": "What did the internal survey find?",
+        "opts": ["Most employees preferred fully remote work", "Hybrid work increased job satisfaction for most employees", "Managers preferred the fully remote model", "The pilot program was considered unsuccessful"],
+        "ans": 1
+      },
+      {
+        "q": "What is the purpose of the $75 monthly stipend?",
+        "opts": ["To reward high-performing employees", "To cover commuting costs", "To help pay for home office expenses", "To fund team social events"],
+        "ans": 2
+      },
+      {
+        "q": "The word 'stipend' in the final paragraph is closest in meaning to:",
+        "opts": ["penalty", "allowance", "contract", "requirement"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R003",
+    "title": "City Transit Expansion",
+    "category": "civic",
+    "text": "The Regional Transit Authority has approved a $2.4 billion plan to expand the city's rapid transit network over the next eight years. The project includes the construction of two new subway lines, 24 additional stations, and 15 kilometres of new elevated track.\n\nPlanners anticipate that the expansion will reduce average commute times by up to 18 minutes for residents in the city's eastern and northern neighbourhoods, which are currently underserved by public transportation.\n\nConstruction is set to begin in the spring and will be carried out in phases to minimize disruption to existing services. Residents near construction zones will receive advance notice and can access detailed project timelines through the authority's website. Some road closures and detours should be expected throughout the construction period.",
+    "questions": [
+      {
+        "q": "Who is expected to benefit most from the transit expansion?",
+        "opts": ["Residents in the city centre", "Residents in eastern and northern neighbourhoods", "Tourists visiting the city", "Commercial truck drivers"],
+        "ans": 1
+      },
+      {
+        "q": "How will the construction be organized to reduce disruption?",
+        "opts": ["All construction will happen overnight", "Work will only take place on weekends", "Construction will be carried out in phases", "Existing lines will be shut down temporarily"],
+        "ans": 2
+      },
+      {
+        "q": "The word 'underserved' suggests that these neighbourhoods:",
+        "opts": ["have too many transit options", "are located far from the city", "do not receive adequate public services", "were recently built"],
+        "ans": 2
+      }
+    ]
+  },
+  {
+    "id": "R004",
+    "title": "Tenant Protection Act",
+    "category": "civic",
+    "text": "The provincial government has introduced new legislation to strengthen tenant protections across the region. Under the Tenant Protection Act, landlords will be required to provide a minimum of 90 days' written notice before a rent increase takes effect. The allowable annual rent increase will also be capped at 2.5%, regardless of market conditions.\n\nThe Act also introduces stronger protections against eviction. Landlords who wish to reclaim a unit for personal use must provide supporting documentation and a minimum of six months' notice. Tenants who believe they have been wrongfully evicted can now apply to a newly established Rental Dispute Tribunal.\n\nHousing advocates have praised the legislation as a significant step forward, though some landlord associations have raised concerns that the restrictions may discourage investment in rental housing construction.",
+    "questions": [
+      {
+        "q": "Under the new Act, how much notice must landlords give before a rent increase?",
+        "opts": ["30 days", "60 days", "90 days", "6 months"],
+        "ans": 2
+      },
+      {
+        "q": "What can tenants do if they believe they were wrongfully evicted?",
+        "opts": ["Contact the provincial police", "Apply to the Rental Dispute Tribunal", "Refuse to leave the property", "File a complaint with the landlord association"],
+        "ans": 1
+      },
+      {
+        "q": "The word 'cap' as used in the passage means to:",
+        "opts": ["increase gradually", "set a maximum limit on", "calculate the average of", "remove entirely"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R005",
+    "title": "Library Digital Services",
+    "category": "daily",
+    "text": "The Westdale Public Library has expanded its digital services to meet growing demand from residents who prefer accessing resources from home. Members can now borrow up to 10 e-books and 5 audiobooks simultaneously through the library's app, with loan periods of three weeks.\n\nIn addition to reading materials, the library has launched an online learning platform that provides free access to over 2,000 courses in topics ranging from language learning and coding to business and personal finance. The platform is available to all library card holders at no additional cost.\n\nLibrary staff note that while digital services have grown significantly, physical attendance at branches has also remained steady. Many residents continue to use the library for in-person study space, community programs, and access to computers and printing services for those without home devices.",
+    "questions": [
+      {
+        "q": "How many e-books can library members borrow at one time?",
+        "opts": ["5", "8", "10", "15"],
+        "ans": 2
+      },
+      {
+        "q": "What is the online learning platform primarily designed to do?",
+        "opts": ["Replace physical library visits", "Provide free educational courses to members", "Sell digital textbooks at a discount", "Train library staff"],
+        "ans": 1
+      },
+      {
+        "q": "According to the passage, which statement about physical library attendance is TRUE?",
+        "opts": ["It has declined significantly since digital services expanded", "It has remained stable despite the growth of digital services", "It has completely replaced digital service use", "It is only used by people without internet access"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R006",
+    "title": "Workplace Safety Regulations",
+    "category": "workplace",
+    "text": "The provincial government has updated its workplace safety regulations, introducing stricter requirements for employers in high-risk industries such as construction, manufacturing, and healthcare. Under the new rules, all employers must conduct a formal hazard assessment at least once per year and submit a written report to their regional safety authority.\n\nEmployers are also now required to provide safety training to new employees within the first week of employment. Previously, the requirement was within the first 30 days. Workers who identify unsafe conditions have the right to refuse work without loss of pay until the issue is resolved.\n\nInspectors will conduct unannounced visits to workplaces to check compliance, and companies that fail to meet standards may face fines of up to $50,000. Repeat offenders could face temporary suspension of their operating licence.",
+    "questions": [
+      {
+        "q": "How often must employers now conduct a formal hazard assessment?",
+        "opts": ["Every six months", "Once per year", "Every two years", "Only when a new employee is hired"],
+        "ans": 1
+      },
+      {
+        "q": "Under the new rules, when must safety training be provided to new employees?",
+        "opts": ["Before the job offer is made", "Within the first week", "Within the first 30 days", "After the probationary period"],
+        "ans": 1
+      },
+      {
+        "q": "The word 'unannounced' in the final paragraph means the inspections will be:",
+        "opts": ["conducted at night", "carried out without prior notice", "performed by volunteers", "limited to large companies"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R007",
+    "title": "Urban Green Space Initiative",
+    "category": "civic",
+    "text": "A new report released by the City Planning Department recommends transforming at least 15% of the city's paved surfaces into green space over the next 20 years. The proposal includes converting underused parking lots, widening sidewalks with tree canopies, and creating small neighbourhood parks in densely built areas.\n\nResearch cited in the report indicates that access to green space is associated with reduced stress levels, lower rates of chronic disease, and stronger social cohesion in communities. The report also highlights environmental benefits, including reduced urban heat, improved air quality, and better management of stormwater runoff.\n\nThe initiative is expected to cost approximately $180 million over the 20-year period. City staff have proposed funding the project through a combination of development charges, federal grants, and an annual contribution from the city's capital budget.",
+    "questions": [
+      {
+        "q": "What is the city's target for converting paved surfaces to green space?",
+        "opts": ["5% over 10 years", "10% over 15 years", "15% over 20 years", "20% over 25 years"],
+        "ans": 2
+      },
+      {
+        "q": "According to the report, which is NOT mentioned as a benefit of green space?",
+        "opts": ["Reduced stress levels", "Lower property taxes", "Improved air quality", "Better stormwater management"],
+        "ans": 1
+      },
+      {
+        "q": "How does the city plan to fund the initiative?",
+        "opts": ["Entirely through federal grants", "Only through property tax increases", "Through development charges, federal grants, and capital budget contributions", "By selling unused city-owned land"],
+        "ans": 2
+      }
+    ]
+  },
+  {
+    "id": "R008",
+    "title": "Consumer Protection Update",
+    "category": "consumer",
+    "text": "New consumer protection regulations that came into effect this month give buyers greater rights when purchasing goods and services online. Under the updated rules, online retailers must clearly display total costs — including all taxes, fees, and shipping charges — before a customer confirms a purchase. Hidden fees added after checkout are now prohibited.\n\nCustomers also have an expanded right of return. For most online purchases, buyers now have 30 days to return goods for any reason and receive a full refund, up from the previous 14-day window. Items must be returned in their original condition, but retailers cannot charge restocking fees for standard returns.\n\nBusiness groups have raised concerns that the regulations may increase operating costs, particularly for smaller retailers. Consumer advocacy groups, however, argue that clearer pricing and fairer return policies are long overdue.",
+    "questions": [
+      {
+        "q": "What do the new regulations require online retailers to do before a purchase is confirmed?",
+        "opts": ["Offer free shipping on all orders", "Display all costs including taxes and fees", "Provide a written receipt by email", "Allow customers to speak with a representative"],
+        "ans": 1
+      },
+      {
+        "q": "How has the return window for online purchases changed?",
+        "opts": ["It has been reduced from 30 days to 14 days", "It has been extended from 14 days to 30 days", "It now depends on the type of product", "It has been eliminated for digital goods"],
+        "ans": 1
+      },
+      {
+        "q": "The word 'prohibited' in the first paragraph means:",
+        "opts": ["required", "recommended", "not allowed", "unclear"],
+        "ans": 2
+      }
+    ]
+  },
+  {
+    "id": "R009",
+    "title": "Immigration Settlement Services",
+    "category": "immigration",
+    "text": "The federal government has announced a $45 million funding increase for immigration settlement services over the next three years. The funding will be distributed to community organizations that provide language training, employment assistance, and social integration support to newcomers.\n\nSettlement workers play a key role in helping new immigrants navigate systems such as healthcare, education, and housing. Research shows that newcomers who access settlement services within their first year in Canada are significantly more likely to find stable employment and report higher levels of life satisfaction compared to those who do not.\n\nDemand for settlement services has increased sharply in recent years due to higher immigration targets and the arrival of refugees from several countries. Service providers note that waitlists for language training programs, in particular, have grown to several months in many cities, highlighting the need for additional investment.",
+    "questions": [
+      {
+        "q": "What is the purpose of the $45 million in new funding?",
+        "opts": ["To build new immigrant processing centres", "To support community organizations providing settlement services", "To increase the number of immigration officers", "To fund language research programs"],
+        "ans": 1
+      },
+      {
+        "q": "According to the passage, newcomers who access settlement services in their first year are more likely to:",
+        "opts": ["become Canadian citizens faster", "find stable employment and report higher life satisfaction", "qualify for additional government benefits", "be reunited with family members sooner"],
+        "ans": 1
+      },
+      {
+        "q": "Why have settlement service waitlists grown in recent years?",
+        "opts": ["Services have been cut due to budget constraints", "Higher immigration targets and refugee arrivals have increased demand", "Many settlement workers have left the profession", "The government moved services online"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R010",
+    "title": "Electric Vehicle Incentive Program",
+    "category": "environment",
+    "text": "The provincial government has expanded its electric vehicle incentive program, offering rebates of up to $5,000 for the purchase or lease of a new fully electric vehicle. Plug-in hybrid vehicles are also eligible for a smaller rebate of up to $2,500. The incentive applies to vehicles priced below $55,000 and is available to both individual buyers and businesses.\n\nTo qualify, buyers must be residents of the province and must not have previously claimed the rebate. The vehicle must be registered in the province within 30 days of purchase. The rebate is applied at the point of sale, meaning buyers do not need to submit a separate application after the fact.\n\nProvincial officials noted that electric vehicle registrations have grown by 40% year over year. However, access to public charging infrastructure remains uneven, with rural areas receiving fewer investments than urban centres. The government has committed to installing 500 new charging stations across the province by the end of next year.",
+    "questions": [
+      {
+        "q": "What is the maximum rebate available for a fully electric vehicle?",
+        "opts": ["$2,500", "$3,500", "$5,000", "$7,500"],
+        "ans": 2
+      },
+      {
+        "q": "How is the rebate applied to the purchase?",
+        "opts": ["It is sent by cheque after registration", "It is applied at the point of sale", "It reduces the annual vehicle tax", "It is credited to a future purchase"],
+        "ans": 1
+      },
+      {
+        "q": "What challenge with electric vehicles does the passage highlight?",
+        "opts": ["The vehicles are too expensive for most buyers", "Charging infrastructure is uneven, especially in rural areas", "The rebate program has run out of funding", "Electric vehicles are not available in all provinces"],
+        "ans": 1
+      }
+    ]
+  }
+]

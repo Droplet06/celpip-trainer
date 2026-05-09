@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CELPIP Trainer</title>
+<style>
+:root {
+  --bg:#0d0f18; --s1:#141726; --s2:#1c2035; --s3:#242840;
+  --border:#2a2f50; --accent:#7c6ff7; --accent-glow:#7c6ff733;
+  --teal:#00c9a7; --teal-glow:#00c9a722;
+  --gold:#fbbf24; --red:#f43f5e; --green:#10b981;
+  --t1:#e8eaf6; --t2:#9196b5; --t3:#555a78;
+  --radius:14px; --radius-sm:10px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--font);overflow-x:hidden}
+
+#shell{display:flex;flex-direction:column;min-height:100dvh;max-width:520px;margin:0 auto}
+
+/* nav */
+#topnav{
+  position:sticky;top:0;z-index:50;
+  background:var(--bg)dd;backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  padding:10px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-brand{font-size:15px;font-weight:700}
+.nav-brand span{color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.pill{
+  display:flex;align-items:center;gap:4px;
+  border-radius:20px;padding:5px 10px;
+  font-size:12px;font-weight:700;
+}
+.pill-streak{background:var(--s2);border:1px solid var(--border);color:var(--gold)}
+.pill-level{background:var(--accent)22;border:1px solid var(--accent)44;color:var(--accent)}
+.sync-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--t3);
+  transition:background .3s;
+}
+.sync-dot.ok{background:var(--green)}
+.sync-dot.err{background:var(--red)}
+.sync-dot.busy{background:var(--gold);animation:blink .8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* main scroll area */
+#main{flex:1;padding:16px 16px 90px;overflow-y:auto}
+
+/* tab bar */
+#tabbar{
+  position:sticky;bottom:0;
+  background:var(--s1)f2;backdrop-filter:blur(14px);
+  border-top:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  padding:8px 0 max(8px,env(safe-area-inset-bottom));
+}
+.tab-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:none;border:none;cursor:pointer;padding:6px;
+  color:var(--t3);font-size:10px;font-weight:600;transition:color .2s;
+}
+.tab-btn .icon{font-size:20px;line-height:1}
+.tab-btn.active{color:var(--accent)}
+
+/* cards */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.card.glow{border-color:var(--accent);box-shadow:0 0 18px var(--accent-glow)}
+.card.teal{border-color:var(--teal);box-shadow:0 0 18px var(--teal-glow)}
+
+/* section label */
+.sec{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin:14px 0 9px}
+
+/* xp bar */
+.xp-wrap{margin-bottom:14px}
+.xp-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:5px}
+.xp-meta span:last-child{color:var(--teal);font-weight:700}
+.xp-track{height:7px;background:var(--s3);border-radius:4px;overflow:hidden}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal));border-radius:4px;transition:width .8s cubic-bezier(.25,1,.5,1)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stat{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 6px;text-align:center}
+.stat-n{font-size:20px;font-weight:800;line-height:1;margin-bottom:2px}
+.stat-l{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
+
+/* week strip */
+.week{display:flex;gap:5px;margin-bottom:14px}
+.wday{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.wday .dl{font-size:9px;color:var(--t3)}
+.wday .dp{width:100%;height:5px;border-radius:3px;background:var(--s3)}
+.wday.done .dp{background:var(--accent)}
+.wday.today .dp{background:var(--teal);animation:pb 2s infinite}
+@keyframes pb{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* session cards */
+.sc{
+  background:var(--s1);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px;margin-bottom:9px;display:flex;align-items:center;gap:12px;
+  position:relative;overflow:hidden;transition:border-color .2s,background .2s;
+}
+.sc.active{border-color:var(--accent);background:var(--s2);cursor:pointer}
+.sc.active::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,var(--accent)09,transparent);
+  animation:sh 3s infinite;
+}
+@keyframes sh{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.sc.done{border-color:var(--green)44;background:#0c1c18}
+.sc.locked{opacity:.38;cursor:not-allowed}
+.sc-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--s3)}
+.sc.active .sc-icon{background:var(--accent)22}
+.sc.done .sc-icon{background:var(--green)22}
+.sc-body{flex:1;min-width:0}
+.sc-title{font-size:14px;font-weight:600;margin-bottom:2px}
+.sc-desc{font-size:12px;color:var(--t2);line-height:1.4}
+.sc.locked .sc-title,.sc.locked .sc-desc{color:var(--t3)}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700}
+.b-time{background:var(--s3);color:var(--t2)}
+.b-locked{background:var(--s3);color:var(--t3)}
+.b-done{background:var(--green)22;color:var(--green)}
+.b-active{background:var(--accent)22;color:var(--accent)}
+
+/* buttons */
+.btn{width:100%;padding:14px;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--accent);color:#fff}
+.btn-p:disabled{opacity:.3;cursor:not-allowed}
+.btn-o{background:transparent;color:var(--t2);border:1px solid var(--border)}
+.btn-o:hover{border-color:var(--accent);color:var(--t1)}
+
+/* quiz panel */
+#qpanel{display:none}
+#qpanel.open{display:block}
+
+.qtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.qtag{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--teal)}
+.qclose{background:var(--s2);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--t2);cursor:pointer}
+
+.pbar{display:flex;align-items:center;gap:8px;margin-bottom:13px}
+.pt{flex:1;height:4px;background:var(--s3);border-radius:2px;overflow:hidden}
+.pf{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+.plbl{font-size:11px;color:var(--t3);white-space:nowrap}
+
+.wcard{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:13px;text-align:center}
+.wen{font-size:26px;font-weight:800;margin-bottom:3px}
+.wpos{font-size:11px;color:var(--accent);font-style:italic;margin-bottom:5px}
+.wzh{font-size:14px;color:var(--t2);margin-bottom:7px}
+.wex{font-size:12px;color:var(--t3);line-height:1.6;font-style:italic}
+
+.qtext{font-size:14px;color:var(--t1);line-height:1.6;margin-bottom:11px}
+
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:12px 14px;background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--t1);font-size:14px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--accent);background:var(--s3)}
+.opt.correct{border-color:var(--green);background:var(--green)18;color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red)18;color:var(--red)}
+.opt:disabled{cursor:default}
+.ol{width:24px;height:24px;border-radius:6px;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.opt.correct .ol{background:var(--green)33}
+.opt.wrong .ol{background:var(--red)33}
+
+.fb{display:none;margin-top:10px;padding:11px 13px;border-radius:var(--radius-sm);font-size:13px;line-height:1.5}
+.fb.ok{background:var(--green)18;color:var(--green);border:1px solid var(--green)33;display:block}
+.fb.no{background:var(--red)18;color:var(--red);border:1px solid var(--red)33;display:block}
+
+.nxt{width:100%;margin-top:11px;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:700;cursor:pointer;display:none}
+
+/* reading */
+.passage{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:13px}
+.ptitle{font-size:14px;font-weight:700;margin-bottom:9px;color:var(--teal)}
+.pbody{font-size:13px;color:var(--t2);line-height:1.75}
+.pbody p+p{margin-top:9px}
+
+/* writing */
+.wsit{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:11px}
+.wsit strong{display:block;font-size:13px;color:var(--teal);margin-bottom:5px}
+.wsit p{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:7px}
+.wsit ul{padding-left:16px}
+.wsit li{font-size:13px;color:var(--t2);margin-bottom:3px}
+.whint{font-size:11px;color:var(--t3);margin-bottom:7px;display:flex;gap:12px}
+textarea{width:100%;min-height:150px;background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--t1);font-size:14px;padding:12px;font-family:var(--font);line-height:1.6;resize:vertical;transition:border-color .2s}
+textarea:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder{color:var(--t3)}
+.wcrow{display:flex;justify-content:space-between;align-items:center;margin:5px 0 11px}
+.wc{font-size:11px;color:var(--t3)}
+.wc.warn{color:var(--gold)}
+.wc.good{color:var(--green)}
+
+/* score */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:11px 0}
+.scell{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px;text-align:center}
+.sdim{font-size:10px;color:var(--t3);margin-bottom:4px;line-height:1.3}
+.sn{font-size:22px;font-weight:800;line-height:1}
+.sn .of{font-size:12px;color:var(--t3);font-weight:400}
+.sn.hi{color:var(--green)}.sn.mid{color:var(--gold)}.sn.lo{color:var(--red)}
+.stot{text-align:center;background:var(--s3);border-radius:var(--radius-sm);padding:12px;margin-bottom:11px}
+.stot .n{font-size:32px;font-weight:900}
+.stot .of{font-size:14px;color:var(--t3)}
+.stot .lbl{font-size:10px;color:var(--t3);margin-top:2px}
+.tip{background:var(--s2);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:6px}
+
+/* all done */
+.alldone{background:linear-gradient(135deg,var(--accent)18,var(--teal)18);border:1px solid var(--accent)44;border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:14px}
+.alldone .e{font-size:34px;margin-bottom:7px}
+.alldone h3{font-size:16px;font-weight:800;margin-bottom:4px}
+.alldone p{font-size:13px;color:var(--t2)}
+
+/* progress tab */
+.lv-track{height:10px;background:var(--s3);border-radius:5px;overflow:hidden;margin:8px 0}
+.lv-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal));border-radius:5px;transition:width .8s cubic-bezier(.25,1,.5,1)}
+.lvbadges{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
+.lvb{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center}
+.lvb.ok{border-color:var(--accent)66;background:var(--accent)11}
+.lvb .li{font-size:18px;margin-bottom:2px}
+.lvb .ln{font-size:9px;color:var(--t3)}
+.lvb.ok .ln{color:var(--accent)}
+
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px}
+.cc{aspect-ratio:1;border-radius:4px;background:var(--s3)}
+.cc.full{background:var(--accent)}
+
+/* vocab tab */
+.cattabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:11px;scrollbar-width:none}
+.cattabs::-webkit-scrollbar{display:none}
+.ctab{flex-shrink:0;padding:6px 12px;background:var(--s2);border:1px solid var(--border);border-radius:20px;font-size:11px;font-weight:600;color:var(--t3);cursor:pointer;transition:all .2s}
+.ctab.active{background:var(--accent)22;border-color:var(--accent);color:var(--accent)}
+.vrow{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;display:flex;align-items:center;gap:12px;margin-bottom:7px}
+.vword{font-size:14px;font-weight:700;flex:1}
+.vzh{font-size:12px;color:var(--t2);margin-top:2px}
+.vdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dn{background:var(--t3)}.dr{background:var(--gold)}.dm{background:var(--green)}
+
+/* reward overlay */
+#overlay{display:none;position:fixed;inset:0;z-index:200;background:#000000bb;align-items:center;justify-content:center;padding:20px}
+#overlay.show{display:flex}
+.rcard{background:var(--s1);border:1px solid var(--accent)55;border-radius:20px;padding:30px 24px;text-align:center;max-width:320px;width:100%;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.re{font-size:54px;margin-bottom:10px}
+.rt{font-size:20px;font-weight:800;margin-bottom:5px}
+.rx{display:inline-block;background:var(--accent)22;color:var(--accent);padding:4px 14px;border-radius:20px;font-size:15px;font-weight:800;margin-bottom:9px}
+.rm{font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:18px}
+
+/* confetti */
+#cnf{position:fixed;inset:0;pointer-events:none;z-index:199;overflow:hidden}
+.cp{position:absolute;top:-10px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div id="cnf"></div>
+
+<div id="overlay">
+  <div class="rcard">
+    <div class="re" id="rE">🎉</div>
+    <div class="rt" id="rT">Done!</div>
+    <div class="rx" id="rX">+40 XP</div>
+    <div class="rm" id="rM"></div>
+    <button class="btn btn-p" style="margin:0" onclick="closeReward()">Continue →</button>
+  </div>
+</div>
+
+<div id="shell">
+  <nav id="topnav">
+    <div class="nav-brand">CELPIP <span>Trainer</span></div>
+    <div class="nav-right">
+      <div class="pill pill-level" id="lvPill">Lv 1 🌱</div>
+      <div class="pill pill-streak">🔥 <span id="strN">0</span></div>
+      <div class="sync-dot" id="syncDot" title="Sync status"></div>
+    </div>
+  </nav>
+
+  <div id="main">
+    <div id="vHome"></div>
+    <div id="vProgress" class="hidden"></div>
+    <div id="vVocab" class="hidden"></div>
+  </div>
+
+  <nav id="tabbar">
+    <button class="tab-btn active" id="tbHome" onclick="switchTab('home')">
+      <span class="icon">🏠</span>Today
+    </button>
+    <button class="tab-btn" id="tbProgress" onclick="switchTab('progress')">
+      <span class="icon">📊</span>Progress
+    </button>
+    <button class="tab-btn" id="tbVocab" onclick="switchTab('vocab')">
+      <span class="icon">📖</span>Vocab
+    </button>
+  </nav>
+</div>
+
+<script type="module">
+// ── Supabase ──────────────────────────────────────────────────────────────
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const SUPA_URL = 'https://hsipuhsoukpjtpbtjfch.supabase.co'
+const SUPA_KEY = 'sb_publishable_m9lj7DXsiV15WxnPzWzZDQ_ELJTUTN9'
+const db = createClient(SUPA_URL, SUPA_KEY)
+
+// ── User ID (stable per browser, no login needed) ─────────────────────────
+function getUserId() {
+  let id = localStorage.getItem('celpip_uid')
+  if (!id) { id = crypto.randomUUID(); localStorage.setItem('celpip_uid', id) }
+  return id
+}
+const UID = getUserId()
+
+// ── Sync helpers ──────────────────────────────────────────────────────────
+const dot = document.getElementById('syncDot')
+function setSyncStatus(s) { dot.className = 'sync-dot ' + s }
+
+async function syncPush() {
+  setSyncStatus('busy')
+  try {
+    const today = todayStr()
+    // upsert daily progress
+    await db.from('progress').upsert({
+      user_id: UID, date: today,
+      xp_today: S.xpToday, words_done: S.wordsDone,
+      sessions: S.sessions, updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,date' })
+
+    // upsert user state
+    await db.from('user_state').upsert({
+      user_id: UID, streak: S.streak, xp_total: S.xpTotal,
+      completed_dates: S.completedDates,
+      vocab_batch: S.vocabBatch, reading_batch: S.readingBatch, writing_batch: S.writingBatch,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id' })
+
+    // batch upsert changed vocab statuses
+    const rows = Object.entries(S.vocabProgress).map(([wid, status]) => ({
+      user_id: UID, word_id: parseInt(wid), status,
+      updated_at: new Date().toISOString()
+    }))
+    if (rows.length) {
+      await db.from('vocab_status').upsert(rows, { onConflict: 'user_id,word_id' })
+    }
+
+    setSyncStatus('ok')
+  } catch(e) {
+    console.warn('sync push failed', e)
+    setSyncStatus('err')
+  }
+}
+
+async function syncPull() {
+  setSyncStatus('busy')
+  try {
+    const today = todayStr()
+    const [{ data: stateRow }, { data: progRow }, { data: vocabRows }] = await Promise.all([
+      db.from('user_state').select('*').eq('user_id', UID).maybeSingle(),
+      db.from('progress').select('*').eq('user_id', UID).eq('date', today).maybeSingle(),
+      db.from('vocab_status').select('*').eq('user_id', UID),
+    ])
+
+    if (stateRow) {
+      S.streak = stateRow.streak
+      S.xpTotal = stateRow.xp_total
+      S.completedDates = stateRow.completed_dates || []
+      S.vocabBatch = stateRow.vocab_batch || 0
+      S.readingBatch = stateRow.reading_batch || 0
+      S.writingBatch = stateRow.writing_batch || 0
+    }
+
+    if (progRow && progRow.date === today) {
+      S.xpToday = progRow.xp_today
+      S.wordsDone = progRow.words_done
+      S.sessions = progRow.sessions || {1:'pending',2:'locked',3:'locked'}
+      S.sessionDate = today
+    }
+
+    if (vocabRows && vocabRows.length) {
+      vocabRows.forEach(r => { S.vocabProgress[r.word_id] = r.status })
+    }
+
+    save()
+    setSyncStatus('ok')
+  } catch(e) {
+    console.warn('sync pull failed', e)
+    setSyncStatus('err')
+  }
+}
+
+// ── Data ──────────────────────────────────────────────────────────────────
+let VOCAB = [], READING = [], WRITING = []
+
+async function loadData() {
+  const base = location.pathname.replace(/\/[^/]*$/, '')
+  try {
+    ;[VOCAB, READING, WRITING] = await Promise.all([
+      fetch(base + '/data/vocab.json').then(r => r.json()),
+      fetch(base + '/data/reading.json').then(r => r.json()),
+      fetch(base + '/data/writing.json').then(r => r.json()),
+    ])
+  } catch {
+    VOCAB=[{id:1,word:"accommodate",pos:"v.",zh:"容纳；为…提供住宿",ex:"The hotel can accommodate up to 200 guests.",category:"daily",difficulty:2,options:["accommodate","ignore","restrict","eliminate"],correct:0,question:"The centre was renovated to ________ more visitors."}]
+    READING=[{id:"R001",title:"Community Program",category:"civic",text:"The city launched a composting program. Households must separate organic waste. Officials estimate emissions will drop 25% over the next decade.",questions:[{q:"What is the goal?",opts:["Raise taxes","Reduce landfill waste","Replace recycling","Grow food"],ans:1},{q:"What is the benefit?",opts:["Lower taxes","Less emissions","More parks","Cheaper food"],ans:1},{q:"'Estimate' means:",opts:["know exactly","calculate roughly","ignore","deny"],ans:1}]}]
+    WRITING=[{id:"T1-001",type:"task1",situation:"The heating in your rented apartment has not worked for a week. Write an email to your landlord.",points:["Describe the problem","Explain the impact","Request a fix by a specific date"]}]
+  }
+}
+
+// ── State ─────────────────────────────────────────────────────────────────
+const TODAY_STR = todayStr()
+
+function defaultState() {
+  return {
+    streak:0, xpTotal:0, completedDates:[],
+    sessions:{1:'pending',2:'locked',3:'locked'},
+    sessionDate:null, xpToday:0, wordsDone:0,
+    vocabProgress:{}, vocabBatch:0, readingBatch:0, writingBatch:0,
+  }
+}
+
+let S = (() => {
+  try { return JSON.parse(localStorage.getItem('celpip_v3')) || defaultState() }
+  catch { return defaultState() }
+})()
+
+function save() { localStorage.setItem('celpip_v3', JSON.stringify(S)) }
+
+function todayStr() { return new Date().toISOString().split('T')[0] }
+
+// new-day reset
+if (S.sessionDate !== TODAY_STR) {
+  const yest = new Date(); yest.setDate(yest.getDate()-1)
+  const yStr = yest.toISOString().split('T')[0]
+  const allDone = S.sessions[1]==='done' && S.sessions[2]==='done' && S.sessions[3]==='done'
+  if (allDone && S.sessionDate) {
+    if (!S.completedDates.includes(S.sessionDate)) S.completedDates.push(S.sessionDate)
+    S.streak = (S.sessionDate === yStr) ? S.streak+1 : 1
+  } else if (S.sessionDate && S.sessionDate !== yStr) {
+    S.streak = 0
+  }
+  S.sessions = {1:'pending',2:'locked',3:'locked'}
+  S.sessionDate = TODAY_STR
+  S.xpToday = 0
+  S.wordsDone = 0
+  save()
+}
+
+// ── Levels ────────────────────────────────────────────────────────────────
+const LEVELS = [
+  {name:'Beginner',icon:'🌱',xp:0},
+  {name:'Explorer',icon:'🔍',xp:200},
+  {name:'Learner',icon:'📚',xp:500},
+  {name:'Skilled',icon:'⚡',xp:1000},
+  {name:'Expert',icon:'🏆',xp:2000},
+]
+function getLevel(xp) {
+  let lv=0
+  LEVELS.forEach((l,i)=>{ if(xp>=l.xp) lv=i })
+  return lv
+}
+function getLvPct(xp) {
+  const lv=getLevel(xp)
+  if(lv>=LEVELS.length-1) return 100
+  const s=LEVELS[lv].xp, e=LEVELS[lv+1].xp
+  return Math.round((xp-s)/(e-s)*100)
+}
+
+// ── Session config ────────────────────────────────────────────────────────
+const SCFG = [
+  {id:1,icon:'📚',title:'Session 1 — Vocabulary',desc:'5 new words + a quick quiz for each.',time:'~5 min',xp:40,type:'vocab'},
+  {id:2,icon:'📖',title:'Session 2 — Reading & Quiz',desc:'Short passage + 3 CELPIP-style questions.',time:'~5 min',xp:50,type:'reading'},
+  {id:3,icon:'✏️',title:'Session 3 — Writing Task',desc:'One writing prompt + self-assessment.',time:'~8 min',xp:60,type:'writing'},
+]
+
+// ── Tab switching ─────────────────────────────────────────────────────────
+window.switchTab = function(tab) {
+  ;['home','progress','vocab'].forEach(t => {
+    const key = t.charAt(0).toUpperCase()+t.slice(1)
+    document.getElementById('v'+key).classList.toggle('hidden', t!==tab)
+    document.getElementById('tb'+key).classList.toggle('active', t===tab)
+  })
+  if(tab==='progress') renderProgress()
+  if(tab==='vocab') renderVocab()
+}
+
+// ── Nav update ────────────────────────────────────────────────────────────
+function updateNav() {
+  const lv=getLevel(S.xpTotal)
+  document.getElementById('strN').textContent = S.streak
+  document.getElementById('lvPill').textContent = 'Lv '+(lv+1)+' '+LEVELS[lv].icon
+}
+
+// ── HOME ──────────────────────────────────────────────────────────────────
+function renderHome() {
+  updateNav()
+  const done = Object.values(S.sessions).filter(v=>v==='done').length
+  const allDone = done===3
+  const xpPct = Math.min(100, S.xpToday/150*100)
+  const DAYS = ['S','M','T','W','T','F','S']
+  const week = Array.from({length:7},(_,i)=>{
+    const d=new Date(); d.setDate(d.getDate()-(6-i))
+    const ds=d.toISOString().split('T')[0]
+    const cls = ds===TODAY_STR?'today':S.completedDates.includes(ds)?'done':''
+    return `<div class="wday ${cls}"><div class="dl">${DAYS[d.getDay()]}</div><div class="dp"></div></div>`
+  }).join('')
+
+  const sessions = SCFG.map(c=>{
+    const st=S.sessions[c.id]
+    const cls=st==='pending'?'active':st==='done'?'done':'locked'
+    const badge=st==='done'?`<span class="badge b-done">✓ Done</span>`:st==='locked'?`<span class="badge b-locked">locked</span>`:`<span class="badge b-active">${c.time}</span>`
+    return `<div class="sc ${cls}" id="sc${c.id}" onclick="${st==='pending'?'startSession()':''}">
+      <div class="sc-icon">${c.icon}</div>
+      <div class="sc-body"><div class="sc-title">${c.title}</div><div class="sc-desc">${c.desc}</div></div>
+      <div>${badge}</div>
+    </div>`
+  }).join('')
+
+  const active = getActive()
+  const ctaHTML = active ? `
+    <button class="btn btn-p" id="startBtn" onclick="startSession()">▶ Start ${active.title.split('—')[0].trim()}</button>
+    <button class="btn btn-o" onclick="completeSession()">✓ Mark session complete</button>
+  ` : ''
+
+  document.getElementById('vHome').innerHTML = `
+    <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:4px">Today's Study Plan</div>
+    <div style="font-size:22px;font-weight:800;line-height:1.2;margin-bottom:13px">CELPIP Daily<br>Practice</div>
+    <div class="week">${week}</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" style="color:var(--teal)">${S.xpToday}</div><div class="stat-l">XP Today</div></div>
+      <div class="stat"><div class="stat-n">${S.wordsDone}</div><div class="stat-l">Words Done</div></div>
+      <div class="stat"><div class="stat-n">${done}/3</div><div class="stat-l">Sessions</div></div>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-meta"><span>Daily XP Goal</span><span>${S.xpToday} / 150</span></div>
+      <div class="xp-track"><div class="xp-fill" style="width:${xpPct}%"></div></div>
+    </div>
+    ${allDone?`<div class="alldone"><div class="e">🏆</div><h3>All done for today!</h3><p>Come back tomorrow to keep your streak alive.</p></div>`:''}
+    <div class="sec">Today's Sessions</div>
+    ${sessions}
+    <div id="qpanel"></div>
+    ${ctaHTML}
+  `
+}
+
+function getActive() {
+  for(let i=1;i<=3;i++) if(S.sessions[i]==='pending') return SCFG[i-1]
+  return null
+}
+
+// ── SESSION START ─────────────────────────────────────────────────────────
+let QS = {}
+
+window.startSession = function() {
+  const s = getActive()
+  if(!s) return
+  const panel = document.getElementById('qpanel')
+  panel.className = 'open'
+  QS = {type:s.type, sid:s.id, xp:s.xp}
+  if(s.type==='vocab') startVocab(panel)
+  else if(s.type==='reading') startReading(panel)
+  else startWriting(panel)
+  const sb=document.getElementById('startBtn')
+  if(sb) sb.disabled=true
+  panel.scrollIntoView({behavior:'smooth',block:'start'})
+}
+
+// ── VOCAB ─────────────────────────────────────────────────────────────────
+function startVocab(panel) {
+  const start = (S.vocabBatch*5) % Math.max(VOCAB.length,1)
+  QS.words = Array.from({length:5},(_,i)=>VOCAB[(start+i)%VOCAB.length])
+  QS.idx=0; QS.correct=0
+  renderVCard(panel,0)
+}
+
+function renderVCard(panel,idx) {
+  const v = QS.words[idx]
+  const L=['A','B','C','D']
+  const opts = v.options.map((o,i)=>`
+    <button class="opt" id="vo${i}" onclick="ansV(${i},${v.correct},${idx})">
+      <span class="ol">${L[i]}</span>${o}
+    </button>`).join('')
+  panel.innerHTML=`
+    <div class="card glow">
+      <div class="qtop"><span class="qtag">📚 Vocabulary</span><button class="qclose" onclick="closeQ()">×</button></div>
+      <div class="pbar"><div class="pt"><div class="pf" style="width:${idx/5*100}%"></div></div><span class="plbl">${idx+1}/5</span></div>
+      <div class="wcard">
+        <div class="wen">${v.word}</div>
+        <div class="wpos">${v.pos}</div>
+        <div class="wzh">${v.zh}</div>
+        <div class="wex">"${v.ex}"</div>
+      </div>
+      <div class="qtext">Fill in the blank:<br><em>${v.question}</em></div>
+      <div class="opts">${opts}</div>
+      <div id="vfb" class="fb"></div>
+      <button id="vnxt" class="nxt" onclick="nxtV(${idx})">${idx<4?'Next Word →':'Finish ✓'}</button>
+    </div>`
+}
+
+window.ansV = function(chosen,correct,idx) {
+  document.querySelectorAll('.opt').forEach(b=>b.disabled=true)
+  document.getElementById('vo'+correct).classList.add('correct')
+  const fb=document.getElementById('vfb')
+  if(chosen===correct){
+    document.getElementById('vo'+chosen).classList.add('correct')
+    fb.className='fb ok'; fb.textContent='✓ Correct! +5 XP'
+    QS.correct++; addXP(5)
+    const wid=QS.words[idx].id
+    const cur=S.vocabProgress[wid]||'new'
+    S.vocabProgress[wid] = cur==='new'?'reviewing':cur==='reviewing'?'mastered':cur
+  } else {
+    document.getElementById('vo'+chosen).classList.add('wrong')
+    fb.className='fb no'
+    fb.textContent=`✗ Correct: ${'ABCD'[correct]}. Study the example sentence.`
+  }
+  document.getElementById('vnxt').style.display='block'
+  save()
+}
+
+window.nxtV = function(idx) {
+  if(idx<4){ renderVCard(document.getElementById('qpanel'),idx+1) }
+  else {
+    S.wordsDone+=5; S.vocabBatch++; save()
+    document.getElementById('qpanel').innerHTML=`
+      <div class="card teal" style="text-align:center;padding:22px">
+        <div style="font-size:38px;margin-bottom:10px">🎯</div>
+        <div style="font-size:17px;font-weight:800;margin-bottom:5px">Vocabulary Complete!</div>
+        <div style="font-size:13px;color:var(--t2);margin-bottom:15px">${QS.correct}/5 correct · +${QS.correct*5} XP</div>
+        <button class="btn btn-p" style="margin:0" onclick="completeSession()">Mark Session 1 Complete →</button>
+      </div>`
+    renderHome()
+  }
+}
+
+// ── READING ───────────────────────────────────────────────────────────────
+function startReading(panel) {
+  QS.passage = READING[S.readingBatch % READING.length]
+  QS.qIdx=0; QS.correct=0
+  renderPassage(panel)
+}
+
+function renderPassage(panel) {
+  const r=QS.passage
+  const paras=r.text.split('\n\n').map(p=>`<p>${p.trim()}</p>`).join('')
+  panel.innerHTML=`
+    <div class="card glow">
+      <div class="qtop"><span class="qtag">📖 Reading</span><button class="qclose" onclick="closeQ()">×</button></div>
+      <div class="pbar"><div class="pt"><div class="pf" id="rp" style="width:0%"></div></div><span class="plbl" id="rpl">Q 1/3</span></div>
+      <div class="passage"><div class="ptitle">${r.title}</div><div class="pbody">${paras}</div></div>
+      <div id="rqw"></div>
+    </div>`
+  renderRQ(0)
+}
+
+function renderRQ(qi) {
+  const q=QS.passage.questions[qi]
+  const L=['A','B','C','D']
+  const opts=q.opts.map((o,i)=>`
+    <button class="opt" id="ro${qi}_${i}" onclick="ansR(${qi},${i},${q.ans})">
+      <span class="ol">${L[i]}</span>${o}
+    </button>`).join('')
+  document.getElementById('rp').style.width=(qi/3*100)+'%'
+  document.getElementById('rpl').textContent=`Q ${qi+1}/3`
+  document.getElementById('rqw').innerHTML=`
+    <div class="qtext"><strong>Q${qi+1}.</strong> ${q.q}</div>
+    <div class="opts">${opts}</div>
+    <div id="rfb${qi}" class="fb"></div>
+    <button id="rnxt${qi}" class="nxt" onclick="nxtR(${qi})">${qi<2?'Next →':'Finish ✓'}</button>`
+}
+
+window.ansR = function(qi,chosen,correct) {
+  for(let i=0;i<4;i++){const b=document.getElementById(`ro${qi}_${i}`);if(b)b.disabled=true}
+  document.getElementById(`ro${qi}_${correct}`).classList.add('correct')
+  const fb=document.getElementById(`rfb${qi}`)
+  if(chosen===correct){
+    document.getElementById(`ro${qi}_${chosen}`).classList.add('correct')
+    fb.className='fb ok'; fb.textContent='✓ Correct! +8 XP'
+    QS.correct++; addXP(8)
+  } else {
+    document.getElementById(`ro${qi}_${chosen}`).classList.add('wrong')
+    fb.className='fb no'; fb.textContent=`✗ Correct: ${'ABCD'[correct]}.`
+  }
+  document.getElementById(`rnxt${qi}`).style.display='block'
+}
+
+window.nxtR = function(qi) {
+  if(qi<2){ renderRQ(qi+1) }
+  else {
+    S.readingBatch++; save()
+    document.getElementById('qpanel').innerHTML=`
+      <div class="card teal" style="text-align:center;padding:22px">
+        <div style="font-size:38px;margin-bottom:10px">📖</div>
+        <div style="font-size:17px;font-weight:800;margin-bottom:5px">Reading Complete!</div>
+        <div style="font-size:13px;color:var(--t2);margin-bottom:15px">${QS.correct}/3 correct · +${QS.correct*8} XP</div>
+        <button class="btn btn-p" style="margin:0" onclick="completeSession()">Mark Session 2 Complete →</button>
+      </div>`
+    renderHome()
+  }
+}
+
+// ── WRITING ───────────────────────────────────────────────────────────────
+function startWriting(panel) {
+  const w=WRITING[S.writingBatch % WRITING.length]
+  QS.prompt=w
+  const pts=w.points.map(p=>`<li>${p}</li>`).join('')
+  panel.innerHTML=`
+    <div class="card glow">
+      <div class="qtop"><span class="qtag">✏️ Writing — ${w.type.toUpperCase()} (${w.id})</span><button class="qclose" onclick="closeQ()">×</button></div>
+      <div class="wsit">
+        <strong>Situation</strong>
+        <p>${w.situation}</p>
+        <ul>${pts}</ul>
+      </div>
+      <div class="whint"><span>150–200 words</span><span>${w.type==='task1'?'27 min':'26 min'}</span></div>
+      <textarea id="wta" placeholder="Write your response here…" oninput="updWC()"></textarea>
+      <div class="wcrow"><span class="wc" id="wcl">0 words</span><span style="font-size:11px;color:var(--t3)">Target: 150–200</span></div>
+      <button class="btn btn-p" id="wsubBtn" onclick="submitW()" style="margin-bottom:8px">Submit for Feedback →</button>
+      <div id="wfb"></div>
+    </div>`
+}
+
+window.updWC = function() {
+  const t=(document.getElementById('wta')||{}).value||''
+  const c=t.trim()?t.trim().split(/\s+/).length:0
+  const el=document.getElementById('wcl')
+  if(!el) return
+  el.textContent=c+' words'
+  el.className='wc'+(c>=150&&c<=200?' good':c>200?' warn':'')
+}
+
+window.submitW = function() {
+  const ta=document.getElementById('wta')
+  if(!ta) return
+  const text=ta.value.trim()
+  const wc=text?text.split(/\s+/).length:0
+  if(wc<30){alert('Please write at least a few sentences.');return}
+  document.getElementById('wsubBtn').disabled=true
+  const hasPara=text.includes('\n')
+  const hasPunct=(text.match(/[.!?]/g)||[]).length>=3
+  const uniq=new Set(text.toLowerCase().split(/\s+/)).size
+  const variety=uniq/wc
+  const cc=(hasPara&&wc>=120)?rng(8,10):rng(5,8)
+  const voc=variety>0.65?rng(8,10):rng(5,8)
+  const rd=hasPunct?rng(8,10):rng(5,8)
+  const tf=(wc>=150&&wc<=200)?rng(9,11):rng(5,8)
+  const tot=cc+voc+rd+tf
+  const cl=n=>n>=9?'hi':n>=7?'mid':'lo'
+  const tips=[]
+  if(wc<150) tips.push('📝 A bit short. Aim for 150–200 words to fully address all points.')
+  if(!hasPara) tips.push('📝 Break your writing into clear paragraphs (opening, body, closing).')
+  if(variety<0.6) tips.push('📝 Some words are repeated. Try using synonyms to show vocabulary range.')
+  if(!hasPunct) tips.push('📝 Use periods and varied sentence lengths for better readability.')
+  const tipHTML=tips.map(t=>`<div class="tip">${t}</div>`).join('')
+  document.getElementById('wfb').innerHTML=`
+    <div class="sgrid">
+      <div class="scell"><div class="sdim">Content & Coherence</div><div class="sn ${cl(cc)}">${cc}<span class="of">/12</span></div></div>
+      <div class="scell"><div class="sdim">Vocabulary</div><div class="sn ${cl(voc)}">${voc}<span class="of">/12</span></div></div>
+      <div class="scell"><div class="sdim">Readability</div><div class="sn ${cl(rd)}">${rd}<span class="of">/12</span></div></div>
+      <div class="scell"><div class="sdim">Task Fulfillment</div><div class="sn ${cl(tf)}">${tf}<span class="of">/12</span></div></div>
+    </div>
+    <div class="stot">
+      <div class="n" style="color:${tot>=36?'var(--green)':tot>=28?'var(--gold)':'var(--red)'}">${tot}<span class="of">/48</span></div>
+      <div class="lbl">Total Score</div>
+    </div>
+    ${tipHTML}
+    <button class="btn btn-p" onclick="completeSession()" style="margin-top:4px;margin-bottom:0">Mark Session 3 Complete →</button>`
+  S.writingBatch++; addXP(20); save(); renderHome()
+}
+
+// ── COMPLETE / CLOSE ──────────────────────────────────────────────────────
+const REWARDS = [
+  {e:'🎯',t:'Vocabulary Done!',m:"You're building your word bank one session at a time. Keep it up!"},
+  {e:'📖',t:'Reading Done!',m:'Your comprehension skills are sharpening. Every passage counts.'},
+  {e:'✍️',t:'Writing Done!',m:"That's the hardest session. You showed up — that's everything."},
+]
+
+window.completeSession = function() {
+  const s=getActive()
+  if(!s) return
+  const r=REWARDS[s.id-1]
+  addXP(s.xp)
+  S.sessions[s.id]='done'
+  if(s.id<3) S.sessions[s.id+1]='pending'
+  if(S.sessions[1]==='done'&&S.sessions[2]==='done'&&S.sessions[3]==='done'){
+    if(!S.completedDates.includes(TODAY_STR)){S.completedDates.push(TODAY_STR); S.streak++}
+  }
+  save()
+  syncPush()
+  renderHome()
+  closeQ()
+  shootConfetti()
+  showReward(r.e,r.t,'+'+s.xp+' XP',r.m)
+}
+
+window.closeQ = function() {
+  const p=document.getElementById('qpanel')
+  if(p){p.className='';p.innerHTML=''}
+  const sb=document.getElementById('startBtn')
+  if(sb) sb.disabled=false
+}
+
+// ── XP ────────────────────────────────────────────────────────────────────
+function addXP(n){ S.xpToday+=n; S.xpTotal+=n; save(); updateNav() }
+
+// ── REWARD ────────────────────────────────────────────────────────────────
+function showReward(e,t,x,m){
+  document.getElementById('rE').textContent=e
+  document.getElementById('rT').textContent=t
+  document.getElementById('rX').textContent=x
+  document.getElementById('rM').textContent=m
+  document.getElementById('overlay').classList.add('show')
+}
+window.closeReward = function(){ document.getElementById('overlay').classList.remove('show') }
+
+// ── CONFETTI ──────────────────────────────────────────────────────────────
+function shootConfetti(){
+  const c=document.getElementById('cnf')
+  const cols=['#7c6ff7','#00c9a7','#fbbf24','#f43f5e','#10b981','#a78bfa']
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div')
+    el.className='cp'
+    const dur=(Math.random()*1.5+1.2).toFixed(2)
+    el.style.cssText=`left:${Math.random()*100}vw;width:${rng(5,10)}px;height:${rng(5,10)}px;background:${cols[~~(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation:fall ${dur}s linear ${(Math.random()*.5).toFixed(2)}s forwards`
+    c.appendChild(el)
+    setTimeout(()=>el.remove(),(parseFloat(dur)*1000+600))
+  }
+}
+
+function rng(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+
+// ── PROGRESS TAB ──────────────────────────────────────────────────────────
+function renderProgress(){
+  const lv=getLevel(S.xpTotal)
+  const pct=getLvPct(S.xpTotal)
+  const xpNext=(LEVELS[Math.min(lv+1,LEVELS.length-1)].xp-S.xpTotal)
+  const badges=LEVELS.map((l,i)=>`
+    <div class="lvb ${lv>=i?'ok':''}">
+      <div class="li">${l.icon}</div>
+      <div class="ln">${l.name}</div>
+    </div>`).join('')
+  const cal=Array.from({length:28},(_,i)=>{
+    const d=new Date();d.setDate(d.getDate()-(27-i))
+    const ds=d.toISOString().split('T')[0]
+    return `<div class="cc ${S.completedDates.includes(ds)?'full':''}" title="${ds}"></div>`
+  }).join('')
+  const tot=Object.keys(S.vocabProgress).length
+  const mas=Object.values(S.vocabProgress).filter(v=>v==='mastered').length
+  const rev=Object.values(S.vocabProgress).filter(v=>v==='reviewing').length
+  document.getElementById('vProgress').innerHTML=`
+    <div class="sec">Level Progress</div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:11px">
+        <div style="font-size:36px">${LEVELS[lv].icon}</div>
+        <div>
+          <div style="font-size:17px;font-weight:800">Level ${lv+1} — ${LEVELS[lv].name}</div>
+          <div style="font-size:12px;color:var(--t2)">${S.xpTotal} XP${lv<LEVELS.length-1?' · '+xpNext+' XP to next':' · Max!'}</div>
+        </div>
+      </div>
+      <div class="lv-track"><div class="lv-fill" style="width:${pct}%"></div></div>
+      <div class="lvbadges">${badges}</div>
+    </div>
+    <div class="sec">Streak & Activity</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" style="color:var(--gold)">${S.streak}</div><div class="stat-l">Streak</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--teal)">${S.completedDates.length}</div><div class="stat-l">Days Done</div></div>
+      <div class="stat"><div class="stat-n">${S.xpTotal}</div><div class="stat-l">Total XP</div></div>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;color:var(--t3);margin-bottom:7px">Last 28 Days</div>
+      <div class="cal">${cal}</div>
+    </div>
+    <div class="sec">Vocabulary Stats</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" style="color:var(--green)">${mas}</div><div class="stat-l">Mastered</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--gold)">${rev}</div><div class="stat-l">Reviewing</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--t3)">${VOCAB.length-tot}</div><div class="stat-l">New</div></div>
+    </div>
+  `
+}
+
+// ── VOCAB TAB ─────────────────────────────────────────────────────────────
+let vCat='all'
+const CATS={all:'All',daily:'Daily',workplace:'Work',academic:'Academic',civic:'Civic',health:'Health',consumer:'Consumer'}
+
+window.setVCat = function(c){ vCat=c; renderVocab() }
+
+function renderVocab(){
+  const tabs=Object.entries(CATS).map(([k,v])=>`
+    <button class="ctab ${vCat===k?'active':''}" onclick="setVCat('${k}')">${v}</button>`).join('')
+  const words=VOCAB.filter(v=>vCat==='all'||v.category===vCat).slice(0,100)
+  const rows=words.map(v=>{
+    const st=S.vocabProgress[v.id]||'new'
+    const dc=st==='mastered'?'dm':st==='reviewing'?'dr':'dn'
+    return `<div class="vrow">
+      <div class="vdot ${dc}"></div>
+      <div style="flex:1"><div class="vword">${v.word}</div><div class="vzh">${v.zh}</div></div>
+      <span style="font-size:10px;background:var(--s3);color:var(--t3);padding:2px 7px;border-radius:10px">${v.pos}</span>
+    </div>`
+  }).join('')
+  document.getElementById('vVocab').innerHTML=`
+    <div style="font-size:18px;font-weight:800;margin-bottom:3px">Word Bank</div>
+    <div style="font-size:12px;color:var(--t2);margin-bottom:11px">${VOCAB.length} words · <span style="color:var(--green)">●</span> mastered <span style="color:var(--gold)">●</span> reviewing <span style="color:var(--t3)">●</span> new</div>
+    <div class="cattabs">${tabs}</div>
+    ${rows}
+    ${words.length===100?`<div style="text-align:center;padding:10px;font-size:12px;color:var(--t3)">Showing first 100 words</div>`:''}
+  `
+}
+
+// ── BOOT ──────────────────────────────────────────────────────────────────
+async function init() {
+  await loadData()
+  await syncPull()   // pull cloud state first (overrides local if newer)
+  renderHome()
+  switchTab('home')
+  // Auto-push every 2 minutes
+  setInterval(syncPush, 120_000)
+}
+
+init()
+</script>
+</body>
+</html>
