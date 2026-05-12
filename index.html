@@ -669,35 +669,41 @@ function formatVPrompt(q) {
 function startVocab(panel) {
   const start = (S.vocabBatch*5) % Math.max(VOCAB.length,1)
   QS.words = Array.from({length:5},(_,i)=>VOCAB[(start+i)%VOCAB.length])
-  QS.correct=0; QS.qIdx=0; QS.answered={}
+  QS.correct=0; QS.qIdx=0; QS.studyIdx=0; QS.answered={}
   QS.quiz = buildVocabQuiz()
-  renderVStudy(panel)
+  renderVStudy(panel, 0)
 }
 
-function renderVStudy(panel) {
-  const cards = QS.words.map((v, i) => `
-    <div class="study-card">
-      <div class="study-top">
-        <div>
-          <div class="study-word">${v.word}</div>
-          <div class="study-meta">${v.pos} · ${v.category}</div>
-        </div>
-        <div class="audio-row">
-          <button class="speak-btn" title="Read word" onclick="speakText('${sayArg(v.word)}')">🔊</button>
-          <button class="speak-btn" title="Read example" onclick="speakText('${sayArg(v.ex)}')">▣</button>
-        </div>
-      </div>
-      <div class="study-zh">${v.zh}</div>
-      <div class="study-ex">"${v.ex}"</div>
-    </div>`).join('')
+function renderVStudy(panel, idx) {
+  QS.studyIdx = idx
+  const v = QS.words[idx]
   panel.innerHTML = `
     <div class="card glow">
       <div class="qtop"><span class="qtag">📚 Vocabulary</span><button class="qclose" onclick="closeQ()">×</button></div>
-      <div class="pbar"><div class="pt"><div class="pf" style="width:35%"></div></div><span class="plbl">Study 5 words</span></div>
-      <div class="study-grid">${cards}</div>
-      <div style="font-size:12px;color:var(--t3);text-align:center;margin-bottom:10px">Review the full set first. The quiz will mix today's words with review words when available.</div>
-      <button class="btn btn-p" onclick="showVQuiz(0)" style="margin-bottom:0">Start Mixed Quiz ✓</button>
+      <div class="pbar"><div class="pt"><div class="pf" style="width:${((idx+1)/QS.words.length)*45}%"></div></div><span class="plbl">${idx+1}/5</span></div>
+      <div class="study-card">
+        <div class="study-top">
+          <div>
+            <div class="study-word">${v.word}</div>
+            <div class="study-meta">${v.pos} · ${v.category}</div>
+          </div>
+          <div class="audio-row">
+            <button class="speak-btn" title="Read word" onclick="speakText('${sayArg(v.word)}')">🔊</button>
+            <button class="speak-btn" title="Read example" onclick="speakText('${sayArg(v.ex)}')">▣</button>
+          </div>
+        </div>
+        <div class="study-zh">${v.zh}</div>
+        <div class="study-ex">"${v.ex}"</div>
+      </div>
+      <div style="font-size:12px;color:var(--t3);text-align:center;margin:10px 0">Study each word first. The quiz starts only after all 5 words have been shown.</div>
+      <button class="btn btn-p" onclick="nextVStudy()" style="margin-bottom:0">${idx<QS.words.length-1?'Next Word →':'Start Mixed Quiz ✓'}</button>
     </div>`
+}
+
+window.nextVStudy = function() {
+  const panel = document.getElementById('qpanel')
+  if (QS.studyIdx < QS.words.length - 1) renderVStudy(panel, QS.studyIdx + 1)
+  else showVQuiz(0)
 }
 
 function showVQuiz(qi) {

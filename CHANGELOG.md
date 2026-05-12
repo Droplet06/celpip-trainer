@@ -15,3 +15,6 @@
 
 ### UI copy
 - Updated the Session 1 description to clarify the new batch-study plus mixed-quiz flow.
+
+### Follow-up adjustment
+- Restored single-card vocabulary study: words are shown one at a time again, but the quiz still starts only after the full 5-word set has been reviewed.
