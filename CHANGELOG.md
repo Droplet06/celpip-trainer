@@ -18,3 +18,8 @@
 
 ### Follow-up adjustment
 - Restored single-card vocabulary study: words are shown one at a time again, but the quiz still starts only after the full 5-word set has been reviewed.
+
+### Vocabulary ordering
+- Added a stable shuffled vocabulary order so the learner no longer starts with dictionary-style A/B/C sequencing.
+- Session 1 word batches and the Word Bank tab now use the same shuffled order.
+- The shuffled order is saved locally and only adds newly introduced vocabulary IDs later, so refreshes do not reshuffle the whole list.

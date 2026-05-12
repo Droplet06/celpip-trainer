@@ -426,7 +426,7 @@ function defaultState() {
     streak:0, xpTotal:0, completedDates:[],
     sessions:{1:'pending',2:'locked',3:'locked'},
     sessionDate:null, xpToday:0, wordsDone:0,
-    vocabProgress:{}, vocabBatch:0, readingBatch:0, writingBatch:0,
+    vocabProgress:{}, vocabBatch:0, vocabOrder:[], readingBatch:0, writingBatch:0,
   }
 }
 
@@ -598,6 +598,23 @@ function shuffle(arr) {
   return a
 }
 
+function ensureVocabOrder() {
+  const ids = VOCAB.map(v => v.id)
+  const known = new Set(ids)
+  const current = Array.isArray(S.vocabOrder) ? S.vocabOrder.filter(id => known.has(id)) : []
+  const missing = ids.filter(id => !current.includes(id))
+  if (current.length !== ids.length) {
+    S.vocabOrder = [...current, ...shuffle(missing)]
+    save()
+  }
+}
+
+function orderedVocab() {
+  ensureVocabOrder()
+  const byId = new Map(VOCAB.map(v => [v.id, v]))
+  return S.vocabOrder.map(id => byId.get(id)).filter(Boolean)
+}
+
 function posKey(pos) {
   return (pos || '').split(/[/.]/)[0].trim()
 }
@@ -668,7 +685,8 @@ function formatVPrompt(q) {
 
 function startVocab(panel) {
   const start = (S.vocabBatch*5) % Math.max(VOCAB.length,1)
-  QS.words = Array.from({length:5},(_,i)=>VOCAB[(start+i)%VOCAB.length])
+  const words = orderedVocab()
+  QS.words = Array.from({length:5},(_,i)=>words[(start+i)%words.length])
   QS.correct=0; QS.qIdx=0; QS.studyIdx=0; QS.answered={}
   QS.quiz = buildVocabQuiz()
   renderVStudy(panel, 0)
@@ -1023,7 +1041,7 @@ window.setVCat = function(c){ vCat=c; renderVocab() }
 function renderVocab(){
   const tabs=Object.entries(CATS).map(([k,v])=>`
     <button class="ctab ${vCat===k?'active':''}" onclick="setVCat('${k}')">${v}</button>`).join('')
-  const words=VOCAB.filter(v=>vCat==='all'||v.category===vCat).slice(0,100)
+  const words=orderedVocab().filter(v=>vCat==='all'||v.category===vCat).slice(0,100)
   const rows=words.map(v=>{
     const st=S.vocabProgress[v.id]||'new'
     const dc=st==='mastered'?'dm':st==='reviewing'?'dr':'dn'
