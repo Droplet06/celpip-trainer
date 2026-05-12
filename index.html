@@ -207,6 +207,18 @@ html,body{height:100%;background:linear-gradient(180deg,#fff9f0 0%,var(--bg) 55%
 .ptitle{font-size:14px;font-weight:700;margin-bottom:9px;color:var(--teal)}
 .pbody{font-size:13px;color:var(--t2);line-height:1.75}
 .pbody p+p{margin-top:9px}
+.passage-intro{font-style:italic;margin-bottom:10px}
+.passage-comment{padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--t2);line-height:1.6}
+.passage-comment:last-child{border-bottom:none}
+.commenter{font-weight:700;color:var(--t1);margin-right:4px}
+.passage-table-wrap{overflow-x:auto;margin-bottom:10px}
+.passage-table{width:100%;border-collapse:collapse;font-size:12px}
+.passage-table th{background:var(--s3,#2a2a3a);color:var(--teal);padding:6px 8px;text-align:left;border:1px solid var(--border)}
+.passage-table td{padding:5px 8px;border:1px solid var(--border);color:var(--t2)}
+.passage-table tr:nth-child(even) td{background:var(--s2)}
+.passage-notes{font-size:12px;color:var(--t2);margin-top:6px}
+.passage-notes ul{margin:4px 0 0 16px;padding:0}
+.passage-notes li{margin-bottom:3px;line-height:1.5}
 
 /* writing */
 .wsit{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:11px}
@@ -1171,24 +1183,44 @@ window.copyAIPrompt = function(type) {
   })
 }
 
+const PART_LABELS = { 0:'Reading Practice', 1:'Part 1 — Reading Correspondence', 2:'Part 2 — Reading to Apply a Diagram', 3:'Part 3 — Reading for Information', 4:'Part 4 — Reading for Viewpoints' }
+
 function startReading(panel) {
-  if (S.readingBatch >= CELPIP_READINGS.length) {
+  const pool = READING.length ? READING : CELPIP_READINGS
+  if (S.readingBatch >= pool.length) {
     renderReadingAIPrompt(panel)
     return
   }
-  QS.passage = CELPIP_READINGS[S.readingBatch % CELPIP_READINGS.length]
+  QS.passage = pool[S.readingBatch % pool.length]
   QS.qIdx=0; QS.correct=0
   renderPassage(panel)
 }
 
+function buildPassageBody(r) {
+  if (r.part === 2) {
+    const head = r.tableHeaders.map(h=>`<th>${h}</th>`).join('')
+    const rows = r.tableRows.map(row=>`<tr>${row.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')
+    const notes = r.notes ? `<div class="passage-notes"><strong>Notes:</strong><ul>${r.notes.map(n=>`<li>${n}</li>`).join('')}</ul></div>` : ''
+    return `<div class="passage-table-wrap"><table class="passage-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>${notes}`
+  }
+  if (r.part === 4) {
+    const intro = `<p class="passage-intro">${r.intro}</p>`
+    const comments = r.comments.map(c=>`<div class="passage-comment"><span class="commenter">${c.name}:</span> ${c.text}</div>`).join('')
+    return intro + comments
+  }
+  // Part 1 and Part 3: plain text
+  return r.text.split('\n\n').map(p=>`<p>${p.trim()}</p>`).join('')
+}
+
 function renderPassage(panel) {
   const r=QS.passage
-  const paras=r.text.split('\n\n').map(p=>`<p>${p.trim()}</p>`).join('')
+  const label = PART_LABELS[r.part] || `Part ${r.part}`
+  const body = buildPassageBody(r)
   panel.innerHTML=`
     <div class="card glow">
-      <div class="qtop"><span class="qtag">📖 ${r.part} — ${r.kind}</span><button class="qclose" onclick="closeQ()">×</button></div>
+      <div class="qtop"><span class="qtag">📖 ${label}</span><button class="qclose" onclick="closeQ()">×</button></div>
       <div class="pbar"><div class="pt"><div class="pf" id="rp" style="width:0%"></div></div><span class="plbl" id="rpl">Q 1/${r.questions.length}</span></div>
-      <div class="passage"><div class="ptitle">${r.title}</div><div class="pbody">${paras}</div></div>
+      <div class="passage"><div class="ptitle">${r.title}</div><div class="pbody">${body}</div></div>
       <div id="rqw"></div>
     </div>`
   renderRQ(0)
@@ -1432,7 +1464,11 @@ window.submitW = function() {
   const wc=text?text.split(/\s+/).length:0
   if(wc<30){alert('Please write at least a few sentences.');return}
   document.getElementById('wsubBtn').disabled=true
+  document.getElementById('wta').disabled=true
   const scored = scoreWriting(text, wc, QS.prompt)
+  QS.submittedText = text
+  QS.submittedWc = wc
+  QS.submittedScores = scored
   const {cc,voc,rd,tf} = scored
   const c = scored.checks
   const tot=cc+voc+rd+tf
@@ -1495,8 +1531,72 @@ window.submitW = function() {
       <div class="lbl">Total Score</div>
     </div>
     ${tipHTML}
-    <button class="btn btn-p" onclick="completeSession()" style="margin-top:4px;margin-bottom:0">Mark Session 3 Complete →</button>`
+    <button class="btn btn-o" id="copyWFeedbackBtn" onclick="copyWritingFeedbackPrompt()" style="margin-top:8px;margin-bottom:6px">📋 Copy Deep Feedback Prompt → Paste into Claude</button>
+    <button class="btn btn-p" onclick="completeSession()" style="margin-bottom:0">Mark Session 3 Complete →</button>`
   S.writingBatch++; addXP(20); save(); renderHome()
+}
+
+function buildWritingFeedbackPrompt(text, wc, w, scores) {
+  const {cc, voc, rd, tf} = scores
+  const tot = cc + voc + rd + tf
+  const taskLabel = w.type === 'task1' ? 'Task 1 — Email Writing' : 'Task 2 — Opinion Writing'
+  const pts = (w.points || []).map((p,i) => `  ${i+1}. ${p}`).join('\n')
+
+  let extra = ''
+  if (w.relationship || w.tone) {
+    extra += '\nCONTEXT'
+    if (w.relationship) extra += `\nRelationship: ${w.relationship}`
+    if (w.tone) extra += `\nExpected tone: ${w.tone}`
+  }
+  if (w.rubricHints) {
+    extra += '\nRUBRIC HINTS (from question designer)'
+    if (w.rubricHints.content?.length) extra += `\nContent must cover: ${w.rubricHints.content.join('; ')}`
+    if (w.rubricHints.tone) extra += `\nTone note: ${w.rubricHints.tone}`
+    if (w.rubricHints.taskFulfillment?.length) extra += `\nTask fulfillment: ${w.rubricHints.taskFulfillment.join('; ')}`
+  }
+  if (w.benchmarkAnswer) {
+    extra += `\n\nBENCHMARK ANSWER (approximate ${w.benchmarkLevel || 'CLB 8'}):\n${w.benchmarkAnswer}`
+  }
+
+  return `You are a strict CELPIP writing examiner. Score and give detailed feedback on the student response below.
+
+TASK: ${taskLabel}
+SITUATION: ${w.situation}
+REQUIRED POINTS:
+${pts}${extra}
+
+QUICK RULE-BASED SCORES (for reference only — these are automated, not your scores):
+  Content & Coherence: ${cc}/12
+  Vocabulary:          ${voc}/12
+  Readability:         ${rd}/12
+  Task Fulfillment:    ${tf}/12
+  Total:               ${tot}/48
+WORD COUNT: ${wc}
+
+STUDENT RESPONSE:
+${text}
+
+Please provide:
+1. Your own score for each of the four CELPIP dimensions (Content & Coherence, Vocabulary, Readability, Task Fulfillment), each out of 12, with a one-sentence justification.
+2. Overall total and estimated CELPIP band (CLB 6 / 7 / 8 / 9 / 10+).
+3. Exactly 3 specific improvement suggestions, each with the original sentence → a revised version.
+4. One sentence on the single most important thing to fix next time.
+
+Be strict. CLB 9+ requires consistent grammar accuracy, natural vocabulary range, appropriate tone, and complete task fulfillment. Do not inflate scores.`
+}
+
+window.copyWritingFeedbackPrompt = function() {
+  const text = QS.submittedText
+  const wc = QS.submittedWc
+  const scored = QS.submittedScores
+  if (!text || !scored) return
+  const prompt = buildWritingFeedbackPrompt(text, wc, QS.prompt, scored)
+  const btn = document.getElementById('copyWFeedbackBtn')
+  navigator.clipboard.writeText(prompt).then(() => {
+    if (btn) { btn.textContent = '✓ Copied! Paste into claude.ai'; setTimeout(() => { btn.textContent = '📋 Copy Deep Feedback Prompt → Paste into Claude' }, 3000) }
+  }).catch(() => {
+    if (btn) { btn.textContent = '✗ Copy failed — try again'; setTimeout(() => { btn.textContent = '📋 Copy Deep Feedback Prompt → Paste into Claude' }, 3000) }
+  })
 }
 
 // ── COMPLETE / CLOSE ──────────────────────────────────────────────────────

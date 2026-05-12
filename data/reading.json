@@ -1,6 +1,7 @@
-[
+﻿[
   {
     "id": "R001",
+    "part": 0,
     "title": "Community Composting Program",
     "category": "civic",
     "text": "The City of Riverside recently launched a mandatory composting program for all residential properties. Starting next month, households will be required to separate organic waste — such as food scraps and yard trimmings — into a designated green bin provided by the city.\n\nThe program is part of a broader strategy to divert organic waste from landfills, which currently account for nearly 40% of the city's total waste output. City officials estimate that the initiative could reduce greenhouse gas emissions by 25% over the next decade.\n\nResidents who fail to comply with the new rules may receive a warning for the first offence, followed by a fine of up to $150 for repeated violations. The city will offer free educational workshops throughout the month of June to help residents understand what materials can and cannot be composted.",
@@ -19,11 +20,17 @@
         "q": "The word 'divert' in the second paragraph is closest in meaning to:",
         "opts": ["increase", "redirect", "destroy", "monitor"],
         "ans": 1
+      },
+      {
+        "q": "Based on the passage, what can be inferred about residents who do not attend the city's composting workshops?",
+        "opts": ["They will automatically receive a fine", "They may find it harder to know which materials are compostable", "They will be exempt from the new composting rules", "They will receive printed guides in the mail instead"],
+        "ans": 1
       }
     ]
   },
   {
     "id": "R002",
+    "part": 0,
     "title": "Remote Work Policy Update",
     "category": "workplace",
     "text": "Following a two-year pilot program, Greenfield Solutions has announced a permanent hybrid work policy for all full-time employees. Under the new policy, staff are required to work from the office a minimum of two days per week, while retaining the flexibility to work remotely for the remaining days.\n\nThe decision was based on an internal survey in which 78% of employees reported higher job satisfaction under hybrid arrangements compared to fully in-office work. However, managers expressed concern that fully remote teams showed lower levels of collaboration and mentorship.\n\nThe company will provide a monthly stipend of $75 to help employees cover home office expenses such as internet and ergonomic equipment. Employees wishing to work remotely more than three days per week must submit a formal request to their department head for approval.",
@@ -42,11 +49,17 @@
         "q": "The word 'stipend' in the final paragraph is closest in meaning to:",
         "opts": ["penalty", "allowance", "contract", "requirement"],
         "ans": 1
+      },
+      {
+        "q": "What does the passage suggest about managers' views on fully remote work?",
+        "opts": ["They strongly support it because it reduces office costs", "They are concerned it weakens teamwork and employee development", "They believe it increases productivity across all departments", "They think it should replace the hybrid model entirely"],
+        "ans": 1
       }
     ]
   },
   {
     "id": "R003",
+    "part": 0,
     "title": "City Transit Expansion",
     "category": "civic",
     "text": "The Regional Transit Authority has approved a $2.4 billion plan to expand the city's rapid transit network over the next eight years. The project includes the construction of two new subway lines, 24 additional stations, and 15 kilometres of new elevated track.\n\nPlanners anticipate that the expansion will reduce average commute times by up to 18 minutes for residents in the city's eastern and northern neighbourhoods, which are currently underserved by public transportation.\n\nConstruction is set to begin in the spring and will be carried out in phases to minimize disruption to existing services. Residents near construction zones will receive advance notice and can access detailed project timelines through the authority's website. Some road closures and detours should be expected throughout the construction period.",
@@ -65,11 +78,17 @@
         "q": "The word 'underserved' suggests that these neighbourhoods:",
         "opts": ["have too many transit options", "are located far from the city", "do not receive adequate public services", "were recently built"],
         "ans": 2
+      },
+      {
+        "q": "What can be inferred about residents living near construction zones?",
+        "opts": ["They will be asked to temporarily relocate during construction", "They will be kept informed and should expect some road disruptions", "They will receive financial compensation for the inconvenience", "They will have access to free transit passes during the construction period"],
+        "ans": 1
       }
     ]
   },
   {
     "id": "R004",
+    "part": 0,
     "title": "Tenant Protection Act",
     "category": "civic",
     "text": "The provincial government has introduced new legislation to strengthen tenant protections across the region. Under the Tenant Protection Act, landlords will be required to provide a minimum of 90 days' written notice before a rent increase takes effect. The allowable annual rent increase will also be capped at 2.5%, regardless of market conditions.\n\nThe Act also introduces stronger protections against eviction. Landlords who wish to reclaim a unit for personal use must provide supporting documentation and a minimum of six months' notice. Tenants who believe they have been wrongfully evicted can now apply to a newly established Rental Dispute Tribunal.\n\nHousing advocates have praised the legislation as a significant step forward, though some landlord associations have raised concerns that the restrictions may discourage investment in rental housing construction.",
@@ -88,11 +107,17 @@
         "q": "The word 'cap' as used in the passage means to:",
         "opts": ["increase gradually", "set a maximum limit on", "calculate the average of", "remove entirely"],
         "ans": 1
+      },
+      {
+        "q": "Based on the passage, which group is LEAST likely to support the Tenant Protection Act?",
+        "opts": ["Renters who have recently received an eviction notice", "Housing advocates working with low-income tenants", "Landlords who plan to build new rental units", "Tenants currently involved in a dispute with their landlord"],
+        "ans": 2
       }
     ]
   },
   {
     "id": "R005",
+    "part": 0,
     "title": "Library Digital Services",
     "category": "daily",
     "text": "The Westdale Public Library has expanded its digital services to meet growing demand from residents who prefer accessing resources from home. Members can now borrow up to 10 e-books and 5 audiobooks simultaneously through the library's app, with loan periods of three weeks.\n\nIn addition to reading materials, the library has launched an online learning platform that provides free access to over 2,000 courses in topics ranging from language learning and coding to business and personal finance. The platform is available to all library card holders at no additional cost.\n\nLibrary staff note that while digital services have grown significantly, physical attendance at branches has also remained steady. Many residents continue to use the library for in-person study space, community programs, and access to computers and printing services for those without home devices.",
@@ -111,11 +136,17 @@
         "q": "According to the passage, which statement about physical library attendance is TRUE?",
         "opts": ["It has declined significantly since digital services expanded", "It has remained stable despite the growth of digital services", "It has completely replaced digital service use", "It is only used by people without internet access"],
         "ans": 1
+      },
+      {
+        "q": "What does the passage suggest about library members who do not have computers or internet at home?",
+        "opts": ["They are not eligible to borrow digital resources", "They can still access library services by visiting in person", "They will receive a free device from the library", "They must pay an additional fee to use library computers"],
+        "ans": 1
       }
     ]
   },
   {
     "id": "R006",
+    "part": 0,
     "title": "Workplace Safety Regulations",
     "category": "workplace",
     "text": "The provincial government has updated its workplace safety regulations, introducing stricter requirements for employers in high-risk industries such as construction, manufacturing, and healthcare. Under the new rules, all employers must conduct a formal hazard assessment at least once per year and submit a written report to their regional safety authority.\n\nEmployers are also now required to provide safety training to new employees within the first week of employment. Previously, the requirement was within the first 30 days. Workers who identify unsafe conditions have the right to refuse work without loss of pay until the issue is resolved.\n\nInspectors will conduct unannounced visits to workplaces to check compliance, and companies that fail to meet standards may face fines of up to $50,000. Repeat offenders could face temporary suspension of their operating licence.",
@@ -134,11 +165,17 @@
         "q": "The word 'unannounced' in the final paragraph means the inspections will be:",
         "opts": ["conducted at night", "carried out without prior notice", "performed by volunteers", "limited to large companies"],
         "ans": 1
+      },
+      {
+        "q": "What can be inferred about a company that has already been fined once for non-compliance?",
+        "opts": ["It will be required to retrain all of its employees immediately", "It faces the risk of having its operating licence suspended if violations continue", "It will no longer be subject to unannounced inspections", "It must submit monthly safety reports to the government"],
+        "ans": 1
       }
     ]
   },
   {
     "id": "R007",
+    "part": 0,
     "title": "Urban Green Space Initiative",
     "category": "civic",
     "text": "A new report released by the City Planning Department recommends transforming at least 15% of the city's paved surfaces into green space over the next 20 years. The proposal includes converting underused parking lots, widening sidewalks with tree canopies, and creating small neighbourhood parks in densely built areas.\n\nResearch cited in the report indicates that access to green space is associated with reduced stress levels, lower rates of chronic disease, and stronger social cohesion in communities. The report also highlights environmental benefits, including reduced urban heat, improved air quality, and better management of stormwater runoff.\n\nThe initiative is expected to cost approximately $180 million over the 20-year period. City staff have proposed funding the project through a combination of development charges, federal grants, and an annual contribution from the city's capital budget.",
@@ -157,11 +194,17 @@
         "q": "How does the city plan to fund the initiative?",
         "opts": ["Entirely through federal grants", "Only through property tax increases", "Through development charges, federal grants, and capital budget contributions", "By selling unused city-owned land"],
         "ans": 2
+      },
+      {
+        "q": "Based on the report, which type of area would benefit most from the green space initiative?",
+        "opts": ["Suburban neighbourhoods with large private gardens", "Densely built urban areas with limited existing green space", "Rural communities on the city's outskirts", "Industrial zones near the city's waterfront"],
+        "ans": 1
       }
     ]
   },
   {
     "id": "R008",
+    "part": 0,
     "title": "Consumer Protection Update",
     "category": "consumer",
     "text": "New consumer protection regulations that came into effect this month give buyers greater rights when purchasing goods and services online. Under the updated rules, online retailers must clearly display total costs — including all taxes, fees, and shipping charges — before a customer confirms a purchase. Hidden fees added after checkout are now prohibited.\n\nCustomers also have an expanded right of return. For most online purchases, buyers now have 30 days to return goods for any reason and receive a full refund, up from the previous 14-day window. Items must be returned in their original condition, but retailers cannot charge restocking fees for standard returns.\n\nBusiness groups have raised concerns that the regulations may increase operating costs, particularly for smaller retailers. Consumer advocacy groups, however, argue that clearer pricing and fairer return policies are long overdue.",
@@ -180,11 +223,17 @@
         "q": "The word 'prohibited' in the first paragraph means:",
         "opts": ["required", "recommended", "not allowed", "unclear"],
         "ans": 2
+      },
+      {
+        "q": "What does the reaction of business groups suggest about the new regulations?",
+        "opts": ["The regulations will likely be reversed within a year", "Complying with the regulations may increase costs for some sellers", "Most businesses already followed these practices voluntarily", "Small businesses will benefit more than large retailers"],
+        "ans": 1
       }
     ]
   },
   {
     "id": "R009",
+    "part": 0,
     "title": "Immigration Settlement Services",
     "category": "immigration",
     "text": "The federal government has announced a $45 million funding increase for immigration settlement services over the next three years. The funding will be distributed to community organizations that provide language training, employment assistance, and social integration support to newcomers.\n\nSettlement workers play a key role in helping new immigrants navigate systems such as healthcare, education, and housing. Research shows that newcomers who access settlement services within their first year in Canada are significantly more likely to find stable employment and report higher levels of life satisfaction compared to those who do not.\n\nDemand for settlement services has increased sharply in recent years due to higher immigration targets and the arrival of refugees from several countries. Service providers note that waitlists for language training programs, in particular, have grown to several months in many cities, highlighting the need for additional investment.",
@@ -203,11 +252,17 @@
         "q": "Why have settlement service waitlists grown in recent years?",
         "opts": ["Services have been cut due to budget constraints", "Higher immigration targets and refugee arrivals have increased demand", "Many settlement workers have left the profession", "The government moved services online"],
         "ans": 1
+      },
+      {
+        "q": "Based on the passage, what would most likely happen to a newcomer who does not access settlement services in their first year?",
+        "opts": ["They would be required to reapply for immigration status", "They might face greater difficulty finding stable employment", "They would lose eligibility for future government support", "They would be assigned a settlement worker automatically"],
+        "ans": 1
       }
     ]
   },
   {
     "id": "R010",
+    "part": 0,
     "title": "Electric Vehicle Incentive Program",
     "category": "environment",
     "text": "The provincial government has expanded its electric vehicle incentive program, offering rebates of up to $5,000 for the purchase or lease of a new fully electric vehicle. Plug-in hybrid vehicles are also eligible for a smaller rebate of up to $2,500. The incentive applies to vehicles priced below $55,000 and is available to both individual buyers and businesses.\n\nTo qualify, buyers must be residents of the province and must not have previously claimed the rebate. The vehicle must be registered in the province within 30 days of purchase. The rebate is applied at the point of sale, meaning buyers do not need to submit a separate application after the fact.\n\nProvincial officials noted that electric vehicle registrations have grown by 40% year over year. However, access to public charging infrastructure remains uneven, with rural areas receiving fewer investments than urban centres. The government has committed to installing 500 new charging stations across the province by the end of next year.",
@@ -226,7 +281,417 @@
         "q": "What challenge with electric vehicles does the passage highlight?",
         "opts": ["The vehicles are too expensive for most buyers", "Charging infrastructure is uneven, especially in rural areas", "The rebate program has run out of funding", "Electric vehicles are not available in all provinces"],
         "ans": 1
+      },
+      {
+        "q": "Based on the passage, which person would NOT be eligible for the electric vehicle rebate?",
+        "opts": ["A business owner buying a $50,000 fully electric van", "A resident purchasing a $54,000 plug-in hybrid", "A person who previously claimed the rebate buying a second electric car", "A new resident who registered their address in the province two months ago"],
+        "ans": 2
+      }
+    ]
+  },
+  {
+    "id": "R011",
+    "part": 4,
+    "title": "Should Downtown Parking Fees Be Increased?",
+    "category": "civic",
+    "intro": "The city of Millbrook is considering raising parking fees in the downtown core from $3 to $8 per hour to reduce traffic congestion and encourage transit use. Residents have shared a range of views.",
+    "comments": [
+      { "name": "Karen Osei", "text": "Higher parking fees are exactly what this city needs. If driving downtown becomes more expensive, people will finally start using the bus and LRT. We can't keep building roads and parking garages forever — it's not sustainable." },
+      { "name": "Derek Fontaine", "text": "This is just another way to squeeze money out of ordinary people. Not everyone can take transit — I work early mornings and the buses don't run then. Raising fees punishes workers, not wealthy commuters." },
+      { "name": "Priya Mehta", "text": "I support the idea in principle, but only if the extra revenue is reinvested directly into expanding transit routes and hours. Without that commitment, the policy just creates hardship without fixing the underlying problem." },
+      { "name": "Tom Wiśniewski", "text": "My concern is the impact on small businesses downtown. When parking gets too expensive, customers shop online or go to suburban malls instead. We've seen that happen in other cities, and it's not good for local merchants." }
+    ],
+    "questions": [
+      {
+        "q": "Which person believes that higher parking fees would encourage more people to use public transit?",
+        "opts": ["Derek Fontaine", "Karen Osei", "Tom Wiśniewski", "Priya Mehta"],
+        "ans": 1
+      },
+      {
+        "q": "Derek Fontaine's main objection to higher parking fees is that:",
+        "opts": ["the fees would be used inefficiently by the city", "downtown businesses would lose customers", "not all workers have access to transit at the times they need it", "the current fee of $3 is already too high"],
+        "ans": 2
+      },
+      {
+        "q": "What condition does Priya Mehta place on her support for the policy?",
+        "opts": ["The fees must not apply to electric vehicles", "The revenue must be used to improve transit services", "The increase must be phased in gradually over several years", "Businesses must be consulted before the policy takes effect"],
+        "ans": 1
+      },
+      {
+        "q": "Which person would most likely agree with the statement: \"Changes to parking policy could harm the economic vitality of the city centre\"?",
+        "opts": ["Karen Osei", "Priya Mehta", "Derek Fontaine", "Tom Wiśniewski"],
+        "ans": 3
+      }
+    ]
+  },
+  {
+    "id": "R012",
+    "part": 4,
+    "title": "Should Landlords Be Required to Allow Pets?",
+    "category": "housing",
+    "intro": "The provincial government is considering legislation that would prevent landlords from including \"no-pets\" clauses in residential lease agreements. The proposal has prompted strong reactions from renters and property owners alike.",
+    "comments": [
+      { "name": "Simone Tremblay", "text": "This legislation is long overdue. Renters with pets are constantly turned away from perfectly good units, and it forces people to choose between their home and their animal companions. Pets are part of the family." },
+      { "name": "Gerald Hawkins", "text": "As a landlord, I have a right to protect my property. Pet damage — scratched floors, stained carpets, lingering odours — is real and costly. No law should force me to accept that risk in a unit I own." },
+      { "name": "Lucia Ferreira", "text": "I'd support this if the law also required tenants to carry pet liability insurance and pay a refundable pet deposit. That way landlords have financial protection without being able to ban pets outright." },
+      { "name": "Raj Patel", "text": "I'm less concerned about the principle than the enforcement. Who decides whether pet damage is beyond normal wear and tear? Without clear standards, this will just lead to more disputes at the Landlord and Tenant Board." }
+    ],
+    "questions": [
+      {
+        "q": "Which person most strongly supports the proposed legislation without any conditions?",
+        "opts": ["Gerald Hawkins", "Lucia Ferreira", "Simone Tremblay", "Raj Patel"],
+        "ans": 2
+      },
+      {
+        "q": "Gerald Hawkins opposes the legislation primarily because:",
+        "opts": ["he believes pets disturb other tenants", "he is concerned about the cost of repairing pet-related damage", "he thinks landlords already allow pets voluntarily", "he disagrees with government involvement in rental agreements"],
+        "ans": 1
+      },
+      {
+        "q": "What specific safeguard does Lucia Ferreira suggest should accompany the legislation?",
+        "opts": ["A limit on the number of pets per unit", "A government fund to cover landlord repair costs", "A requirement for pet liability insurance and a refundable deposit", "Annual inspections of units where pets are kept"],
+        "ans": 2
+      },
+      {
+        "q": "Raj Patel's concern suggests he believes the legislation would most likely lead to:",
+        "opts": ["a reduction in available rental housing", "increased legal disputes between landlords and tenants", "higher rents for all tenants regardless of pet ownership", "landlords selling their properties rather than renting them"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R013",
+    "part": 4,
+    "title": "Should Public Libraries Lend Video Games?",
+    "category": "community",
+    "intro": "Several municipalities across Canada are debating whether public libraries should expand their lending programs to include video games and gaming consoles. The proposal has divided community members.",
+    "comments": [
+      { "name": "Fatima Al-Rashid", "text": "Libraries have always evolved with the times — from books to DVDs to e-books. Video games are a legitimate art form and an important part of modern culture. Making them accessible to everyone, regardless of income, is exactly what public libraries are for." },
+      { "name": "Bruce Calloway", "text": "Libraries are already underfunded. Every dollar spent on gaming consoles and titles is a dollar not spent on books, literacy programs, or community meeting spaces. This is a misuse of public money." },
+      { "name": "Yuki Tanaka", "text": "I support it, as long as the library focuses on educational and family-friendly titles rather than violent games. There's real value in strategy games, puzzle games, and interactive learning tools for children." },
+      { "name": "Melissa Grant", "text": "My main question is practical: video games get outdated fast, and consoles need regular replacement. Has anyone actually looked at the long-term maintenance costs? I'd want to see a pilot program with a full cost-benefit analysis before committing." }
+    ],
+    "questions": [
+      {
+        "q": "Which person argues that lending video games aligns with the traditional purpose of public libraries?",
+        "opts": ["Bruce Calloway", "Fatima Al-Rashid", "Melissa Grant", "Yuki Tanaka"],
+        "ans": 1
+      },
+      {
+        "q": "Bruce Calloway's main concern is that:",
+        "opts": ["video games are inappropriate for a public setting", "funding games would come at the expense of more essential library services", "children would spend too much time gaming instead of reading", "the library does not have enough space for gaming equipment"],
+        "ans": 1
+      },
+      {
+        "q": "What type of video games does Yuki Tanaka consider acceptable for library lending?",
+        "opts": ["Popular titles regardless of content", "Only games produced by Canadian developers", "Educational and family-friendly games", "Games rated for adults only"],
+        "ans": 2
+      },
+      {
+        "q": "Which person would most likely agree that the library board should gather more data before making a final decision?",
+        "opts": ["Fatima Al-Rashid", "Bruce Calloway", "Yuki Tanaka", "Melissa Grant"],
+        "ans": 3
+      }
+    ]
+  },
+  {
+    "id": "R020",
+    "part": 3,
+    "title": "Understanding Employment Insurance in Canada",
+    "category": "government",
+    "text": "Paragraph A\nEmployment Insurance (EI) is a federal program that provides temporary income support to Canadians who have lost their job through no fault of their own. To be eligible, you must have worked a minimum number of insurable hours in the past 52 weeks. The exact number of hours required depends on the unemployment rate in your region — areas with higher unemployment typically require fewer hours to qualify.\n\nParagraph B\nApplying for EI is done entirely online through the Government of Canada website. You will need your Social Insurance Number, banking information for direct deposit, and details about your employment history, including the name of your last employer and your reason for separation. Most applicants receive a decision within 28 days of submitting their claim.\n\nParagraph C\nOnce approved, EI benefits are calculated at 55% of your average insurable weekly earnings, up to a maximum set by the government each year. Payments are made every two weeks. You must continue to meet eligibility requirements throughout the benefit period, which means actively looking for work and reporting any income you earn while receiving benefits.\n\nParagraph D\nCertain life situations allow you to access special EI benefits beyond the standard employment insurance. These include maternity and parental benefits for new parents, sickness benefits for those unable to work due to illness or injury, and compassionate care benefits for people who must take time off to care for a seriously ill family member. Each type has its own eligibility criteria and maximum duration.",
+    "questions": [
+      {
+        "q": "Which paragraph explains how the amount of EI payments is determined?",
+        "opts": ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
+        "ans": 2
+      },
+      {
+        "q": "According to Paragraph A, what factor affects how many hours a person needs to qualify for EI?",
+        "opts": ["The type of job the person held", "The unemployment rate in their region", "The number of years they have worked", "Whether they quit or were laid off"],
+        "ans": 1
+      },
+      {
+        "q": "According to Paragraph B, what document is required when applying for EI?",
+        "opts": ["A letter from a previous employer confirming dismissal", "A record of all jobs held in the past five years", "A Social Insurance Number", "Proof of Canadian citizenship"],
+        "ans": 2
+      },
+      {
+        "q": "The word 'separation' in Paragraph B refers to:",
+        "opts": ["moving to a different city for work", "ending an employment relationship", "taking an unpaid leave of absence", "transferring to another department"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R021",
+    "part": 3,
+    "title": "Types of Rental Arrangements in Canada",
+    "category": "housing",
+    "text": "Paragraph A\nA fixed-term lease is a rental agreement that covers a set period, most commonly 12 months. During this time, neither the landlord nor the tenant can end the agreement early without penalty, unless specific conditions outlined in the lease are met. At the end of the term, the lease either converts to a month-to-month arrangement or is renewed for another fixed period, depending on what both parties agree to.\n\nParagraph B\nA month-to-month tenancy offers more flexibility than a fixed-term lease. Either the landlord or the tenant can end the agreement by giving proper notice — typically 60 days for a tenant and longer for a landlord, depending on provincial rules. Rent can also be reviewed more frequently, though increases must still follow the limits set by provincial legislation.\n\nParagraph C\nSublet arrangements occur when a tenant temporarily rents their unit to another person while retaining their own lease. The original tenant remains legally responsible for rent and any damage caused by the subtenant. Most leases require the landlord's written permission before subletting, and some landlords may refuse if the lease prohibits it.\n\nParagraph D\nRoom rentals, sometimes called boarding arrangements, involve renting a single room within a property where the landlord also lives. These arrangements are often less formal than full-unit leases and may not be covered by the same tenant protection laws. Prospective tenants should clarify what is included — such as kitchen access, utilities, and shared spaces — before agreeing to terms.",
+    "questions": [
+      {
+        "q": "Which paragraph describes a situation where a tenant lets someone else live in their unit temporarily?",
+        "opts": ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
+        "ans": 2
+      },
+      {
+        "q": "According to Paragraph A, what happens at the end of a fixed-term lease?",
+        "opts": ["The tenant must immediately vacate the unit", "The landlord can increase rent by any amount", "The lease converts to month-to-month or is renewed", "The tenant loses any deposit paid at the start"],
+        "ans": 2
+      },
+      {
+        "q": "According to Paragraph D, why should tenants in a room rental clarify terms in advance?",
+        "opts": ["Room rentals always cost more than full-unit leases", "These arrangements may have fewer legal protections and unclear inclusions", "Landlords in room rentals can evict tenants without notice", "Room rentals are not permitted in most Canadian provinces"],
+        "ans": 1
+      },
+      {
+        "q": "The word 'retaining' in Paragraph C is closest in meaning to:",
+        "opts": ["transferring", "cancelling", "keeping", "sharing"],
+        "ans": 2
+      }
+    ]
+  },
+  {
+    "id": "R022",
+    "part": 3,
+    "title": "Waste Sorting in Canadian Municipalities",
+    "category": "civic",
+    "text": "Paragraph A\nGarbage, or residual waste, refers to items that cannot be recycled, composted, or reused. Most municipalities collect garbage on a weekly or biweekly schedule using grey or black bins. Items commonly placed in garbage include broken ceramics, soiled food packaging, and non-recyclable plastics. Many cities have introduced limits on the amount of garbage a household can put out each collection day to encourage waste reduction.\n\nParagraph B\nRecycling programs collect materials that can be processed and turned into new products. Common recyclables include paper, cardboard, glass bottles, metal cans, and many plastic containers. Items must generally be clean and dry before being placed in the recycling bin. Contamination — putting non-recyclable items in the blue bin — is one of the biggest challenges recycling programs face, as it can cause entire loads to be sent to landfill.\n\nParagraph C\nOrganics collection, often managed through a green bin program, diverts food waste and yard trimmings from landfills. Accepted materials typically include fruit and vegetable scraps, coffee grounds, eggshells, and grass clippings. Composted organics are processed into nutrient-rich soil amendments used in parks, farms, and gardens. Some municipalities also accept compostable packaging, though this varies by region.\n\nParagraph D\nHazardous household waste — such as batteries, paint, motor oil, and fluorescent light bulbs — requires special handling because it can be harmful to people and the environment if disposed of incorrectly. Most municipalities operate drop-off depots where residents can bring these items for safe processing. Some communities also hold scheduled collection events throughout the year to make disposal more convenient.",
+    "questions": [
+      {
+        "q": "Which paragraph explains how food scraps and yard waste are handled?",
+        "opts": ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
+        "ans": 2
+      },
+      {
+        "q": "According to Paragraph B, what is one major problem with recycling programs?",
+        "opts": ["Not enough households participate in recycling", "Recycling bins are not large enough for most households", "Contamination from non-recyclable items reduces program effectiveness", "Recyclable materials take too long to process into new products"],
+        "ans": 2
+      },
+      {
+        "q": "According to Paragraph D, how can residents dispose of hazardous household waste?",
+        "opts": ["Place it in a clearly labelled garbage bag on collection day", "Bring it to a municipal drop-off depot or scheduled collection event", "Mix it with regular recycling for special processing", "Contact a private waste removal company"],
+        "ans": 1
+      },
+      {
+        "q": "The word 'diverts' in Paragraph C is closest in meaning to:",
+        "opts": ["collects", "redirects away from", "increases", "breaks down"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R014",
+    "part": 1,
+    "title": "Annual Unit Inspection Notice",
+    "category": "housing",
+    "text": "Subject: Notice of Annual Unit Inspection — Suite 4B\n\nDear Resident,\n\nThis letter is to inform you that we will be conducting our annual inspection of your unit at 112 Elmwood Avenue on Thursday, October 17th, between 10:00 a.m. and 12:00 p.m. The purpose of this inspection is to check the general condition of the unit and identify any maintenance issues that require attention.\n\nYou are not required to be present during the inspection, but you are welcome to stay if you prefer. Please ensure that all areas of the unit, including storage closets and the balcony, are accessible to our maintenance staff.\n\nIf the scheduled date is not convenient for you, please contact our office by October 10th to arrange an alternative time. We will make every effort to accommodate your schedule.\n\nThank you for your cooperation.\n\nSincerely,\nDarla Hooper\nProperty Manager, Elmwood Residential",
+    "questions": [
+      {
+        "q": "What is the main purpose of this letter?",
+        "opts": ["To inform the tenant of a rent increase", "To notify the tenant of a scheduled inspection", "To report a maintenance problem in the unit", "To ask the tenant to renew their lease"],
+        "ans": 1
+      },
+      {
+        "q": "What must the tenant do if October 17th does not work for them?",
+        "opts": ["Wait for a new notice to be sent", "Contact the office before October 10th", "Leave a note on their door on the day of the inspection", "Call the maintenance staff directly"],
+        "ans": 1
+      },
+      {
+        "q": "According to the letter, which area of the unit must be made accessible?",
+        "opts": ["Only the kitchen and bathrooms", "Only the main living areas", "All areas including storage closets and the balcony", "Only rooms that have reported problems"],
+        "ans": 2
+      },
+      {
+        "q": "The letter implies that the tenant:",
+        "opts": ["is required to be home during the inspection", "has previously refused an inspection", "has the option to be absent when the inspection takes place", "must clean the unit before the inspection"],
+        "ans": 2
+      }
+    ]
+  },
+  {
+    "id": "R015",
+    "part": 1,
+    "title": "Road Construction Parking Notice",
+    "category": "civic",
+    "text": "Subject: Temporary Parking Restrictions — Birchwood Crescent Resurfacing Project\n\nDear Birchwood Crescent Resident,\n\nThe City of Lakeview will be resurfacing Birchwood Crescent from Maple Drive to Cedar Hill Road beginning Monday, November 4th. Work is expected to take approximately ten business days to complete, weather permitting.\n\nDuring this period, parking on both sides of Birchwood Crescent will be suspended between 7:00 a.m. and 6:00 p.m. on weekdays. Vehicles that remain on the street during restricted hours will be towed at the owner's expense. Overnight parking (6:00 p.m. to 7:00 a.m.) and weekend parking will not be affected.\n\nResidents who do not have access to off-street parking may apply for a temporary permit to use the Lakeview Community Centre parking lot at 88 Riverside Drive, free of charge. Applications must be submitted online at lakeview.ca/permits or in person at City Hall by October 30th.\n\nWe apologize for the inconvenience and thank you for your patience as we work to improve your neighbourhood.\n\nCity of Lakeview Transportation Department",
+    "questions": [
+      {
+        "q": "What is the main reason for the parking restrictions?",
+        "opts": ["A new housing development is being built nearby", "The road on Birchwood Crescent is being resurfaced", "A community event is taking place on the street", "Emergency utility repairs are being carried out"],
+        "ans": 1
+      },
+      {
+        "q": "What will happen to vehicles left on the street during restricted hours?",
+        "opts": ["They will receive a parking ticket", "They will be towed at the owner's expense", "They will be moved to the community centre lot", "The owner will be contacted by phone"],
+        "ans": 1
+      },
+      {
+        "q": "Where can residents without off-street parking apply for a temporary permit?",
+        "opts": ["At the Birchwood Crescent construction office", "At the Lakeview Community Centre directly", "Online at lakeview.ca/permits or in person at City Hall", "By calling the Transportation Department"],
+        "ans": 2
+      },
+      {
+        "q": "A resident who works Monday to Friday and parks on Birchwood Crescent every night would most likely need to:",
+        "opts": ["find alternative parking only on weekends", "apply for a temporary permit or arrange off-street parking on weekdays", "avoid the street entirely for ten months", "contact the city to request an exemption from the restrictions"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R016",
+    "part": 1,
+    "title": "Employee Benefits Plan Changes",
+    "category": "workplace",
+    "text": "Subject: Important Changes to Your Employee Benefits Plan — Action Required by December 1st\n\nDear Team Member,\n\nAs part of our annual benefits review, Northgate Financial Services will be transitioning to a new benefits provider effective January 1st. Most of your current coverage will remain unchanged; however, there are several updates you should be aware of.\n\nFirst, the dental coverage maximum will increase from $1,500 to $2,000 per calendar year. Orthodontic coverage, which was previously excluded, will now be available for dependants under the age of 18, up to a lifetime maximum of $3,000 per dependent.\n\nSecond, employees who currently use paramedical services — such as physiotherapy, massage therapy, or chiropractic care — will be required to re-register their preferred providers through the new provider's online portal before their first claim in the new year. Claims submitted without prior provider registration will be delayed.\n\nTo ensure uninterrupted coverage, all employees must log in to the new benefits portal at northgatebenefits.ca and confirm their personal and dependent information by December 1st. Employees who do not complete this step by the deadline may experience a gap in coverage at the start of the new year.\n\nPlease contact HR at benefits@northgatefs.ca if you have any questions.\n\nHuman Resources\nNorthgate Financial Services",
+    "questions": [
+      {
+        "q": "What is the main purpose of this email?",
+        "opts": ["To announce the company's annual performance review process", "To inform employees of upcoming changes to their benefits plan", "To introduce a new HR management system", "To remind employees to submit their expense claims"],
+        "ans": 1
+      },
+      {
+        "q": "Under the new plan, which group is newly eligible for orthodontic coverage?",
+        "opts": ["All employees regardless of age", "Employees who have been with the company for over five years", "Dependants under the age of 18", "Retirees and former employees"],
+        "ans": 2
+      },
+      {
+        "q": "What must employees who use physiotherapy or massage therapy do before making a claim in the new year?",
+        "opts": ["Obtain a referral from their family doctor", "Submit receipts from the current year before December 1st", "Re-register their providers through the new portal", "Switch to providers approved by Northgate Financial Services"],
+        "ans": 2
+      },
+      {
+        "q": "The phrase \"gap in coverage\" in the final paragraph most likely means that the employee would:",
+        "opts": ["receive a reduced salary during the transition period", "temporarily lose access to their benefits", "need to pay higher premiums under the new plan", "be required to attend an additional orientation session"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R017",
+    "part": 2,
+    "title": "Clearwater Community Pool — Schedule & Fees",
+    "category": "community",
+    "tableHeaders": ["Session", "Days", "Time", "Adult (18+)", "Youth (13–17)", "Child (3–12)", "Senior (65+)"],
+    "tableRows": [
+      ["Early Bird Lap Swim", "Mon–Fri", "6:00–8:00 a.m.", "$5.50", "$4.00", "N/A", "$3.50"],
+      ["Morning Family Swim", "Sat–Sun", "8:00–10:00 a.m.", "$6.00", "$4.50", "$3.00", "$4.00"],
+      ["Leisure Swim", "Daily", "10:00 a.m.–12:00 p.m.", "$6.50", "$5.00", "$3.50", "$4.50"],
+      ["Aquafit Class", "Mon/Wed/Fri", "12:00–1:00 p.m.", "$8.00", "$6.00", "N/A", "$6.00"],
+      ["Afternoon Lap Swim", "Mon–Fri", "1:00–4:00 p.m.", "$5.50", "$4.00", "N/A", "$3.50"],
+      ["Evening Family Swim", "Daily", "6:00–8:00 p.m.", "$6.00", "$4.50", "$3.00", "$4.00"],
+      ["Lane Rentals (per lane/hour)", "Daily", "By appointment", "$22.00", "N/A", "N/A", "N/A"]
+    ],
+    "notes": [
+      "Children under 3 are admitted free when accompanied by a paying adult.",
+      "A 10% discount applies to all drop-in fees when purchasing a 10-visit pass.",
+      "Aquafit Class is not available to children under 13."
+    ],
+    "questions": [
+      {
+        "q": "What is the drop-in fee for an adult attending the Evening Family Swim?",
+        "opts": ["$5.50", "$6.00", "$6.50", "$8.00"],
+        "ans": 1
+      },
+      {
+        "q": "On which days is the Aquafit Class available?",
+        "opts": ["Every day", "Monday, Wednesday, and Friday only", "Weekdays only", "Saturday and Sunday only"],
+        "ans": 1
+      },
+      {
+        "q": "A senior who buys a 10-visit pass for Early Bird Lap Swim would pay how much per visit?",
+        "opts": ["$3.15", "$3.50", "$4.50", "$5.50"],
+        "ans": 0
+      },
+      {
+        "q": "Marcus wants to bring his 2-year-old daughter to Saturday morning Family Swim. He will pay:",
+        "opts": ["$6.00 for himself and $3.00 for his daughter", "$6.00 for himself only, as his daughter is free", "$9.00 total for both", "$3.00 for his daughter only"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R018",
+    "part": 2,
+    "title": "City of Harborview — Waste Collection Schedule",
+    "category": "civic",
+    "tableHeaders": ["Collection Type", "Zone A", "Zone B", "Zone C", "Zone D"],
+    "tableRows": [
+      ["Garbage (grey bin)", "Monday", "Tuesday", "Wednesday", "Thursday"],
+      ["Blue Box Recycling", "Monday", "Wednesday", "Thursday", "Friday"],
+      ["Green Bin (organics)", "Monday & Thursday", "Tuesday & Friday", "Wednesday & Saturday", "Thursday & Sunday"],
+      ["Yard Waste (seasonal)", "Wednesday", "Wednesday", "Thursday", "Thursday"],
+      ["Large Item Pickup", "First Monday of month", "First Tuesday of month", "First Wednesday of month", "First Thursday of month"]
+    ],
+    "notes": [
+      "When a statutory holiday falls on a collection day, all collections that week shift one day later (e.g., Monday becomes Tuesday).",
+      "Bins must be placed at the curb by 7:00 a.m. on collection day. Bins set out after 7:00 a.m. will not be collected until the next scheduled pickup.",
+      "Large items must be registered online at harborview.ca/largeitems at least 48 hours before the scheduled pickup date."
+    ],
+    "questions": [
+      {
+        "q": "On which days does Zone B have its Green Bin (organics) collected?",
+        "opts": ["Monday and Thursday", "Tuesday and Friday", "Wednesday and Saturday", "Thursday and Sunday"],
+        "ans": 1
+      },
+      {
+        "q": "A resident in Zone C wants to put out a large item for pickup. When is their scheduled Large Item Pickup day?",
+        "opts": ["First Monday of the month", "First Tuesday of the month", "First Wednesday of the month", "First Thursday of the month"],
+        "ans": 2
+      },
+      {
+        "q": "A statutory holiday falls on a Tuesday. A Zone B resident whose garbage is normally collected on Tuesday should expect their collection to occur on:",
+        "opts": ["Monday", "Tuesday as usual", "Wednesday", "The following Tuesday"],
+        "ans": 2
+      },
+      {
+        "q": "A Zone A resident sets their blue box out at 7:30 a.m. on Monday. Based on the notes, what will most likely happen?",
+        "opts": ["The bin will be collected later the same day", "The bin will be collected on the next scheduled pickup", "The resident will receive a warning notice", "The bin will be collected on Tuesday instead"],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "id": "R019",
+    "part": 2,
+    "title": "Harborview Municipal Parking — Rate Schedule",
+    "category": "civic",
+    "tableHeaders": ["Lot", "Location", "Rate (per hour)", "Daily Maximum", "Evening Flat Rate (after 5 p.m.)", "Monthly Pass"],
+    "tableRows": [
+      ["Lot A", "City Hall (King St.)", "$4.00", "$28.00", "$7.00", "$140.00"],
+      ["Lot B", "Central Library (Queen Ave.)", "$3.00", "$20.00", "$5.00", "$110.00"],
+      ["Lot C", "Waterfront Park (Lakeshore Blvd.)", "$2.50", "$15.00", "$4.00", "$90.00"],
+      ["Lot D", "Transit Hub (Main St.)", "$2.00", "$12.00", "$3.00", "$75.00"],
+      ["Lot E", "Hospital (Birch Rd.)", "$3.50", "$18.00", "$5.00", "N/A"]
+    ],
+    "notes": [
+      "Seniors (65+) and persons with a valid disability permit receive a 50% discount on hourly rates only. Daily maximums, evening flat rates, and monthly passes are not discounted.",
+      "Monthly passes are not available for Lot E (Hospital). Hospital visitors may validate their parking ticket at the main reception desk for a $2.00 reduction on stays under 2 hours.",
+      "Overnight parking (10:00 p.m.–6:00 a.m.) is prohibited in all lots except Lot D."
+    ],
+    "questions": [
+      {
+        "q": "What is the daily maximum charge at the Central Library parking lot (Lot B)?",
+        "opts": ["$15.00", "$18.00", "$20.00", "$28.00"],
+        "ans": 2
+      },
+      {
+        "q": "A senior parks at Lot A for 3 hours during the day. How much will they pay?",
+        "opts": ["$6.00", "$8.00", "$12.00", "$4.00"],
+        "ans": 0
+      },
+      {
+        "q": "Which lot is the only one that permits overnight parking?",
+        "opts": ["Lot A", "Lot C", "Lot D", "Lot E"],
+        "ans": 2
+      },
+      {
+        "q": "A hospital visitor parks in Lot E for 90 minutes and validates their ticket at reception. How much will they pay?",
+        "opts": ["$3.50", "$5.25", "$3.25", "$1.75"],
+        "ans": 2
       }
     ]
   }
 ]
+

@@ -55,5 +55,5 @@ See `CHANGELOG.md` for reviewer-facing notes on recent behavior changes.
 ## Data Files
 
 - `data/vocab.json` — 150 vocabulary words with quiz questions
-- `data/reading.json` — 10 reading passages with 3 questions each
+- `data/reading.json` — 22 reading passages with 4 questions each; part 0 = general info article (10), part 1 = correspondence (3), part 2 = diagram/table (3), part 3 = reading for information A/B/C/D paragraphs (3), part 4 = viewpoints (3)
 - `data/writing.json` — 20 writing prompts (Task 1 and Task 2)
