@@ -677,8 +677,8 @@ function getLvPct(xp) {
 // ── Session config ────────────────────────────────────────────────────────
 const SCFG = [
   {id:1,icon:'🐾',title:'Session 1 — Vocabulary',desc:'Study 5 words first, then take a mixed quiz.',time:'~6 min',xp:40,type:'vocab'},
-  {id:2,icon:'📖',title:'Session 2 — Reading & Quiz',desc:'Short passage + 3 CELPIP-style questions.',time:'~5 min',xp:50,type:'reading'},
-  {id:3,icon:'✏️',title:'Session 3 — Writing Task',desc:'One writing prompt + self-assessment.',time:'~8 min',xp:60,type:'writing'},
+  {id:2,icon:'📖',title:'Session 2 — Reading & Quiz',desc:'Rotating CELPIP-style reading parts + questions.',time:'~8 min',xp:50,type:'reading'},
+  {id:3,icon:'✏️',title:'Session 3 — Writing Task',desc:'Generated prompt + structured self-assessment.',time:'~10 min',xp:60,type:'writing'},
 ]
 
 // ── Tab switching ─────────────────────────────────────────────────────────
@@ -994,8 +994,55 @@ window.nxtV = function(qi) {
 }
 
 // ── READING ───────────────────────────────────────────────────────────────
+const CELPIP_READINGS = [
+  {
+    id:'CR1-001', part:'Part 1', kind:'Reading Correspondence', time:'~11 min',
+    title:'Email from Your Building Manager',
+    text:"Subject: Water Shut-Off Notice\n\nDear Residents,\n\nPlease be advised that water service will be temporarily interrupted this Thursday from 9:00 a.m. to 1:00 p.m. while technicians replace a damaged valve in the main supply line. During this time, sinks, showers, laundry machines, and dishwashers will not be available.\n\nResidents are encouraged to store enough water for drinking and basic household needs before the shut-off begins. The building gym and common room will remain open, but washrooms in those areas will also be affected.\n\nIf the repair takes longer than expected, we will send an update by email and post a notice in the lobby. We apologize for the inconvenience and appreciate your patience.",
+    questions:[
+      {q:'Why will the water be shut off?',opts:['The city is testing new meters','A damaged valve must be replaced','Residents used too much water','The gym washrooms are being renovated'],ans:1},
+      {q:'What should residents do before Thursday morning?',opts:['Book the common room','Store water for basic needs','Avoid using the elevator','Call the building manager'],ans:1},
+      {q:'Which area will remain open but still have limited washroom access?',opts:['The parking garage','The building gym','The laundry room','The management office'],ans:1},
+      {q:'What will management do if the repair is delayed?',opts:['Offer hotel rooms','Send an update and post a notice','Cancel the repair','Visit each unit'],ans:1}
+    ]
+  },
+  {
+    id:'CR2-001', part:'Part 2', kind:'Reading to Apply a Diagram', time:'~9 min',
+    title:'Community Centre Schedule',
+    text:"Spring Registration Schedule\n\nProgram | Day | Time | Room | Fee\nYoga Basics | Monday | 6:00 p.m. | Studio A | $75\nResume Workshop | Tuesday | 7:00 p.m. | Room 204 | Free\nFamily Swim | Wednesday | 5:30 p.m. | Pool | $20 per family\nCitizenship Prep | Thursday | 6:30 p.m. | Room 110 | Free\nBeginner Painting | Saturday | 10:00 a.m. | Art Room | $95\n\nRegistration opens online on March 3. Free programs still require registration because space is limited.",
+    questions:[
+      {q:'Which free program is held on Thursday?',opts:['Resume Workshop','Citizenship Prep','Yoga Basics','Family Swim'],ans:1},
+      {q:'Where does the Resume Workshop take place?',opts:['Studio A','Room 204','Room 110','Art Room'],ans:1},
+      {q:'A parent wants an activity for the whole family. Which program best fits?',opts:['Family Swim','Beginner Painting','Citizenship Prep','Resume Workshop'],ans:0},
+      {q:'Why must people register for free programs?',opts:['Payment is collected later','The rooms may change','Space is limited','Only members can attend'],ans:2}
+    ]
+  },
+  {
+    id:'CR3-001', part:'Part 3', kind:'Reading for Information', time:'~10 min',
+    title:'Preparing for Winter Driving',
+    text:"A. Winter driving requires preparation before the first snowfall. Drivers should check tire pressure, windshield wipers, and battery condition, since cold weather can make existing problems worse.\n\nB. Emergency supplies are also important. A small kit with a flashlight, blanket, phone charger, scraper, and non-perishable snacks can help drivers stay safe if they are delayed or stranded.\n\nC. Safe driving habits matter as much as equipment. Drivers should leave extra space, brake gradually, and avoid sudden lane changes on icy roads.\n\nD. Local transportation officials remind residents that snowplows need room to operate. Parking restrictions during snow removal are enforced to keep major routes clear and reduce delays.",
+    questions:[
+      {q:'Which paragraph explains what to keep in the vehicle?',opts:['A','B','C','D'],ans:1},
+      {q:'Which paragraph focuses on driving behaviour?',opts:['A','B','C','D'],ans:2},
+      {q:'Why are parking restrictions enforced during snow removal?',opts:['To collect extra fees','To keep routes clear','To reserve spaces for officials','To encourage carpooling'],ans:1},
+      {q:'The word "stranded" is closest in meaning to:',opts:['delayed without help','fully prepared','driving quickly','parked illegally'],ans:0}
+    ]
+  },
+  {
+    id:'CR4-001', part:'Part 4', kind:'Reading for Viewpoints', time:'~13 min',
+    title:'Should the City Add More Bike Lanes?',
+    text:"The city is considering converting one lane of traffic on several downtown streets into protected bike lanes. Supporters argue that safer cycling routes would reduce congestion, improve air quality, and give residents a practical alternative to driving. Business groups, however, worry that fewer parking spaces could reduce customer visits.\n\nResident Comments\nMaya: I support the plan because many people would cycle if they felt safer on busy streets.\nDaniel: I am not against cycling, but businesses need convenient parking for customers.\nPriya: The city should improve transit first because winter makes cycling unrealistic for many residents.\nOwen: Protected lanes are worth trying, especially if the city measures traffic and business impacts after six months.",
+    questions:[
+      {q:'Who clearly supports safer cycling routes?',opts:['Maya','Daniel','Priya','Owen'],ans:0},
+      {q:'Who is most concerned about parking and customers?',opts:['Maya','Daniel','Priya','Owen'],ans:1},
+      {q:'Who suggests a trial period with measurement?',opts:['Maya','Daniel','Priya','Owen'],ans:3},
+      {q:'What is Priya\'s main concern?',opts:['Cycling is too expensive','Transit should be improved first','Businesses oppose all changes','Bike lanes reduce air quality'],ans:1}
+    ]
+  }
+]
+
 function startReading(panel) {
-  QS.passage = READING[S.readingBatch % READING.length]
+  QS.passage = CELPIP_READINGS[S.readingBatch % CELPIP_READINGS.length]
   QS.qIdx=0; QS.correct=0
   renderPassage(panel)
 }
@@ -1005,8 +1052,8 @@ function renderPassage(panel) {
   const paras=r.text.split('\n\n').map(p=>`<p>${p.trim()}</p>`).join('')
   panel.innerHTML=`
     <div class="card glow">
-      <div class="qtop"><span class="qtag">📖 Reading</span><button class="qclose" onclick="closeQ()">×</button></div>
-      <div class="pbar"><div class="pt"><div class="pf" id="rp" style="width:0%"></div></div><span class="plbl" id="rpl">Q 1/3</span></div>
+      <div class="qtop"><span class="qtag">📖 ${r.part} — ${r.kind}</span><button class="qclose" onclick="closeQ()">×</button></div>
+      <div class="pbar"><div class="pt"><div class="pf" id="rp" style="width:0%"></div></div><span class="plbl" id="rpl">Q 1/${r.questions.length}</span></div>
       <div class="passage"><div class="ptitle">${r.title}</div><div class="pbody">${paras}</div></div>
       <div id="rqw"></div>
     </div>`
@@ -1020,13 +1067,13 @@ function renderRQ(qi) {
     <button class="opt" id="ro${qi}_${i}" onclick="ansR(${qi},${i},${q.ans})">
       <span class="ol">${L[i]}</span>${o}
     </button>`).join('')
-  document.getElementById('rp').style.width=(qi/3*100)+'%'
-  document.getElementById('rpl').textContent=`Q ${qi+1}/3`
+  document.getElementById('rp').style.width=(qi/QS.passage.questions.length*100)+'%'
+  document.getElementById('rpl').textContent=`Q ${qi+1}/${QS.passage.questions.length}`
   document.getElementById('rqw').innerHTML=`
     <div class="qtext"><strong>Q${qi+1}.</strong> ${q.q}</div>
     <div class="opts">${opts}</div>
     <div id="rfb${qi}" class="fb"></div>
-    <button id="rnxt${qi}" class="nxt" onclick="nxtR(${qi})">${qi<2?'Next →':'Finish ✓'}</button>`
+    <button id="rnxt${qi}" class="nxt" onclick="nxtR(${qi})">${qi<QS.passage.questions.length-1?'Next →':'Finish ✓'}</button>`
 }
 
 window.ansR = function(qi,chosen,correct) {
@@ -1054,14 +1101,14 @@ window.ansR = function(qi,chosen,correct) {
 }
 
 window.nxtR = function(qi) {
-  if(qi<2){ renderRQ(qi+1) }
+  if(qi<QS.passage.questions.length-1){ renderRQ(qi+1) }
   else {
     S.readingBatch++; save()
     document.getElementById('qpanel').innerHTML=`
       <div class="card teal" style="text-align:center;padding:22px">
         <div style="font-size:38px;margin-bottom:10px">📖</div>
         <div style="font-size:17px;font-weight:800;margin-bottom:5px">Reading Complete!</div>
-        <div style="font-size:13px;color:var(--t2);margin-bottom:15px">${QS.correct}/3 correct · +${QS.correct*8} XP</div>
+        <div style="font-size:13px;color:var(--t2);margin-bottom:15px">${QS.correct}/${QS.passage.questions.length} correct · +${QS.correct*8} XP</div>
         <button class="btn btn-p" style="margin:0" onclick="completeSession()">Mark Session 2 Complete →</button>
       </div>`
     renderHome()
@@ -1069,8 +1116,38 @@ window.nxtR = function(qi) {
 }
 
 // ── WRITING ───────────────────────────────────────────────────────────────
+const TASK1_TEMPLATES = [
+  {tone:'complaint',to:'your landlord',situation:'The heating in your rented apartment has not worked for a week.',points:['Describe the problem with the heating','Explain how it is affecting your daily life','Request that it be fixed by a specific date'],checks:['heating','week','cold','fix','repair','date']},
+  {tone:'request',to:'your manager',situation:'You need to take an unexpected week off work because of a family emergency.',points:['Explain why you need time off','Give the dates you will be away','Suggest how your work can be covered'],checks:['emergency','week','dates','cover','work','away']},
+  {tone:'apology',to:'your neighbour',situation:'You borrowed an item from your neighbour and accidentally damaged it.',points:['Apologize for the damage','Explain what happened','Offer to repair or replace the item'],checks:['sorry','apologize','damage','happened','repair','replace']},
+  {tone:'inquiry',to:'a city recreation office',situation:'You want to register your child for a summer program but need more information.',points:['Explain which program you are interested in','Ask about fees and schedules','Request information about registration'],checks:['program','fees','schedule','register','information','child']},
+  {tone:'complaint',to:'customer service',situation:'You ordered a product online, but it arrived late and damaged.',points:['Describe the order and delivery problem','Explain why this caused inconvenience','Request a refund or replacement'],checks:['order','late','damaged','inconvenience','refund','replacement']}
+]
+
+const TASK2_TEMPLATES = [
+  {situation:'A city survey asks whether an unused downtown parking lot should become a public park.',points:['Option A: Keep the parking lot to support local businesses','Option B: Convert it into a public green space for residents'],checks:['park','parking','business','residents','support','because']},
+  {situation:'A workplace survey asks employees which work arrangement they prefer.',points:['Option A: Work entirely from home','Option B: Work in the office full time'],checks:['home','office','prefer','because','productivity','communication']},
+  {situation:'A school board asks whether elementary students should receive regular homework.',points:['Option A: Assign homework to build study habits','Option B: Eliminate homework to reduce stress'],checks:['homework','students','stress','habits','support','because']},
+  {situation:'A city survey asks whether public transit should be free and funded by higher taxes.',points:['Your task: Do you support or oppose free public transit?','Use specific reasons and examples to explain your view.'],checks:['transit','tax','support','oppose','because','example']},
+  {situation:'A government survey asks whether all new residential buildings should install solar panels.',points:['Your task: Do you support or oppose this requirement?','Give specific reasons and examples.'],checks:['solar','buildings','support','oppose','because','environment']}
+]
+
+function getWritingPrompt() {
+  const task2 = S.writingBatch % 3 === 1
+  const pool = task2 ? TASK2_TEMPLATES : TASK1_TEMPLATES
+  const base = pool[Math.floor(S.writingBatch / (task2 ? 3 : 1)) % pool.length]
+  return {
+    id:`${task2?'T2':'T1'}-GEN-${String(S.writingBatch+1).padStart(3,'0')}`,
+    type:task2?'task2':'task1',
+    situation:base.situation,
+    points:base.points,
+    tone:base.tone || 'opinion',
+    checks:base.checks,
+  }
+}
+
 function startWriting(panel) {
-  const w=WRITING[S.writingBatch % WRITING.length]
+  const w=getWritingPrompt()
   QS.prompt=w
   const pts=w.points.map(p=>`<li>${p}</li>`).join('')
   panel.innerHTML=`
@@ -1098,6 +1175,60 @@ window.updWC = function() {
   el.className='wc'+(c>=150&&c<=200?' good':c>200?' warn':'')
 }
 
+function cleanWords(text) {
+  return text.toLowerCase().replace(/[^a-z\s']/g,' ').split(/\s+/).filter(Boolean)
+}
+
+function hasAny(text, terms) {
+  const low = text.toLowerCase()
+  return terms.some(t => low.includes(t))
+}
+
+function clampScore(n) {
+  return Math.max(1, Math.min(12, Math.round(n)))
+}
+
+function scoreWriting(text, wc, w) {
+  const low = text.toLowerCase()
+  const words = cleanWords(text)
+  const sentences = text.split(/[.!?]+/).map(s=>s.trim()).filter(Boolean)
+  const paragraphs = text.split(/\n+/).map(p=>p.trim()).filter(Boolean)
+  const uniq = new Set(words).size
+  const variety = words.length ? uniq / words.length : 0
+  const connectors = ['because','however','therefore','for example','for instance','as a result','in addition','first','second','finally','although']
+  const connectorCount = connectors.filter(c => low.includes(c)).length
+  const coverage = (w.checks || []).filter(c => low.includes(c)).length
+  const coverageRatio = (w.checks || []).length ? coverage / w.checks.length : 0
+  const hasGreeting = /^(dear|hello|hi)\b/m.test(low)
+  const hasClosing = /(sincerely|regards|thank you|best regards|kind regards)/.test(low)
+  const hasRequest = /(could you|would you|please|i would appreciate|request|refund|replace|repair|fix|information)/.test(low)
+  const hasOpinion = /(i believe|i think|in my opinion|i support|i oppose|i prefer|my view)/.test(low)
+  const hasExample = /(for example|for instance|such as|in my experience)/.test(low)
+  const avgSentence = sentences.length ? wc / sentences.length : wc
+  const longSentence = sentences.some(s => cleanWords(s).length > 34)
+
+  let cc = 5 + Math.min(3, paragraphs.length) + Math.min(2, connectorCount) + Math.round(coverageRatio*2)
+  let voc = 5 + (variety > .68 ? 3 : variety > .55 ? 2 : 0) + Math.min(2, connectorCount) + (coverageRatio > .6 ? 1 : 0)
+  let rd = 5 + (sentences.length >= 4 ? 2 : 0) + (avgSentence >= 10 && avgSentence <= 26 ? 2 : 0) + (!longSentence ? 1 : 0) + ((text.match(/[.!?]/g)||[]).length >= 4 ? 1 : 0)
+  let tf = 4 + (wc >= 150 && wc <= 200 ? 3 : wc >= 120 && wc <= 230 ? 2 : 0) + Math.round(coverageRatio*3)
+
+  if (w.type === 'task1') {
+    tf += hasGreeting ? 1 : 0
+    tf += hasClosing ? 1 : 0
+    tf += hasRequest ? 1 : 0
+    cc += hasRequest ? 1 : 0
+  } else {
+    tf += hasOpinion ? 2 : 0
+    cc += hasOpinion ? 1 : 0
+    cc += hasExample ? 1 : 0
+  }
+
+  return {
+    cc:clampScore(cc), voc:clampScore(voc), rd:clampScore(rd), tf:clampScore(tf),
+    checks:{paragraphs, connectorCount, coverage, coverageRatio, hasGreeting, hasClosing, hasRequest, hasOpinion, hasExample, avgSentence, longSentence, variety}
+  }
+}
+
 window.submitW = function() {
   const ta=document.getElementById('wta')
   if(!ta) return
@@ -1105,14 +1236,9 @@ window.submitW = function() {
   const wc=text?text.split(/\s+/).length:0
   if(wc<30){alert('Please write at least a few sentences.');return}
   document.getElementById('wsubBtn').disabled=true
-  const hasPara=text.includes('\n')
-  const hasPunct=(text.match(/[.!?]/g)||[]).length>=3
-  const uniq=new Set(text.toLowerCase().split(/\s+/)).size
-  const variety=uniq/wc
-  const cc=(hasPara&&wc>=120)?rng(8,10):rng(5,8)
-  const voc=variety>0.65?rng(8,10):rng(5,8)
-  const rd=hasPunct?rng(8,10):rng(5,8)
-  const tf=(wc>=150&&wc<=200)?rng(9,11):rng(5,8)
+  const scored = scoreWriting(text, wc, QS.prompt)
+  const {cc,voc,rd,tf} = scored
+  const c = scored.checks
   const tot=cc+voc+rd+tf
   const cl=n=>n>=9?'hi':n>=7?'mid':'lo'
   const tips=[]
@@ -1120,18 +1246,37 @@ window.submitW = function() {
   if(wc<150) {
     tips.push('📝 A bit short. Aim for 150–200 words to fully address all points.')
     writingMistakes.push({kind:'writing_task_fulfillment',details:`Writing was ${wc} words; target is 150–200 words.`})
+  } else if(wc>200) {
+    tips.push('📝 A bit long. CELPIP writing expects a focused 150–200 word response.')
+    writingMistakes.push({kind:'writing_task_fulfillment',details:`Writing was ${wc} words; target is 150–200 words.`})
   }
-  if(!hasPara) {
+  if(c.paragraphs.length < 2) {
     tips.push('📝 Break your writing into clear paragraphs (opening, body, closing).')
-    writingMistakes.push({kind:'writing_coherence',details:'Writing did not include paragraph breaks.'})
+    writingMistakes.push({kind:'writing_coherence',details:'Writing did not include enough paragraph structure.'})
   }
-  if(variety<0.6) {
+  if(c.coverageRatio < .5) {
+    tips.push('📝 Cover more task details. Several required points were not clearly mentioned.')
+    writingMistakes.push({kind:'writing_task_fulfillment',details:'Several prompt-specific required details were missing.'})
+  }
+  if(QS.prompt.type==='task1' && (!c.hasGreeting || !c.hasClosing)) {
+    tips.push('📝 For Task 1, include a clear greeting and closing to match email format.')
+    writingMistakes.push({kind:'writing_task_fulfillment',details:'Task 1 email format was incomplete: missing greeting or closing.'})
+  }
+  if(QS.prompt.type==='task2' && !c.hasOpinion) {
+    tips.push('📝 For Task 2, state your opinion clearly near the beginning.')
+    writingMistakes.push({kind:'writing_coherence',details:'Task 2 response did not clearly state a position.'})
+  }
+  if(c.connectorCount < 2) {
+    tips.push('📝 Add connectors such as however, for example, as a result, and in addition.')
+    writingMistakes.push({kind:'writing_coherence',details:'Few linking words or transition phrases were used.'})
+  }
+  if(c.variety<0.6) {
     tips.push('📝 Some words are repeated. Try using synonyms to show vocabulary range.')
     writingMistakes.push({kind:'writing_vocabulary',details:'Vocabulary variety was low; repeated words appeared often.'})
   }
-  if(!hasPunct) {
-    tips.push('📝 Use periods and varied sentence lengths for better readability.')
-    writingMistakes.push({kind:'writing_readability',details:'Writing had too few sentence-ending punctuation marks.'})
+  if(c.longSentence || c.avgSentence > 28) {
+    tips.push('📝 Some sentences are too long. Split long ideas into clearer sentences.')
+    writingMistakes.push({kind:'writing_readability',details:'Average sentence length was high or at least one sentence was too long.'})
   }
   writingMistakes.forEach(m => recordMistake({
     area:'writing',

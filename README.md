@@ -31,6 +31,9 @@ git push -u origin main
 - 7-day activity strip + 28-day calendar
 - 150-word vocab bank with status tracking (new / reviewing / mastered)
 - Batch vocabulary study followed by a mixed quiz instead of one-word immediate checks
+- CELPIP-style reading practice rotating through correspondence, diagram/application, information, and viewpoints formats
+- Template-generated Task 1 / Task 2 writing prompts
+- Rule-based CELPIP-style writing assessment for task coverage, structure, vocabulary, readability, and task fulfillment
 - Browser text-to-speech buttons for vocabulary words, example sentences, and quiz prompts
 - Supabase Auth sign-in for cross-device progress sync
 - Mistake log for missed vocabulary/reading choices and writing weak-pattern feedback

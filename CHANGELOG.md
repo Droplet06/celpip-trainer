@@ -51,3 +51,10 @@
 - Vocabulary and reading multiple-choice mistakes now record the question, chosen answer, correct answer, and context.
 - Writing feedback now records weak-pattern events such as task length, paragraph/coherence issues, vocabulary repetition, and readability/punctuation issues.
 - Added a Recent Mistakes section to the Progress tab so learners can see whether recent problems came from quiz choices or writing feedback.
+
+### CELPIP-style non-AI practice upgrade
+- Replaced the generic reading passage session with four rotating CELPIP-style reading formats: correspondence, diagram/application, information, and viewpoints.
+- Increased reading practice to four questions per set and labels each set by CELPIP-style part and task type.
+- Added template-generated Task 1 and Task 2 writing prompts so writing practice can vary without calling an AI API.
+- Replaced random writing scores with a rule-based scorer that checks task-specific coverage, email format, opinion clarity, connectors, vocabulary variety, paragraphing, sentence length, punctuation, and word count.
+- Writing weak-pattern logging now uses the same rule checks that drive the score.
