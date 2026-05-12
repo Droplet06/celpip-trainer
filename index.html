@@ -995,6 +995,7 @@ window.nxtV = function(qi) {
 
 // ── READING ───────────────────────────────────────────────────────────────
 const CELPIP_READINGS = [
+  // ── Part 1: Reading Correspondence ──────────────────────────────────────
   {
     id:'CR1-001', part:'Part 1', kind:'Reading Correspondence', time:'~11 min',
     title:'Email from Your Building Manager',
@@ -1007,6 +1008,29 @@ const CELPIP_READINGS = [
     ]
   },
   {
+    id:'CR1-002', part:'Part 1', kind:'Reading Correspondence', time:'~11 min',
+    title:'Email: New Recycling Rules for Residents',
+    text:"Subject: Important Update — Recycling Changes Starting May 1\n\nDear Residents,\n\nBeginning May 1, our building will follow updated recycling guidelines issued by the city. These changes affect which items can be placed in the blue bins in the recycling room on each floor.\n\nPlastic bags, foam packaging, and greasy food containers must no longer be placed in blue bins. These items contaminate recyclable materials and result in entire loads being sent to landfill. Please place them in the regular garbage bins instead.\n\nClean cardboard, glass bottles, aluminum cans, and plastic bottles with a recycling symbol remain acceptable. Flatten all cardboard before placing it in the bin.\n\nA full list of accepted and rejected items will be posted in the recycling room and in the lobby. If you have questions, please contact the building office between 9:00 a.m. and 4:00 p.m., Monday to Friday.",
+    questions:[
+      {q:'What is the main purpose of this email?',opts:['To announce a rent increase','To inform residents of new recycling rules','To introduce a new building manager','To report a recycling bin shortage'],ans:1},
+      {q:'Why should plastic bags no longer go in the blue bins?',opts:['They take up too much space','They are now recycled separately','They contaminate other recyclable materials','The city has banned plastic entirely'],ans:2},
+      {q:'What should residents do with cardboard?',opts:['Leave it in the hallway','Place it in the garbage bin','Flatten it and put it in the blue bin','Bring it to the building office'],ans:2},
+      {q:'Where can residents find the full list of accepted items?',opts:['On the building website','In the recycling room and lobby','Sent by email next week','Available only at the office'],ans:1}
+    ]
+  },
+  {
+    id:'CR1-003', part:'Part 1', kind:'Reading Correspondence', time:'~11 min',
+    title:'Email: Library Card Renewal Notice',
+    text:"Subject: Your Library Card Expires Soon\n\nDear Library Member,\n\nOur records show that your library card will expire on June 30. To continue borrowing materials and accessing our online resources, please renew your card before that date.\n\nRenewal is free and can be completed in person at any branch or online through the library website. You will need to provide a current photo ID and proof of your home address, such as a utility bill or bank statement dated within the last three months.\n\nIf your card expires, any items currently on loan will not be affected, but you will not be able to borrow new materials or access digital databases until renewal is complete.\n\nThank you for being a valued member of the community library system.",
+    questions:[
+      {q:'What is the purpose of this email?',opts:['To charge a late fee','To remind the member to renew their library card','To announce new library hours','To request return of overdue books'],ans:1},
+      {q:'What does a member need to renew their card?',opts:['Their old library card and a fee','Photo ID and recent proof of address','A reference from another member','An appointment at the main branch'],ans:1},
+      {q:'What happens to items already on loan if the card expires?',opts:['They must be returned immediately','The borrower is charged a fine','The items are not affected','They are automatically renewed'],ans:2},
+      {q:'Where can a member renew their card?',opts:['Only at the main branch','Only online','At any branch or online','By mail only'],ans:2}
+    ]
+  },
+  // ── Part 2: Reading to Apply a Diagram ──────────────────────────────────
+  {
     id:'CR2-001', part:'Part 2', kind:'Reading to Apply a Diagram', time:'~9 min',
     title:'Community Centre Schedule',
     text:"Spring Registration Schedule\n\nProgram | Day | Time | Room | Fee\nYoga Basics | Monday | 6:00 p.m. | Studio A | $75\nResume Workshop | Tuesday | 7:00 p.m. | Room 204 | Free\nFamily Swim | Wednesday | 5:30 p.m. | Pool | $20 per family\nCitizenship Prep | Thursday | 6:30 p.m. | Room 110 | Free\nBeginner Painting | Saturday | 10:00 a.m. | Art Room | $95\n\nRegistration opens online on March 3. Free programs still require registration because space is limited.",
@@ -1017,6 +1041,29 @@ const CELPIP_READINGS = [
       {q:'Why must people register for free programs?',opts:['Payment is collected later','The rooms may change','Space is limited','Only members can attend'],ans:2}
     ]
   },
+  {
+    id:'CR2-002', part:'Part 2', kind:'Reading to Apply a Diagram', time:'~9 min',
+    title:'Bus Schedule — Route 47 Downtown Express',
+    text:"Route 47 — Downtown Express: Weekday Schedule\n\nStop | Morning Departures | Afternoon Departures\nPinewood Terminal | 7:05 / 7:35 / 8:05 | 4:10 / 4:40 / 5:10\nMaple & 3rd | 7:12 / 7:42 / 8:12 | 4:17 / 4:47 / 5:17\nCity Hall | 7:25 / 7:55 / 8:25 | 4:30 / 5:00 / 5:30\nCentral Station | 7:33 / 8:03 / 8:33 | 4:38 / 5:08 / 5:38\n\nNotes:\n— No service on statutory holidays.\n— Route 47 does not run on weekends. Use Route 12 on Saturdays and Sundays.\n— Bikes are permitted on the 7:05 a.m. departure only.",
+    questions:[
+      {q:'What time does the first bus of the day leave Pinewood Terminal?',opts:['6:50 a.m.','7:05 a.m.','7:12 a.m.','7:25 a.m.'],ans:1},
+      {q:'A commuter boards at Maple & 3rd at 7:42 a.m. When will they arrive at Central Station?',opts:['7:55 a.m.','8:03 a.m.','8:12 a.m.','8:33 a.m.'],ans:1},
+      {q:'Which statement about bringing a bike is correct?',opts:['Bikes are never allowed on Route 47','Bikes are allowed on all morning buses','Bikes are only allowed on the 7:05 a.m. bus','Bikes require a separate ticket'],ans:2},
+      {q:'A passenger needs to travel on Saturday. What should they do?',opts:['Take Route 47 at 7:05 a.m.','Use Route 12 instead','Wait for a holiday schedule','Check the city website for detours'],ans:1}
+    ]
+  },
+  {
+    id:'CR2-003', part:'Part 2', kind:'Reading to Apply a Diagram', time:'~9 min',
+    title:'Tenant Rights — Summary Chart',
+    text:"Your Rights as a Tenant in Ontario\n\nSituation | Your Right | Landlord's Obligation\nRent increase | Receive 90 days written notice | Give notice using official form\nRepairs needed | Request repairs in writing | Complete within reasonable time\nEntry by landlord | Receive 24 hours written notice | Enter only between 8 a.m. and 8 p.m.\nEviction notice | Receive written notice with reason | Use official eviction form\nDeposit | Pay first and last month only | Cannot charge more than two months\n\nSource: Ontario Landlord and Tenant Board, 2024.",
+    questions:[
+      {q:'How much notice must a landlord give before raising the rent?',opts:['24 hours','30 days','60 days','90 days'],ans:3},
+      {q:'Under what condition may a landlord enter a tenant\'s unit?',opts:['At any time with a key','With 24 hours notice, between 8 a.m. and 8 p.m.','After getting police permission','With one week advance notice'],ans:1},
+      {q:'What is the maximum deposit a landlord can require?',opts:['One month\'s rent','Two months\' rent','Three months\' rent','Whatever both parties agree to'],ans:1},
+      {q:'A tenant notices water damage in the bathroom. What is the correct first step?',opts:['Move out immediately','Call the city bylaw office','Request repairs in writing','Wait for the landlord to notice'],ans:2}
+    ]
+  },
+  // ── Part 3: Reading for Information ─────────────────────────────────────
   {
     id:'CR3-001', part:'Part 3', kind:'Reading for Information', time:'~10 min',
     title:'Preparing for Winter Driving',
@@ -1029,6 +1076,29 @@ const CELPIP_READINGS = [
     ]
   },
   {
+    id:'CR3-002', part:'Part 3', kind:'Reading for Information', time:'~10 min',
+    title:'Understanding Food Labels in Canada',
+    text:"A. The Nutrition Facts table on packaged food shows the amount of key nutrients per serving. Consumers should pay attention to serving size first, since all values in the table are based on that amount. Eating twice the serving size means consuming double the listed calories and nutrients.\n\nB. The % Daily Value (%DV) column helps shoppers understand whether a food is high or low in a nutrient. A %DV of 5% or less is considered low, while 15% or more is considered high. This is useful when comparing similar products.\n\nC. Ingredients are listed in descending order by weight. This means the first ingredient listed is present in the largest amount. Shoppers concerned about sugar, for example, should check whether sugar appears near the top of the ingredient list.\n\nD. Health Canada requires all packaged foods sold in Canada to display a Nutrition Facts table in both English and French. Imported products must add a bilingual label if the original packaging does not include one.",
+    questions:[
+      {q:'Which paragraph explains the %DV column?',opts:['A','B','C','D'],ans:1},
+      {q:'According to paragraph C, what does it mean if sugar is the first ingredient listed?',opts:['The product contains no artificial sugar','Sugar is present in the largest amount','Sugar was added after processing','The product meets Health Canada standards'],ans:1},
+      {q:'What must importers do if their product label is not bilingual?',opts:['Apply for an exemption','Add a bilingual label','Translate the original label online','Register with Health Canada'],ans:1},
+      {q:'The word "descending" in paragraph C is closest in meaning to:',opts:['alphabetical','going from largest to smallest','going from smallest to largest','random'],ans:1}
+    ]
+  },
+  {
+    id:'CR3-003', part:'Part 3', kind:'Reading for Information', time:'~10 min',
+    title:'How to Apply for a Canadian Passport',
+    text:"A. Canadian citizens may apply for a passport at a passport office, Service Canada location, or by mail. First-time applicants must apply in person. Adults applying for a renewal may be eligible to apply online if their previous passport was issued after age 16 and has not been reported lost or stolen.\n\nB. The standard processing time is 10 business days for in-person applications, or 20 business days for mail applications. Urgent and express services are available at passport offices for an additional fee. Processing times may be longer during peak periods such as spring and summer.\n\nC. All applicants need a completed application form, a recent passport photo, and proof of Canadian citizenship such as a birth certificate. Adults also need a valid government-issued photo ID. The guarantor section of the application must be signed by an eligible guarantor who has known the applicant for at least two years.\n\nD. Passport fees vary based on the applicant's age and the validity period. Adult passports are valid for either five or ten years. Children's passports are valid for five years only and cannot be extended.",
+    questions:[
+      {q:'Who must apply for a passport in person?',opts:['All Canadians','Only children under 16','First-time applicants','Adults renewing a lost passport'],ans:2},
+      {q:'How long does a mail application typically take to process?',opts:['5 business days','10 business days','20 business days','30 business days'],ans:2},
+      {q:'What is one requirement described in paragraph C?',opts:['Two passport photos','A guarantor who has known the applicant for at least two years','A reference letter from a government official','Proof of employment'],ans:1},
+      {q:'Which statement about children\'s passports is correct?',opts:['They are valid for ten years','They can be renewed by mail','They are valid for five years only','They require two guarantors'],ans:2}
+    ]
+  },
+  // ── Part 4: Reading for Viewpoints ──────────────────────────────────────
+  {
     id:'CR4-001', part:'Part 4', kind:'Reading for Viewpoints', time:'~13 min',
     title:'Should the City Add More Bike Lanes?',
     text:"The city is considering converting one lane of traffic on several downtown streets into protected bike lanes. Supporters argue that safer cycling routes would reduce congestion, improve air quality, and give residents a practical alternative to driving. Business groups, however, worry that fewer parking spaces could reduce customer visits.\n\nResident Comments\nMaya: I support the plan because many people would cycle if they felt safer on busy streets.\nDaniel: I am not against cycling, but businesses need convenient parking for customers.\nPriya: The city should improve transit first because winter makes cycling unrealistic for many residents.\nOwen: Protected lanes are worth trying, especially if the city measures traffic and business impacts after six months.",
@@ -1038,10 +1108,74 @@ const CELPIP_READINGS = [
       {q:'Who suggests a trial period with measurement?',opts:['Maya','Daniel','Priya','Owen'],ans:3},
       {q:'What is Priya\'s main concern?',opts:['Cycling is too expensive','Transit should be improved first','Businesses oppose all changes','Bike lanes reduce air quality'],ans:1}
     ]
+  },
+  {
+    id:'CR4-002', part:'Part 4', kind:'Reading for Viewpoints', time:'~13 min',
+    title:'Should Libraries Offer More Digital Services?',
+    text:"Many public libraries are shifting resources toward digital services, including e-books, online databases, and virtual programming. Advocates say these services reach more residents, including those who cannot travel to a branch. Critics argue that libraries should protect in-person services, which serve seniors, newcomers, and people without internet access.\n\nResident Comments\nLena: I think digital services are essential. I borrowed five e-books last month without leaving home.\nMarcos: Libraries should focus on people who rely on them in person. Not everyone can access digital tools.\nSophie: Both matter. I use the online catalogue but visit the branch for study space and community events.\nRay: The library should invest in better Wi-Fi inside branches before expanding digital services outside them.",
+    questions:[
+      {q:'Who strongly prefers digital library services?',opts:['Lena','Marcos','Sophie','Ray'],ans:0},
+      {q:'Who is most concerned about people who cannot use digital tools?',opts:['Lena','Marcos','Sophie','Ray'],ans:1},
+      {q:'Which person uses both digital and in-person services?',opts:['Lena','Marcos','Sophie','Ray'],ans:2},
+      {q:'What does Ray suggest the library should do first?',opts:['Buy more e-books','Improve Wi-Fi inside branches','Reduce in-person hours','Partner with schools'],ans:1}
+    ]
+  },
+  {
+    id:'CR4-003', part:'Part 4', kind:'Reading for Viewpoints', time:'~13 min',
+    title:'Should the City Require Landlords to License Rental Units?',
+    text:"A proposal before city council would require all landlords to obtain a licence for each rental unit they own. Supporters say licensing would ensure properties meet health and safety standards and give the city a way to track rental housing. Opponents argue the cost and paperwork would discourage landlords from renting, making the housing shortage worse.\n\nResident Comments\nCarla: I support licensing because tenants need a way to hold landlords accountable for unsafe conditions.\nTom: Licensing sounds good in theory, but landlords will just pass the fee on to tenants through higher rent.\nDiana: The city already has bylaw inspectors. A new licensing system would just create more bureaucracy.\nKevin: If licensing is introduced, the fees should be low and the process should be simple to avoid penalizing small landlords.",
+    questions:[
+      {q:'Who supports the licensing proposal and explains why tenants would benefit?',opts:['Carla','Tom','Diana','Kevin'],ans:0},
+      {q:'Who worries that licensing costs will be passed on to tenants?',opts:['Carla','Tom','Diana','Kevin'],ans:1},
+      {q:'What is Diana\'s main argument against licensing?',opts:['Rents will increase','The city already has inspection staff, so licensing is redundant','Landlords will sell their properties','Licensing only applies to large landlords'],ans:1},
+      {q:'What condition does Kevin place on supporting licensing?',opts:['All fees should go to tenant support','The process must be free','Fees should be low and the process simple','Only large landlords should be licensed'],ans:2}
+    ]
   }
 ]
 
+const READING_AI_PROMPTS = [
+  { part:'Part 1', kind:'Reading Correspondence', prompt:`Please write one CELPIP Reading Part 1 (Reading Correspondence) practice question set in English. Format:\n1. A realistic email or letter (landlord notice, workplace memo, community announcement, or service update) — 150 to 200 words.\n2. Four multiple-choice questions (A/B/C/D) with one correct answer each. Questions should test: main purpose, specific detail, inference, and vocabulary in context.\nProvide the answer key at the end. Make the content feel like a real Canadian daily-life scenario.` },
+  { part:'Part 2', kind:'Reading to Apply a Diagram', prompt:`Please write one CELPIP Reading Part 2 (Reading to Apply a Diagram) practice question set in English. Format:\n1. A realistic chart, schedule, or table (bus timetable, program registration schedule, fee chart, or tenant rights summary) — 8 to 12 rows of data.\n2. Four multiple-choice questions (A/B/C/D) that require reading the chart carefully. Include one question where the answer requires combining two pieces of information.\nProvide the answer key at the end.` },
+  { part:'Part 3', kind:'Reading for Information', prompt:`Please write one CELPIP Reading Part 3 (Reading for Information) practice question set in English. Format:\n1. An informational article with four labeled paragraphs (A, B, C, D) — about 200 words total. Topic should be practical Canadian life (health, government services, environment, housing, transportation).\n2. Four multiple-choice questions (A/B/C/D): one asking which paragraph covers a topic, two testing specific details, one testing vocabulary in context.\nProvide the answer key at the end.` },
+  { part:'Part 4', kind:'Reading for Viewpoints', prompt:`Please write one CELPIP Reading Part 4 (Reading for Viewpoints) practice question set in English. Format:\n1. A short introduction describing a community issue (2–3 sentences).\n2. Four named residents each giving a one- to two-sentence opinion. Make their viewpoints clearly different — support, oppose, conditional, practical concern.\n3. Four multiple-choice questions (A/B/C/D) asking: who supports/opposes, who gives a specific type of reason, what a specific person's concern is.\nProvide the answer key at the end. Topic ideas: curfews in parks, mandatory composting, school start times, workplace dress codes.` },
+]
+
+function pickReadingAIPrompt() {
+  const idx = S.readingBatch % READING_AI_PROMPTS.length
+  return READING_AI_PROMPTS[idx]
+}
+
+function renderReadingAIPrompt(panel) {
+  const p = pickReadingAIPrompt()
+  const promptText = p.prompt
+  panel.innerHTML = `
+    <div class="card glow">
+      <div class="qtop"><span class="qtag">📖 ${p.part} — ${p.kind}</span><button class="qclose" onclick="closeQ()">×</button></div>
+      <div style="text-align:center;padding:10px 0 6px">
+        <div style="font-size:28px;margin-bottom:8px">🤖</div>
+        <div style="font-size:15px;font-weight:800;margin-bottom:5px">Generate Today's Reading</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:14px">You've completed all built-in passages. Copy this prompt and paste it into Claude or ChatGPT to get a fresh ${p.part} question set.</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px;font-size:12px;color:var(--t2);line-height:1.7;white-space:pre-wrap;margin-bottom:10px" id="aiPromptBox">${promptText}</div>
+      <button class="btn btn-p" onclick="copyAIPrompt('reading')" style="margin-bottom:8px" id="copyReadingBtn">📋 Copy Prompt</button>
+      <button class="btn btn-o" onclick="completeSession()" style="margin-bottom:0">✓ Mark Reading Complete (no quiz)</button>
+    </div>`
+}
+
+window.copyAIPrompt = function(type) {
+  const box = document.getElementById('aiPromptBox')
+  if (!box) return
+  navigator.clipboard.writeText(box.textContent).then(() => {
+    const btn = document.getElementById(type === 'reading' ? 'copyReadingBtn' : 'copyWritingBtn')
+    if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => { btn.innerHTML = '📋 Copy Prompt' }, 2000) }
+  })
+}
+
 function startReading(panel) {
+  if (S.readingBatch >= CELPIP_READINGS.length) {
+    renderReadingAIPrompt(panel)
+    return
+  }
   QS.passage = CELPIP_READINGS[S.readingBatch % CELPIP_READINGS.length]
   QS.qIdx=0; QS.correct=0
   renderPassage(panel)
@@ -1121,7 +1255,12 @@ const TASK1_TEMPLATES = [
   {tone:'request',to:'your manager',situation:'You need to take an unexpected week off work because of a family emergency.',points:['Explain why you need time off','Give the dates you will be away','Suggest how your work can be covered'],checks:['emergency','week','dates','cover','work','away']},
   {tone:'apology',to:'your neighbour',situation:'You borrowed an item from your neighbour and accidentally damaged it.',points:['Apologize for the damage','Explain what happened','Offer to repair or replace the item'],checks:['sorry','apologize','damage','happened','repair','replace']},
   {tone:'inquiry',to:'a city recreation office',situation:'You want to register your child for a summer program but need more information.',points:['Explain which program you are interested in','Ask about fees and schedules','Request information about registration'],checks:['program','fees','schedule','register','information','child']},
-  {tone:'complaint',to:'customer service',situation:'You ordered a product online, but it arrived late and damaged.',points:['Describe the order and delivery problem','Explain why this caused inconvenience','Request a refund or replacement'],checks:['order','late','damaged','inconvenience','refund','replacement']}
+  {tone:'complaint',to:'customer service',situation:'You ordered a product online, but it arrived late and damaged.',points:['Describe the order and delivery problem','Explain why this caused inconvenience','Request a refund or replacement'],checks:['order','late','damaged','inconvenience','refund','replacement']},
+  {tone:'request',to:'your building manager',situation:'The elevator in your apartment building has been out of service for three days and you live on the 12th floor.',points:['Describe the problem and how long it has lasted','Explain the impact on yourself or other residents','Request a specific action or update'],checks:['elevator','floor','days','repair','inconvenience','request']},
+  {tone:'complaint',to:'a restaurant manager',situation:'You had a bad experience at a restaurant last weekend — the service was slow and your order was wrong.',points:['Describe what went wrong','Explain how it affected your experience','Suggest what the restaurant could do to make it right'],checks:['service','order','wrong','slow','experience','compensation']},
+  {tone:'inquiry',to:'a college admissions office',situation:'You are interested in applying to a college program but need more information before deciding.',points:['State which program you are interested in','Ask about admission requirements and deadlines','Request information about financial aid or scholarships'],checks:['program','admission','requirements','deadline','financial','scholarship']},
+  {tone:'request',to:'your city councillor',situation:'A stop sign has been missing at a dangerous intersection in your neighbourhood for several weeks.',points:['Describe the location and the missing sign','Explain the safety risk to pedestrians and drivers','Request that the city fix the problem urgently'],checks:['intersection','sign','safety','pedestrian','urgent','weeks']},
+  {tone:'apology',to:'your coworker',situation:'You missed an important team meeting because you forgot to check your calendar, and your absence caused problems for the team.',points:['Apologize for missing the meeting','Explain what happened','Offer to make up for it in a specific way'],checks:['meeting','missed','apologize','calendar','team','make up']},
 ]
 
 const TASK2_TEMPLATES = [
@@ -1129,8 +1268,58 @@ const TASK2_TEMPLATES = [
   {situation:'A workplace survey asks employees which work arrangement they prefer.',points:['Option A: Work entirely from home','Option B: Work in the office full time'],checks:['home','office','prefer','because','productivity','communication']},
   {situation:'A school board asks whether elementary students should receive regular homework.',points:['Option A: Assign homework to build study habits','Option B: Eliminate homework to reduce stress'],checks:['homework','students','stress','habits','support','because']},
   {situation:'A city survey asks whether public transit should be free and funded by higher taxes.',points:['Your task: Do you support or oppose free public transit?','Use specific reasons and examples to explain your view.'],checks:['transit','tax','support','oppose','because','example']},
-  {situation:'A government survey asks whether all new residential buildings should install solar panels.',points:['Your task: Do you support or oppose this requirement?','Give specific reasons and examples.'],checks:['solar','buildings','support','oppose','because','environment']}
+  {situation:'A government survey asks whether all new residential buildings should install solar panels.',points:['Your task: Do you support or oppose this requirement?','Give specific reasons and examples.'],checks:['solar','buildings','support','oppose','because','environment']},
+  {situation:'A community survey asks whether a new shopping mall should be built on the edge of your town, which would create jobs but increase traffic.',points:['Your task: Do you support or oppose the mall development?','Give at least two specific reasons for your position.'],checks:['mall','jobs','traffic','support','oppose','because']},
+  {situation:'Your city is debating whether to ban single-use plastic bags at all stores.',points:['Option A: Support the ban to reduce environmental waste','Option B: Oppose the ban because it creates costs for businesses and shoppers'],checks:['plastic','ban','environment','business','cost','support']},
+  {situation:'A school district survey asks whether all high school students should be required to complete 40 hours of community service to graduate.',points:['Your task: Do you support or oppose mandatory community service for graduation?','Use specific reasons and an example from your experience or knowledge.'],checks:['community','service','volunteer','graduate','support','oppose']},
+  {situation:'A city council is deciding whether to allow new high-rise apartment buildings in a quiet residential neighbourhood to address the housing shortage.',points:['Option A: Allow high-rises to increase housing supply','Option B: Protect the neighbourhood character and limit building height'],checks:['housing','apartment','neighbourhood','supply','height','support']},
+  {situation:'A government survey asks whether sugary drinks such as soda and energy drinks should be taxed more heavily to discourage consumption.',points:['Your task: Do you support or oppose a sugar tax on beverages?','Explain your view with at least two specific reasons.'],checks:['sugar','tax','health','beverage','support','oppose']},
 ]
+
+const WRITING_AI_PROMPTS = {
+  task1: `Please write one CELPIP Writing Task 1 (email writing) practice prompt in English. Format:\n1. A clear situation (1–2 sentences) describing who the writer is and who they are writing to.\n2. Three bullet points telling the writer what to include in the email.\nThe situation should reflect realistic Canadian daily life (housing, work, community services, consumer issues). Do not write the email — only provide the prompt. Keep the tone and difficulty consistent with the official CELPIP test.`,
+  task2: `Please write one CELPIP Writing Task 2 (opinion/survey response) practice prompt in English. Format:\n1. A clear situation (1–2 sentences) describing a survey or community issue.\n2. Two options (Option A and Option B) the writer must choose between, OR a single question asking them to support or oppose something.\nThe topic should reflect realistic Canadian community or civic life. Do not write the response — only provide the prompt. Keep difficulty consistent with the official CELPIP test.`,
+}
+
+function getWritingAIPrompt(type) {
+  return WRITING_AI_PROMPTS[type] || WRITING_AI_PROMPTS.task1
+}
+
+function renderWritingAIPrompt(panel, taskType) {
+  const promptText = getWritingAIPrompt(taskType)
+  const label = taskType === 'task2' ? 'Task 2 — Opinion' : 'Task 1 — Email'
+  panel.innerHTML = `
+    <div class="card glow">
+      <div class="qtop"><span class="qtag">✏️ Writing — ${label.toUpperCase()}</span><button class="qclose" onclick="closeQ()">×</button></div>
+      <div style="text-align:center;padding:10px 0 6px">
+        <div style="font-size:28px;margin-bottom:8px">🤖</div>
+        <div style="font-size:15px;font-weight:800;margin-bottom:5px">Generate Today's Writing Prompt</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:14px">You've completed all built-in writing prompts. Copy this and paste it into Claude or ChatGPT to get a new ${label} question.</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px;font-size:12px;color:var(--t2);line-height:1.7;white-space:pre-wrap;margin-bottom:10px" id="aiPromptBox">${promptText}</div>
+      <button class="btn btn-p" onclick="copyAIPrompt('writing')" style="margin-bottom:8px" id="copyWritingBtn">📋 Copy Prompt</button>
+      <div style="font-size:12px;color:var(--t3);text-align:center;margin-bottom:10px">Once you have your prompt, write your response below and submit for scoring.</div>
+      <div class="wsit"><strong>Your writing prompt</strong><textarea id="customPromptInput" placeholder="Paste the prompt from Claude/ChatGPT here…" style="min-height:80px;margin-top:8px" oninput="activateCustomPrompt()"></textarea></div>
+      <div class="whint"><span>150–200 words</span><span>${taskType==='task1'?'27 min':'26 min'}</span></div>
+      <textarea id="wta" placeholder="Write your response here…" oninput="updWC()"></textarea>
+      <div class="wcrow"><span class="wc" id="wcl">0 words</span><span style="font-size:11px;color:var(--t3)">Target: 150–200</span></div>
+      <button class="btn btn-p" id="wsubBtn" onclick="submitW()" disabled style="margin-bottom:8px;opacity:0.4">Submit for Feedback →</button>
+      <div id="wfb"></div>
+    </div>`
+  QS.prompt = { type: taskType, id: 'AI-GEN', situation: '', points: [], checks: [], tone: 'opinion' }
+}
+
+window.activateCustomPrompt = function() {
+  const val = (document.getElementById('customPromptInput')?.value || '').trim()
+  const btn = document.getElementById('wsubBtn')
+  if (!btn) return
+  if (val.length > 20) {
+    btn.disabled = false; btn.style.opacity = '1'
+    QS.prompt.situation = val
+  } else {
+    btn.disabled = true; btn.style.opacity = '0.4'
+  }
+}
 
 function getWritingPrompt() {
   const task2 = S.writingBatch % 3 === 1
@@ -1146,7 +1335,14 @@ function getWritingPrompt() {
   }
 }
 
+const WRITING_POOL_SIZE = TASK1_TEMPLATES.length + TASK2_TEMPLATES.length
+
 function startWriting(panel) {
+  if (S.writingBatch >= WRITING_POOL_SIZE) {
+    const taskType = S.writingBatch % 3 === 1 ? 'task2' : 'task1'
+    renderWritingAIPrompt(panel, taskType)
+    return
+  }
   const w=getWritingPrompt()
   QS.prompt=w
   const pts=w.points.map(p=>`<li>${p}</li>`).join('')
