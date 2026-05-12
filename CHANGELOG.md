@@ -23,3 +23,8 @@
 - Added a stable shuffled vocabulary order so the learner no longer starts with dictionary-style A/B/C sequencing.
 - Session 1 word batches and the Word Bank tab now use the same shuffled order.
 - The shuffled order is saved locally and only adds newly introduced vocabulary IDs later, so refreshes do not reshuffle the whole list.
+
+### Warm cat theme
+- Updated the visual theme from cool purple/blue to a warmer coral, amber, cream, and soft mint palette.
+- Added light cat/paw branding touches in the nav, level badges, and vocabulary session icon.
+- Kept the existing layout and learning flow unchanged while softening buttons, progress bars, and background tones.

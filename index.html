@@ -6,28 +6,29 @@
 <title>CELPIP Trainer</title>
 <style>
 :root {
-  --bg:#0d0f18; --s1:#141726; --s2:#1c2035; --s3:#242840;
-  --border:#2a2f50; --accent:#7c6ff7; --accent-glow:#7c6ff733;
-  --teal:#00c9a7; --teal-glow:#00c9a722;
-  --gold:#fbbf24; --red:#f43f5e; --green:#10b981;
-  --t1:#e8eaf6; --t2:#9196b5; --t3:#555a78;
+  --bg:#171016; --s1:#211821; --s2:#2b2029; --s3:#382a34;
+  --border:#5a4049; --accent:#ff8a65; --accent-glow:#ff8a6533;
+  --teal:#7ed6b5; --teal-glow:#7ed6b522;
+  --gold:#ffd166; --red:#ff6b7a; --green:#8bd7a5;
+  --t1:#fff7f0; --t2:#d7b8aa; --t3:#8d6f68;
   --radius:14px; --radius-sm:10px;
   --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--font);overflow-x:hidden}
+html,body{height:100%;background:linear-gradient(180deg,#1b1117 0%,var(--bg) 45%,#120d12 100%);color:var(--t1);font-family:var(--font);overflow-x:hidden}
 
 #shell{display:flex;flex-direction:column;min-height:100dvh;max-width:520px;margin:0 auto}
 
 /* nav */
 #topnav{
   position:sticky;top:0;z-index:50;
-  background:var(--bg)dd;backdrop-filter:blur(14px);
+  background:#171016e8;backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);
   padding:10px 16px;
   display:flex;align-items:center;justify-content:space-between;
 }
-.nav-brand{font-size:15px;font-weight:700}
+.nav-brand{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px}
+.nav-brand::before{content:'🐾';font-size:14px}
 .nav-brand span{color:var(--accent)}
 .nav-right{display:flex;align-items:center;gap:8px}
 .pill{
@@ -52,7 +53,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fon
 /* tab bar */
 #tabbar{
   position:sticky;bottom:0;
-  background:var(--s1)f2;backdrop-filter:blur(14px);
+  background:#211821f2;backdrop-filter:blur(14px);
   border-top:1px solid var(--border);
   display:grid;grid-template-columns:repeat(3,1fr);
   padding:8px 0 max(8px,env(safe-area-inset-bottom));
@@ -78,7 +79,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fon
 .xp-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:5px}
 .xp-meta span:last-child{color:var(--teal);font-weight:700}
 .xp-track{height:7px;background:var(--s3);border-radius:4px;overflow:hidden}
-.xp-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal));border-radius:4px;transition:width .8s cubic-bezier(.25,1,.5,1)}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold),var(--teal));border-radius:4px;transition:width .8s cubic-bezier(.25,1,.5,1)}
 
 /* stats */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
@@ -126,7 +127,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fon
 /* buttons */
 .btn{width:100%;padding:14px;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn:active{transform:scale(.98)}
-.btn-p{background:var(--accent);color:#fff}
+.btn-p{background:linear-gradient(135deg,var(--accent),#ffb36b);color:#fff7f0;box-shadow:0 8px 18px #ff8a6522}
 .btn-p:disabled{opacity:.3;cursor:not-allowed}
 .btn-o{background:transparent;color:var(--t2);border:1px solid var(--border)}
 .btn-o:hover{border-color:var(--accent);color:var(--t1)}
@@ -280,7 +281,7 @@ textarea::placeholder{color:var(--t3)}
 
 <div id="shell">
   <nav id="topnav">
-    <div class="nav-brand">CELPIP <span>Trainer</span></div>
+    <div class="nav-brand">CELPIP <span>Cat Coach</span></div>
     <div class="nav-right">
       <div class="pill pill-level" id="lvPill">Lv 1 🌱</div>
       <div class="pill pill-streak">🔥 <span id="strN">0</span></div>
@@ -459,10 +460,10 @@ if (S.sessionDate !== TODAY_STR) {
 
 // ── Levels ────────────────────────────────────────────────────────────────
 const LEVELS = [
-  {name:'Beginner',icon:'🌱',xp:0},
-  {name:'Explorer',icon:'🔍',xp:200},
+  {name:'Kitten',icon:'🐱',xp:0},
+  {name:'Curious',icon:'🐾',xp:200},
   {name:'Learner',icon:'📚',xp:500},
-  {name:'Skilled',icon:'⚡',xp:1000},
+  {name:'Nimble',icon:'✨',xp:1000},
   {name:'Expert',icon:'🏆',xp:2000},
 ]
 function getLevel(xp) {
@@ -479,7 +480,7 @@ function getLvPct(xp) {
 
 // ── Session config ────────────────────────────────────────────────────────
 const SCFG = [
-  {id:1,icon:'📚',title:'Session 1 — Vocabulary',desc:'Study 5 words first, then take a mixed quiz.',time:'~6 min',xp:40,type:'vocab'},
+  {id:1,icon:'🐾',title:'Session 1 — Vocabulary',desc:'Study 5 words first, then take a mixed quiz.',time:'~6 min',xp:40,type:'vocab'},
   {id:2,icon:'📖',title:'Session 2 — Reading & Quiz',desc:'Short passage + 3 CELPIP-style questions.',time:'~5 min',xp:50,type:'reading'},
   {id:3,icon:'✏️',title:'Session 3 — Writing Task',desc:'One writing prompt + self-assessment.',time:'~8 min',xp:60,type:'writing'},
 ]
