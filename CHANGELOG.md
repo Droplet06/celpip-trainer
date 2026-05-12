@@ -32,3 +32,16 @@
 ### Light theme refinement
 - Changed the warm cat theme from a dark warm background to a light cream background.
 - Adjusted cards, nav, tab bar, completed session states, overlay, and confetti colors to match the lighter palette.
+
+## 2026-05-12
+
+### Account login and cross-device sync
+- Added a Supabase Auth sign-in gate with email/password account creation, email/password sign-in, and magic-link sign-in.
+- Replaced the old per-browser random sync ID with the authenticated Supabase user ID, enabling progress sync across devices.
+- On first login, the app uploads existing browser progress if no cloud progress exists for that account.
+- Added sign-out from the top navigation account button.
+- Updated sync to include `vocab_order` when the database has the new column.
+
+### Supabase schema
+- Added `vocab_order` to `user_state` so the stable shuffled vocabulary order can sync across devices.
+- Updated row-level security policies so authenticated users can only access rows where `user_id` matches their Supabase Auth user ID.

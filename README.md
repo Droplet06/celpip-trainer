@@ -32,8 +32,17 @@ git push -u origin main
 - 150-word vocab bank with status tracking (new / reviewing / mastered)
 - Batch vocabulary study followed by a mixed quiz instead of one-word immediate checks
 - Browser text-to-speech buttons for vocabulary words, example sentences, and quiz prompts
-- All data stored in browser localStorage (no account needed)
+- Supabase Auth sign-in for cross-device progress sync
+- Signed-in progress syncs through Supabase, with browser localStorage kept as a local cache
 - Works offline after first load
+
+## Supabase Auth Setup
+
+1. In Supabase, open **Authentication → Providers** and make sure Email is enabled.
+2. In **Authentication → URL Configuration**, add your GitHub Pages URL and local preview URL to redirect URLs:
+   - `http://127.0.0.1:8000`
+   - your deployed GitHub Pages URL
+3. Run `supabase_schema.sql` in the Supabase SQL Editor so the auth-safe row policies and `vocab_order` column are installed.
 
 ## Change Log
 

@@ -47,6 +47,26 @@ html,body{height:100%;background:linear-gradient(180deg,#fff9f0 0%,var(--bg) 55%
 .sync-dot.busy{background:var(--gold);animation:blink .8s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
+.auth-btn{background:var(--s2);border:1px solid var(--border);border-radius:20px;color:var(--t2);font-size:11px;font-weight:800;padding:6px 10px;cursor:pointer}
+.auth-btn:hover{border-color:var(--accent);color:var(--accent)}
+.auth-email{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* auth */
+#authGate{display:none;min-height:100dvh;align-items:center;justify-content:center;padding:22px;background:linear-gradient(180deg,#fff9f0 0%,var(--bg) 55%,#ffe9d6 100%)}
+#authGate.show{display:flex}
+.auth-card{width:100%;max-width:380px;background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 18px 45px #d9962f22}
+.auth-mark{font-size:42px;text-align:center;margin-bottom:8px}
+.auth-title{font-size:24px;font-weight:900;text-align:center;margin-bottom:5px;color:var(--t1)}
+.auth-copy{font-size:13px;line-height:1.6;color:var(--t2);text-align:center;margin-bottom:16px}
+.auth-form{display:flex;flex-direction:column;gap:9px}
+.auth-form input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px;color:var(--t1);font-size:14px}
+.auth-form input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.auth-note{font-size:12px;color:var(--t3);line-height:1.5;margin-top:10px;text-align:center}
+.auth-msg{display:none;font-size:12px;line-height:1.5;border-radius:var(--radius-sm);padding:10px;margin-top:10px}
+.auth-msg.ok{display:block;color:var(--green);background:#eaf8ee;border:1px solid #bfe7cc}
+.auth-msg.no{display:block;color:var(--red);background:#fff0f1;border:1px solid #f3bcc3}
+
 /* main scroll area */
 #main{flex:1;padding:16px 16px 90px;overflow-y:auto}
 
@@ -269,6 +289,25 @@ textarea::placeholder{color:var(--t3)}
 
 <div id="cnf"></div>
 
+<div id="authGate">
+  <div class="auth-card">
+    <div class="auth-mark">🐱</div>
+    <div class="auth-title">CELPIP Cat Coach</div>
+    <div class="auth-copy">Sign in to sync your vocabulary progress across devices.</div>
+    <div class="auth-form">
+      <input id="authEmail" type="email" placeholder="Email" autocomplete="email">
+      <input id="authPassword" type="password" placeholder="Password" autocomplete="current-password">
+      <button class="btn btn-p" style="margin:0" onclick="signInEmail()">Sign In</button>
+      <div class="auth-actions">
+        <button class="btn btn-o" style="margin:0" onclick="signUpEmail()">Create Account</button>
+        <button class="btn btn-o" style="margin:0" onclick="sendMagicLink()">Magic Link</button>
+      </div>
+    </div>
+    <div id="authMsg" class="auth-msg"></div>
+    <div class="auth-note">Your current browser progress will be uploaded to the account the first time you sign in.</div>
+  </div>
+</div>
+
 <div id="overlay">
   <div class="rcard">
     <div class="re" id="rE">🎉</div>
@@ -283,6 +322,7 @@ textarea::placeholder{color:var(--t3)}
   <nav id="topnav">
     <div class="nav-brand">CELPIP <span>Cat Coach</span></div>
     <div class="nav-right">
+      <button class="auth-btn auth-email" id="userEmail" onclick="signOutUser()" title="Sign out">Sign in</button>
       <div class="pill pill-level" id="lvPill">Lv 1 🌱</div>
       <div class="pill pill-streak">🔥 <span id="strN">0</span></div>
       <div class="sync-dot" id="syncDot" title="Sync status"></div>
@@ -316,19 +356,73 @@ const SUPA_URL = 'https://hsipuhsoukpjtpbtjfch.supabase.co'
 const SUPA_KEY = 'sb_publishable_m9lj7DXsiV15WxnPzWzZDQ_ELJTUTN9'
 const db = createClient(SUPA_URL, SUPA_KEY)
 
-// ── User ID (stable per browser, no login needed) ─────────────────────────
-function getUserId() {
-  let id = localStorage.getItem('celpip_uid')
-  if (!id) { id = crypto.randomUUID(); localStorage.setItem('celpip_uid', id) }
-  return id
+// ── Auth ──────────────────────────────────────────────────────────────────
+let UID = null
+let CURRENT_USER = null
+
+function setAuthMessage(kind, msg) {
+  const el = document.getElementById('authMsg')
+  if (!el) return
+  el.className = 'auth-msg ' + kind
+  el.textContent = msg
 }
-const UID = getUserId()
+
+function showAppForUser(user) {
+  CURRENT_USER = user
+  UID = user?.id || null
+  document.getElementById('authGate').classList.toggle('show', !UID)
+  document.getElementById('shell').classList.toggle('hidden', !UID)
+  const email = document.getElementById('userEmail')
+  if (email) email.textContent = user?.email || 'Sign in'
+}
+
+function getAuthInputs() {
+  return {
+    email: (document.getElementById('authEmail')?.value || '').trim(),
+    password: document.getElementById('authPassword')?.value || '',
+  }
+}
+
+window.signInEmail = async function() {
+  const { email, password } = getAuthInputs()
+  if (!email || !password) { setAuthMessage('no', 'Please enter email and password.'); return }
+  setAuthMessage('ok', 'Signing in...')
+  const { error } = await db.auth.signInWithPassword({ email, password })
+  if (error) setAuthMessage('no', error.message)
+}
+
+window.signUpEmail = async function() {
+  const { email, password } = getAuthInputs()
+  if (!email || password.length < 6) { setAuthMessage('no', 'Use an email and a password with at least 6 characters.'); return }
+  setAuthMessage('ok', 'Creating account...')
+  const { error } = await db.auth.signUp({ email, password })
+  if (error) setAuthMessage('no', error.message)
+  else setAuthMessage('ok', 'Account created. If Supabase asks for email confirmation, open the email link, then sign in.')
+}
+
+window.sendMagicLink = async function() {
+  const { email } = getAuthInputs()
+  if (!email) { setAuthMessage('no', 'Please enter your email first.'); return }
+  setAuthMessage('ok', 'Sending magic link...')
+  const { error } = await db.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: location.href.split('#')[0] }
+  })
+  if (error) setAuthMessage('no', error.message)
+  else setAuthMessage('ok', 'Magic link sent. Open it on this device to finish signing in.')
+}
+
+window.signOutUser = async function() {
+  await syncPush()
+  await db.auth.signOut()
+}
 
 // ── Sync helpers ──────────────────────────────────────────────────────────
 const dot = document.getElementById('syncDot')
 function setSyncStatus(s) { dot.className = 'sync-dot ' + s }
 
 async function syncPush() {
+  if (!UID) return
   setSyncStatus('busy')
   try {
     const today = todayStr()
@@ -340,12 +434,20 @@ async function syncPush() {
     }, { onConflict: 'user_id,date' })
 
     // upsert user state
-    await db.from('user_state').upsert({
+    const userStateRow = {
       user_id: UID, streak: S.streak, xp_total: S.xpTotal,
       completed_dates: S.completedDates,
-      vocab_batch: S.vocabBatch, reading_batch: S.readingBatch, writing_batch: S.writingBatch,
+      vocab_batch: S.vocabBatch, vocab_order: S.vocabOrder || [],
+      reading_batch: S.readingBatch, writing_batch: S.writingBatch,
       updated_at: new Date().toISOString()
-    }, { onConflict: 'user_id' })
+    }
+    let { error: stateError } = await db.from('user_state').upsert(userStateRow, { onConflict: 'user_id' })
+    if (stateError && stateError.message.includes('vocab_order')) {
+      delete userStateRow.vocab_order
+      ;({ error: stateError } = await db.from('user_state').upsert(userStateRow, { onConflict: 'user_id' }))
+      console.warn('vocab_order column missing; run the latest supabase_schema.sql to sync shuffled word order')
+    }
+    if (stateError) throw stateError
 
     // batch upsert changed vocab statuses
     const rows = Object.entries(S.vocabProgress).map(([wid, status]) => ({
@@ -364,6 +466,7 @@ async function syncPush() {
 }
 
 async function syncPull() {
+  if (!UID) return false
   setSyncStatus('busy')
   try {
     const today = todayStr()
@@ -378,6 +481,7 @@ async function syncPull() {
       S.xpTotal = stateRow.xp_total
       S.completedDates = stateRow.completed_dates || []
       S.vocabBatch = stateRow.vocab_batch || 0
+      S.vocabOrder = stateRow.vocab_order || S.vocabOrder || []
       S.readingBatch = stateRow.reading_batch || 0
       S.writingBatch = stateRow.writing_batch || 0
     }
@@ -395,10 +499,20 @@ async function syncPull() {
 
     save()
     setSyncStatus('ok')
+    return Boolean(stateRow || progRow || (vocabRows && vocabRows.length))
   } catch(e) {
     console.warn('sync pull failed', e)
     setSyncStatus('err')
+    return false
   }
+}
+
+async function activateUser(user) {
+  showAppForUser(user)
+  const hadCloudState = await syncPull()
+  if (!hadCloudState) await syncPush()
+  renderHome()
+  switchTab('home')
 }
 
 // ── Data ──────────────────────────────────────────────────────────────────
@@ -1064,9 +1178,19 @@ function renderVocab(){
 // ── BOOT ──────────────────────────────────────────────────────────────────
 async function init() {
   await loadData()
-  await syncPull()   // pull cloud state first (overrides local if newer)
-  renderHome()
-  switchTab('home')
+  const { data: { session } } = await db.auth.getSession()
+  if (session?.user) await activateUser(session.user)
+  else showAppForUser(null)
+
+  db.auth.onAuthStateChange(async (event, session) => {
+    if (session?.user) await activateUser(session.user)
+    else {
+      UID = null
+      CURRENT_USER = null
+      showAppForUser(null)
+    }
+  })
+
   // Auto-push every 2 minutes
   setInterval(syncPush, 120_000)
 }
