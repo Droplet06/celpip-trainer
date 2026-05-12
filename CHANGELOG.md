@@ -28,3 +28,7 @@
 - Updated the visual theme from cool purple/blue to a warmer coral, amber, cream, and soft mint palette.
 - Added light cat/paw branding touches in the nav, level badges, and vocabulary session icon.
 - Kept the existing layout and learning flow unchanged while softening buttons, progress bars, and background tones.
+
+### Light theme refinement
+- Changed the warm cat theme from a dark warm background to a light cream background.
+- Adjusted cards, nav, tab bar, completed session states, overlay, and confetti colors to match the lighter palette.
