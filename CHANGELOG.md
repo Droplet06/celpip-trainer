@@ -45,3 +45,9 @@
 ### Supabase schema
 - Added `vocab_order` to `user_state` so the stable shuffled vocabulary order can sync across devices.
 - Updated row-level security policies so authenticated users can only access rows where `user_id` matches their Supabase Auth user ID.
+
+### Mistake tracking
+- Added a `mistake_log` table for cross-device weak-point tracking.
+- Vocabulary and reading multiple-choice mistakes now record the question, chosen answer, correct answer, and context.
+- Writing feedback now records weak-pattern events such as task length, paragraph/coherence issues, vocabulary repetition, and readability/punctuation issues.
+- Added a Recent Mistakes section to the Progress tab so learners can see whether recent problems came from quiz choices or writing feedback.

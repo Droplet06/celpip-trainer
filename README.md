@@ -33,6 +33,7 @@ git push -u origin main
 - Batch vocabulary study followed by a mixed quiz instead of one-word immediate checks
 - Browser text-to-speech buttons for vocabulary words, example sentences, and quiz prompts
 - Supabase Auth sign-in for cross-device progress sync
+- Mistake log for missed vocabulary/reading choices and writing weak-pattern feedback
 - Signed-in progress syncs through Supabase, with browser localStorage kept as a local cache
 - Works offline after first load
 
@@ -42,7 +43,7 @@ git push -u origin main
 2. In **Authentication → URL Configuration**, add your GitHub Pages URL and local preview URL to redirect URLs:
    - `http://127.0.0.1:8000`
    - your deployed GitHub Pages URL
-3. Run `supabase_schema.sql` in the Supabase SQL Editor so the auth-safe row policies and `vocab_order` column are installed.
+3. Run `supabase_schema.sql` in the Supabase SQL Editor so the auth-safe row policies, `vocab_order` column, and `mistake_log` table are installed.
 
 ## Change Log
 

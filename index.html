@@ -235,6 +235,11 @@ textarea::placeholder{color:var(--t3)}
 .stot .of{font-size:14px;color:var(--t3)}
 .stot .lbl{font-size:10px;color:var(--t3);margin-top:2px}
 .tip{background:var(--s2);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:6px}
+.mrow{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 12px;margin-bottom:7px}
+.mtop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+.mkind{font-size:11px;font-weight:800;color:var(--accent)}
+.mdate{font-size:10px;color:var(--t3);white-space:nowrap}
+.mdetail{font-size:12px;color:var(--t2);line-height:1.5}
 
 /* all done */
 .alldone{background:linear-gradient(135deg,var(--accent)18,var(--teal)18);border:1px solid var(--accent)44;border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:14px}
@@ -458,6 +463,24 @@ async function syncPush() {
       await db.from('vocab_status').upsert(rows, { onConflict: 'user_id,word_id' })
     }
 
+    const mistakeRows = (S.mistakes || []).map(m => ({
+      id: m.id,
+      user_id: UID,
+      occurred_at: m.date,
+      area: m.area,
+      kind: m.kind,
+      word_id: m.word_id,
+      word: m.word,
+      question: m.question,
+      chosen: m.chosen,
+      correct: m.correct,
+      details: m.details,
+    }))
+    if (mistakeRows.length) {
+      const { error: mistakeError } = await db.from('mistake_log').upsert(mistakeRows, { onConflict: 'id' })
+      if (mistakeError) console.warn('mistake_log sync skipped; run latest supabase_schema.sql', mistakeError)
+    }
+
     setSyncStatus('ok')
   } catch(e) {
     console.warn('sync push failed', e)
@@ -470,10 +493,11 @@ async function syncPull() {
   setSyncStatus('busy')
   try {
     const today = todayStr()
-    const [{ data: stateRow }, { data: progRow }, { data: vocabRows }] = await Promise.all([
+    const [{ data: stateRow }, { data: progRow }, { data: vocabRows }, mistakesResult] = await Promise.all([
       db.from('user_state').select('*').eq('user_id', UID).maybeSingle(),
       db.from('progress').select('*').eq('user_id', UID).eq('date', today).maybeSingle(),
       db.from('vocab_status').select('*').eq('user_id', UID),
+      db.from('mistake_log').select('*').eq('user_id', UID).order('occurred_at', { ascending:false }).limit(80),
     ])
 
     if (stateRow) {
@@ -497,9 +521,26 @@ async function syncPull() {
       vocabRows.forEach(r => { S.vocabProgress[r.word_id] = r.status })
     }
 
+    if (mistakesResult.data && mistakesResult.data.length) {
+      S.mistakes = mistakesResult.data.map(m => ({
+        id: m.id,
+        date: m.occurred_at,
+        area: m.area,
+        kind: m.kind,
+        word_id: m.word_id,
+        word: m.word,
+        question: m.question,
+        chosen: m.chosen,
+        correct: m.correct,
+        details: m.details,
+      }))
+    } else if (mistakesResult.error) {
+      console.warn('mistake_log pull skipped; run latest supabase_schema.sql', mistakesResult.error)
+    }
+
     save()
     setSyncStatus('ok')
-    return Boolean(stateRow || progRow || (vocabRows && vocabRows.length))
+    return Boolean(stateRow || progRow || (vocabRows && vocabRows.length) || (mistakesResult.data && mistakesResult.data.length))
   } catch(e) {
     console.warn('sync pull failed', e)
     setSyncStatus('err')
@@ -542,6 +583,7 @@ function defaultState() {
     sessions:{1:'pending',2:'locked',3:'locked'},
     sessionDate:null, xpToday:0, wordsDone:0,
     vocabProgress:{}, vocabBatch:0, vocabOrder:[], readingBatch:0, writingBatch:0,
+    mistakes:[],
   }
 }
 
@@ -553,6 +595,46 @@ let S = (() => {
 function save() { localStorage.setItem('celpip_v3', JSON.stringify(S)) }
 
 function todayStr() { return new Date().toISOString().split('T')[0] }
+
+function recordMistake(m) {
+  const entry = {
+    id: crypto.randomUUID(),
+    date: new Date().toISOString(),
+    area: m.area,
+    kind: m.kind,
+    word_id: m.word_id || null,
+    word: m.word || null,
+    question: m.question || null,
+    chosen: m.chosen || null,
+    correct: m.correct || null,
+    details: m.details || '',
+  }
+  S.mistakes = [entry, ...(S.mistakes || [])].slice(0, 80)
+  save()
+  syncMistake(entry)
+}
+
+async function syncMistake(entry) {
+  if (!UID) return
+  try {
+    const { error } = await db.from('mistake_log').upsert({
+      id: entry.id,
+      user_id: UID,
+      occurred_at: entry.date,
+      area: entry.area,
+      kind: entry.kind,
+      word_id: entry.word_id,
+      word: entry.word,
+      question: entry.question,
+      chosen: entry.chosen,
+      correct: entry.correct,
+      details: entry.details,
+    }, { onConflict: 'id' })
+    if (error) throw error
+  } catch(e) {
+    console.warn('mistake sync failed; run latest supabase_schema.sql if the table is missing', e)
+  }
+}
 
 // new-day reset
 if (S.sessionDate !== TODAY_STR) {
@@ -881,6 +963,16 @@ window.ansV = function(chosen,correct,qi) {
     fb.className='fb no'
     fb.textContent=`✗ Correct: ${'ABCD'[correct]} (${q.word.word}). Study the example sentence.`
     if(!S.vocabProgress[wid]) S.vocabProgress[wid] = 'reviewing'
+    recordMistake({
+      area:'vocabulary',
+      kind:'choice',
+      word_id:wid,
+      word:q.word.word,
+      question:q.prompt || q.word.question,
+      chosen:q.options[chosen]?.text,
+      correct:q.options[correct]?.text,
+      details:`Chose ${'ABCD'[chosen]} instead of ${'ABCD'[correct]} in vocabulary quiz.`,
+    })
   }
   document.getElementById('vnxt').style.display='block'
   save()
@@ -948,6 +1040,15 @@ window.ansR = function(qi,chosen,correct) {
   } else {
     document.getElementById(`ro${qi}_${chosen}`).classList.add('wrong')
     fb.className='fb no'; fb.textContent=`✗ Correct: ${'ABCD'[correct]}.`
+    const q=QS.passage.questions[qi]
+    recordMistake({
+      area:'reading',
+      kind:'choice',
+      question:q.q,
+      chosen:q.opts[chosen],
+      correct:q.opts[correct],
+      details:`Chose ${'ABCD'[chosen]} instead of ${'ABCD'[correct]} in reading passage "${QS.passage.title}".`,
+    })
   }
   document.getElementById(`rnxt${qi}`).style.display='block'
 }
@@ -1015,10 +1116,31 @@ window.submitW = function() {
   const tot=cc+voc+rd+tf
   const cl=n=>n>=9?'hi':n>=7?'mid':'lo'
   const tips=[]
-  if(wc<150) tips.push('📝 A bit short. Aim for 150–200 words to fully address all points.')
-  if(!hasPara) tips.push('📝 Break your writing into clear paragraphs (opening, body, closing).')
-  if(variety<0.6) tips.push('📝 Some words are repeated. Try using synonyms to show vocabulary range.')
-  if(!hasPunct) tips.push('📝 Use periods and varied sentence lengths for better readability.')
+  const writingMistakes=[]
+  if(wc<150) {
+    tips.push('📝 A bit short. Aim for 150–200 words to fully address all points.')
+    writingMistakes.push({kind:'writing_task_fulfillment',details:`Writing was ${wc} words; target is 150–200 words.`})
+  }
+  if(!hasPara) {
+    tips.push('📝 Break your writing into clear paragraphs (opening, body, closing).')
+    writingMistakes.push({kind:'writing_coherence',details:'Writing did not include paragraph breaks.'})
+  }
+  if(variety<0.6) {
+    tips.push('📝 Some words are repeated. Try using synonyms to show vocabulary range.')
+    writingMistakes.push({kind:'writing_vocabulary',details:'Vocabulary variety was low; repeated words appeared often.'})
+  }
+  if(!hasPunct) {
+    tips.push('📝 Use periods and varied sentence lengths for better readability.')
+    writingMistakes.push({kind:'writing_readability',details:'Writing had too few sentence-ending punctuation marks.'})
+  }
+  writingMistakes.forEach(m => recordMistake({
+    area:'writing',
+    kind:m.kind,
+    question:QS.prompt?.id || QS.prompt?.type || 'Writing task',
+    chosen:null,
+    correct:null,
+    details:m.details,
+  }))
   const tipHTML=tips.map(t=>`<div class="tip">${t}</div>`).join('')
   document.getElementById('wfb').innerHTML=`
     <div class="sgrid">
@@ -1098,6 +1220,33 @@ function shootConfetti(){
 function rng(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 
 // ── PROGRESS TAB ──────────────────────────────────────────────────────────
+function mistakeLabel(m) {
+  if (m.area === 'vocabulary') return 'Vocabulary choice'
+  if (m.area === 'reading') return 'Reading choice'
+  if (m.kind === 'writing_task_fulfillment') return 'Writing task fulfillment'
+  if (m.kind === 'writing_coherence') return 'Writing coherence'
+  if (m.kind === 'writing_vocabulary') return 'Writing vocabulary'
+  if (m.kind === 'writing_readability') return 'Writing readability'
+  return 'Writing feedback'
+}
+
+function shortDate(iso) {
+  try { return new Date(iso).toLocaleDateString([], { month:'short', day:'numeric' }) }
+  catch { return '' }
+}
+
+function renderMistakes() {
+  const rows = (S.mistakes || []).slice(0, 8).map(m => {
+    const subject = m.word ? `<strong>${m.word}</strong> · ` : ''
+    const answer = m.chosen ? ` You chose "${m.chosen}"${m.correct ? `; correct was "${m.correct}".` : '.'}` : ''
+    return `<div class="mrow">
+      <div class="mtop"><span class="mkind">${mistakeLabel(m)}</span><span class="mdate">${shortDate(m.date)}</span></div>
+      <div class="mdetail">${subject}${m.details || ''}${answer}</div>
+    </div>`
+  }).join('')
+  return rows || `<div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.5">No mistakes recorded yet. Once you miss a quiz question or receive writing feedback, it will appear here.</div></div>`
+}
+
 function renderProgress(){
   const lv=getLevel(S.xpTotal)
   const pct=getLvPct(S.xpTotal)
@@ -1144,6 +1293,8 @@ function renderProgress(){
       <div class="stat"><div class="stat-n" style="color:var(--gold)">${rev}</div><div class="stat-l">Reviewing</div></div>
       <div class="stat"><div class="stat-n" style="color:var(--t3)">${VOCAB.length-tot}</div><div class="stat-l">New</div></div>
     </div>
+    <div class="sec">Recent Mistakes</div>
+    ${renderMistakes()}
   `
 }
 
