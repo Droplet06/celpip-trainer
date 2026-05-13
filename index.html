@@ -798,6 +798,34 @@ window.speakText = function(encodedText) {
   window.speechSynthesis.speak(u)
 }
 
+function playCorrectDing() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext
+  if (!AudioContext) return
+  const ctx = window.__dingCtx || new AudioContext()
+  window.__dingCtx = ctx
+  const now = ctx.currentTime
+  const gain = ctx.createGain()
+  const tone = ctx.createOscillator()
+  const shine = ctx.createOscillator()
+
+  tone.type = 'sine'
+  shine.type = 'triangle'
+  tone.frequency.setValueAtTime(880, now)
+  tone.frequency.exponentialRampToValueAtTime(1320, now + 0.08)
+  shine.frequency.setValueAtTime(1760, now)
+  gain.gain.setValueAtTime(0.0001, now)
+  gain.gain.exponentialRampToValueAtTime(0.18, now + 0.015)
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22)
+
+  tone.connect(gain)
+  shine.connect(gain)
+  gain.connect(ctx.destination)
+  tone.start(now)
+  shine.start(now)
+  tone.stop(now + 0.24)
+  shine.stop(now + 0.18)
+}
+
 function shuffle(arr) {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -929,8 +957,11 @@ function renderVStudy(panel, idx) {
 
 window.nextVStudy = function() {
   const panel = document.getElementById('qpanel')
-  if (QS.studyIdx < QS.words.length - 1) renderVStudy(panel, QS.studyIdx + 1)
-  else showVQuiz(0)
+  if (QS.studyIdx < QS.words.length - 1) {
+    const nextIdx = QS.studyIdx + 1
+    renderVStudy(panel, nextIdx)
+    speakText(sayArg(QS.words[nextIdx].word))
+  } else showVQuiz(0)
 }
 
 function showVQuiz(qi) {
@@ -967,6 +998,7 @@ window.ansV = function(chosen,correct,qi) {
   if(chosen===correct){
     document.getElementById('vo'+chosen).classList.add('correct')
     fb.className='fb ok'; fb.textContent='✓ Correct! +5 XP'
+    playCorrectDing()
     QS.correct++; addXP(5)
     const cur=S.vocabProgress[wid]||'new'
     S.vocabProgress[wid] = cur==='new'?'reviewing':cur==='reviewing'?'mastered':cur
