@@ -52,6 +52,17 @@
 - Writing feedback now records weak-pattern events such as task length, paragraph/coherence issues, vocabulary repetition, and readability/punctuation issues.
 - Added a Recent Mistakes section to the Progress tab so learners can see whether recent problems came from quiz choices or writing feedback.
 
+## 2026-05-12 (second push)
+
+### Reading and writing bank expansion
+- Expanded reading practice from 4 to 11 passages, covering all four CELPIP parts with 3 passages each (Part 1 correspondence, Part 2 diagram, Part 3 information, Part 4 viewpoints).
+- Expanded writing prompts from 5+5 to 10+10 (10 Task 1, 10 Task 2).
+
+### AI prompt fallback
+- When the built-in reading passages or writing prompts run out, the app now shows a copyable AI-generation prompt instead of looping.
+- For reading: prompt is tailored to the next CELPIP part in rotation (Part 1→2→3→4).
+- For writing: prompt includes Task 1 or Task 2 instructions so the user can paste it into Claude or ChatGPT, then submit their response for in-app rule-based scoring.
+
 ## 2026-05-13
 
 ### Reading passage bank expansion
