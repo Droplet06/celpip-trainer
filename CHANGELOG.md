@@ -52,6 +52,35 @@
 - Writing feedback now records weak-pattern events such as task length, paragraph/coherence issues, vocabulary repetition, and readability/punctuation issues.
 - Added a Recent Mistakes section to the Progress tab so learners can see whether recent problems came from quiz choices or writing feedback.
 
+## 2026-05-13
+
+### Reading passage bank expansion
+- Expanded reading.json from 10 to 22 passages covering all four CELPIP reading parts.
+- Part 0 (general info article, R001–R010): existing passages relabelled from part:3 to part:0 to avoid misleading the learner about CELPIP Part 3 format.
+- Part 1 (correspondence, R014–R016): inspection notice, road works parking restriction, employee benefits change.
+- Part 2 (diagram/table, R017–R019): community pool schedule, municipal waste collection timetable, city parking rate chart with notes and footnote rules.
+- Part 3 (reading for information A/B/C/D, R020–R022): Employment Insurance eligibility, Canadian rental arrangement types, waste sorting categories.
+- Part 4 (viewpoints, R011–R013): downtown parking fees, landlord pet policy, library video game lending.
+- All 22 passages now have 4 questions each; the 4th question is always an inference question requiring reading between the lines.
+
+### Reading renderer upgrades
+- `startReading()` now reads from `data/reading.json` (falls back to hardcoded `CELPIP_READINGS` only if the file is empty).
+- `renderPassage()` is now part-aware: Part 2 renders an HTML table with notes, Part 4 renders intro and named-commenter blocks, Part 0/1/3 render plain paragraphs.
+- Added CSS for `.passage-table`, `.passage-comment`, `.commenter`, and `.passage-notes`.
+- Fixed `.commenter` color from undefined `--fg` to `--t1`.
+
+### Writing deep-feedback prompt
+- Added a "Copy Deep Feedback Prompt → Paste into Claude" button that appears after writing submission.
+- The copied prompt includes task type, situation, required points, rule-based scores (for reference), word count, and the student's full response, along with strict CELPIP scoring and revision instructions for Claude.
+- `textarea` is disabled on submit to prevent the student text from drifting before copying.
+- Submitted text, word count, and scores are saved in `QS` so the copy button always reflects the moment of submission.
+- Clipboard failure shows an error message on the button instead of failing silently.
+- Future `relationship`, `tone`, `rubricHints`, and `benchmarkAnswer` fields in writing.json are automatically included in the prompt when present.
+
+### Vocabulary audio enhancements
+- Answers a vocab question correctly now triggers a short synthesised ding sound via Web Audio API (no external audio file needed).
+- Advancing to the next vocabulary study card now automatically speaks the new word aloud.
+
 ### CELPIP-style non-AI practice upgrade
 - Replaced the generic reading passage session with four rotating CELPIP-style reading formats: correspondence, diagram/application, information, and viewpoints.
 - Increased reading practice to four questions per set and labels each set by CELPIP-style part and task type.
